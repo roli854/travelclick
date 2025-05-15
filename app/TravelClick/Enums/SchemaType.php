@@ -5,55 +5,18 @@ declare(strict_types=1);
 namespace App\TravelClick\Enums;
 
 /**
- * SchemaType Enum
+ * XSD Schema Types for HTNG 2011B Messages
  *
- * Defines the types of XML schemas used in HTNG 2011B interface.
- * Each schema type corresponds to a specific message type and XSD file.
+ * Maps message types to their corresponding XSD schema files for validation.
+ * Each schema type corresponds to a specific HTNG 2011B message structure.
  */
 enum SchemaType: string
 {
-    case INVENTORY = 'inventory';
-    case RATE = 'rate';
-    case RESERVATION = 'reservation';
-    case BLOCK = 'block';
-    case AVAILABILITY = 'availability';
-    case RESTRICTION = 'restriction';
-    case PROFILE = 'profile';
-    case RESPONSE = 'response';
-
-    /**
-     * Get the XSD filename for this schema type
-     */
-    public function getXsdFilename(): string
-    {
-        return match ($this) {
-            self::INVENTORY => 'OTA_HotelInvCountNotif.xsd',
-            self::RATE => 'OTA_HotelRateAmountNotif.xsd',
-            self::RESERVATION => 'OTA_HotelResNotif.xsd',
-            self::BLOCK => 'OTA_HotelInvBlockNotif.xsd',
-            self::AVAILABILITY => 'OTA_HotelAvailNotif.xsd',
-            self::RESTRICTION => 'OTA_HotelAvailNotif.xsd',
-            self::PROFILE => 'OTA_ProfileNotif.xsd',
-            self::RESPONSE => 'OTA_ResRetrieveRS.xsd',
-        };
-    }
-
-    /**
-     * Get the root element name for this schema type
-     */
-    public function getRootElement(): string
-    {
-        return match ($this) {
-            self::INVENTORY => 'OTA_HotelInvCountNotifRQ',
-            self::RATE => 'OTA_HotelRateAmountNotifRQ',
-            self::RESERVATION => 'OTA_HotelResNotifRQ',
-            self::BLOCK => 'OTA_HotelInvBlockNotifRQ',
-            self::AVAILABILITY => 'OTA_HotelAvailNotifRQ',
-            self::RESTRICTION => 'OTA_HotelAvailNotifRQ',
-            self::PROFILE => 'OTA_ProfileNotifRQ',
-            self::RESPONSE => 'OTA_ResRetrieveRS',
-        };
-    }
+    case INVENTORY = 'OTA_HotelInvCountNotif.xsd';
+    case RATES = 'OTA_HotelRateNotif.xsd';
+    case RESERVATION = 'OTA_HotelResNotif.xsd';
+    case RESTRICTIONS = 'OTA_HotelAvailNotif.xsd';
+    case GROUP_BLOCK = 'OTA_HotelInvBlockNotif.xsd';
 
     /**
      * Get the corresponding MessageType for this schema
@@ -62,233 +25,230 @@ enum SchemaType: string
     {
         return match ($this) {
             self::INVENTORY => MessageType::INVENTORY,
-            self::RATE => MessageType::RATES,
+            self::RATES => MessageType::RATES,
             self::RESERVATION => MessageType::RESERVATION,
-            self::BLOCK => MessageType::GROUP_BLOCK,
-            self::AVAILABILITY => MessageType::AVAILABILITY,
-            self::RESTRICTION => MessageType::RESTRICTIONS,
-            self::PROFILE => MessageType::PROFILE,
-            self::RESPONSE => MessageType::RESPONSE,
+            self::RESTRICTIONS => MessageType::RESTRICTIONS,
+            self::GROUP_BLOCK => MessageType::GROUP_BLOCK,
         };
     }
 
     /**
-     * Get the namespace URI for this schema type
+     * Get schema from MessageType
      */
-    public function getNamespaceUri(): string
+    public static function fromMessageType(MessageType $messageType): self
     {
-        // All HTNG 2011B schemas use the same OTA namespace
-        return 'http://www.opentravel.org/OTA/2003/05';
+        return match ($messageType) {
+            MessageType::INVENTORY => self::INVENTORY,
+            MessageType::RATES => self::RATES,
+            MessageType::RESERVATION => self::RESERVATION,
+            MessageType::RESTRICTIONS => self::RESTRICTIONS,
+            MessageType::GROUP_BLOCK => self::GROUP_BLOCK,
+            MessageType::RESPONSE => self::RESERVATION, // Response uses reservation schema structure
+            MessageType::UNKNOWN => throw new \InvalidArgumentException('Cannot determine schema for unknown message type'),
+        };
     }
 
     /**
-     * Get the full path to the XSD file
+     * Get the full path to the schema file
      */
-    public function getXsdPath(): string
+    public function getSchemaPath(): string
     {
-        return storage_path('schemas/htng/' . $this->getXsdFilename());
+        return storage_path('schemas/htng/' . $this->value);
     }
 
     /**
-     * Check if XSD file exists for this schema type
+     * Get the schema namespace
      */
-    public function hasXsdFile(): bool
-    {
-        return file_exists($this->getXsdPath());
-    }
-
-    /**
-     * Get required elements for this schema type
-     *
-     * @return array<string>
-     */
-    public function getRequiredElements(): array
+    public function getNamespace(): string
     {
         return match ($this) {
-            self::INVENTORY => [
-                'Inventories',
-                'Inventory',
-                'StatusApplicationControl',
-                'InvCounts',
-                'InvCount'
-            ],
-            self::RATE => [
-                'RateAmountMessages',
-                'RateAmountMessage',
-                'StatusApplicationControl',
-                'Rates',
-                'Rate'
-            ],
-            self::RESERVATION => [
-                'HotelReservations',
-                'HotelReservation',
-                'ResGuests',
-                'RoomStays'
-            ],
-            self::BLOCK => [
-                'InvBlocks',
-                'InvBlock',
-                'InvBlockDates',
-                'RoomTypes'
-            ],
-            self::AVAILABILITY => [
-                'AvailStatusMessages',
-                'AvailStatusMessage',
-                'StatusApplicationControl'
-            ],
-            self::RESTRICTION => [
-                'AvailStatusMessages',
-                'AvailStatusMessage',
-                'StatusApplicationControl',
-                'LengthsOfStay'
-            ],
-            default => [],
+            self::INVENTORY => 'http://www.opentravel.org/OTA/2003/05',
+            self::RATES => 'http://www.opentravel.org/OTA/2003/05',
+            self::RESERVATION => 'http://www.opentravel.org/OTA/2003/05',
+            self::RESTRICTIONS => 'http://www.opentravel.org/OTA/2003/05',
+            self::GROUP_BLOCK => 'http://www.opentravel.org/OTA/2003/05',
         };
     }
 
     /**
-     * Get valid operations for this schema type
-     *
-     * @return array<string>
+     * Get the root element name for the schema
      */
-    public function getValidOperations(): array
+    public function getRootElement(): string
     {
         return match ($this) {
-            self::INVENTORY, self::RATE, self::AVAILABILITY, self::RESTRICTION => [
-                'create',
-                'modify',
-                'remove'
-            ],
-            self::RESERVATION => [
-                'create',
-                'modify',
-                'cancel'
-            ],
-            self::BLOCK => [
-                'create',
-                'modify',
-                'cancel'
-            ],
-            self::PROFILE => [
-                'create',
-                'modify'
-            ],
-            self::RESPONSE => [
-                'read'
-            ],
+            self::INVENTORY => 'OTA_HotelInvCountNotifRQ',
+            self::RATES => 'OTA_HotelRateNotifRQ',
+            self::RESERVATION => 'OTA_HotelResNotifRQ',
+            self::RESTRICTIONS => 'OTA_HotelAvailNotifRQ',
+            self::GROUP_BLOCK => 'OTA_HotelInvBlockNotifRQ',
         };
     }
 
     /**
-     * Check if operation is valid for this schema type
+     * Get the corresponding OTA message name
      */
-    public function isValidOperation(string $operation): bool
+    public function getOTAMessageName(): string
     {
-        return in_array($operation, $this->getValidOperations());
+        return $this->getMessageType()->getOTAMessageName();
     }
 
     /**
-     * Get XML validation rules specific to this schema type
-     *
-     * @return array<string, mixed>
+     * Check if schema file exists
+     */
+    public function exists(): bool
+    {
+        return file_exists($this->getSchemaPath());
+    }
+
+    /**
+     * Get schema validation rules specific to this type
      */
     public function getValidationRules(): array
     {
         return match ($this) {
             self::INVENTORY => [
-                'hotel_code_required' => true,
-                'date_range_required' => true,
-                'inv_type_required' => true,
-                'count_type_validation' => true,
-                'max_date_range_days' => 365,
+                'required_elements' => ['Inventories', 'Inventory', 'InvCounts'],
+                'required_attributes' => ['HotelCode', 'CountType'],
+                'count_types' => [1, 2, 4, 5, 6, 99], // Valid CountType values
+                'allow_overbook' => true,
             ],
-            self::RATE => [
-                'hotel_code_required' => true,
-                'date_range_required' => true,
-                'rate_plan_required' => true,
+
+            self::RATES => [
+                'required_elements' => ['RateAmountMessages', 'RateAmountMessage'],
+                'required_attributes' => ['HotelCode', 'RatePlanCode'],
                 'currency_required' => true,
-                'amount_validation' => true,
-                'max_date_range_days' => 365,
+                'allow_derived_rates' => true,
             ],
+
             self::RESERVATION => [
-                'hotel_code_required' => true,
-                'guest_info_required' => true,
-                'room_stays_required' => true,
-                'confirmation_number' => true,
-                'arrival_departure_required' => true,
+                'required_elements' => ['HotelReservations', 'HotelReservation'],
+                'required_attributes' => ['HotelCode'],
+                'guest_required' => true,
+                'status_required' => true,
+                'payment_optional' => true,
             ],
-            self::BLOCK => [
-                'hotel_code_required' => true,
-                'block_code_required' => true,
-                'date_range_required' => true,
+
+            self::RESTRICTIONS => [
+                'required_elements' => ['AvailStatusMessages', 'AvailStatusMessage'],
+                'required_attributes' => ['HotelCode'],
+                'restrictions_allowed' => [
+                    'StopSale',
+                    'MinLengthOfStay',
+                    'MaxLengthOfStay',
+                    'ClosedToArrival',
+                    'ClosedToDeparture'
+                ],
+            ],
+
+            self::GROUP_BLOCK => [
+                'required_elements' => ['InvBlocks', 'InvBlock'],
+                'required_attributes' => ['HotelCode', 'InvBlockCode'],
                 'room_types_required' => true,
-                'contact_required' => true,
+                'allocation_required' => true,
+                'contact_optional' => true,
             ],
-            default => [],
         };
     }
 
     /**
-     * Get schema type from message type
+     * Get all schema types
      */
-    public static function fromMessageType(MessageType $messageType): ?self
-    {
-        return match ($messageType) {
-            MessageType::INVENTORY => self::INVENTORY,
-            MessageType::RATES => self::RATE,
-            MessageType::RESERVATION => self::RESERVATION,
-            MessageType::GROUP_BLOCK => self::BLOCK,
-            MessageType::AVAILABILITY => self::AVAILABILITY,
-            MessageType::RESTRICTIONS => self::RESTRICTION,
-            MessageType::PROFILE => self::PROFILE,
-            MessageType::RESPONSE => self::RESPONSE,
-        };
-    }
-
-    /**
-     * Get schema type from root element name
-     */
-    public static function fromRootElement(string $rootElement): ?self
-    {
-        foreach (self::cases() as $schema) {
-            if ($schema->getRootElement() === $rootElement) {
-                return $schema;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Get all schema types that support a specific operation
-     *
-     * @param string $operation
-     * @return array<self>
-     */
-    public static function getSupportingOperation(string $operation): array
-    {
-        return array_filter(
-            self::cases(),
-            fn(self $schema) => $schema->isValidOperation($operation)
-        );
-    }
-
-    /**
-     * Convert to array for configuration or API responses
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(): array
+    public static function getAllSchemas(): array
     {
         return [
-            'type' => $this->value,
-            'xsd_filename' => $this->getXsdFilename(),
-            'root_element' => $this->getRootElement(),
-            'namespace_uri' => $this->getNamespaceUri(),
-            'message_type' => $this->getMessageType()->value,
-            'required_elements' => $this->getRequiredElements(),
-            'valid_operations' => $this->getValidOperations(),
-            'validation_rules' => $this->getValidationRules(),
-            'has_xsd_file' => $this->hasXsdFile(),
+            self::INVENTORY,
+            self::RATES,
+            self::RESERVATION,
+            self::RESTRICTIONS,
+            self::GROUP_BLOCK,
         ];
+    }
+
+    /**
+     * Get primary schemas (most commonly used)
+     */
+    public static function getPrimarySchemas(): array
+    {
+        return [
+            self::INVENTORY,
+            self::RATES,
+            self::RESERVATION,
+            self::GROUP_BLOCK,
+        ];
+    }
+
+    /**
+     * Get schema types that support batching
+     */
+    public static function getBatchableSchemas(): array
+    {
+        return [
+            self::INVENTORY,
+            self::RATES,
+            self::RESTRICTIONS,
+        ];
+    }
+
+    /**
+     * Get the corresponding response schema name (for validation)
+     */
+    public function getResponseSchemaName(): string
+    {
+        return match ($this) {
+            self::INVENTORY => 'OTA_HotelInvCountNotifRS',
+            self::RATES => 'OTA_HotelRateNotifRS',
+            self::RESERVATION => 'OTA_HotelResNotifRS',
+            self::RESTRICTIONS => 'OTA_HotelAvailNotifRS',
+            self::GROUP_BLOCK => 'OTA_HotelInvBlockNotifRS',
+        };
+    }
+
+    /**
+     * Check if this schema supports the given count type (for inventory)
+     */
+    public function supportsCountType(int $countType): bool
+    {
+        if ($this !== self::INVENTORY) {
+            return false;
+        }
+
+        return in_array($countType, $this->getValidationRules()['count_types']);
+    }
+
+    /**
+     * Get validation error messages for this schema type
+     */
+    public function getValidationMessages(): array
+    {
+        return match ($this) {
+            self::INVENTORY => [
+                'hotel_code.required' => 'Hotel code is required for inventory messages',
+                'count_type.invalid' => 'Invalid count type. Must be one of: 1,2,4,5,6,99',
+                'room_type.required' => 'Room type is required for inventory updates',
+            ],
+
+            self::RATES => [
+                'hotel_code.required' => 'Hotel code is required for rate messages',
+                'rate_plan.required' => 'Rate plan code is required',
+                'currency.required' => 'Currency code is required for rates',
+            ],
+
+            self::RESERVATION => [
+                'hotel_code.required' => 'Hotel code is required for reservation messages',
+                'guest.required' => 'Guest information is required',
+                'arrival_date.required' => 'Arrival date is required',
+            ],
+
+            self::RESTRICTIONS => [
+                'hotel_code.required' => 'Hotel code is required for restriction messages',
+                'date_range.required' => 'Date range is required for restrictions',
+            ],
+
+            self::GROUP_BLOCK => [
+                'hotel_code.required' => 'Hotel code is required for group block messages',
+                'block_code.required' => 'Block code is required',
+                'room_allocation.required' => 'Room allocation is required',
+            ],
+        };
     }
 }
