@@ -17,6 +17,7 @@ use App\TravelClick\Support\XmlValidator;
 use App\TravelClick\Support\BusinessRulesValidator;
 use App\TravelClick\Support\ValidationRulesHelper;
 use App\TravelClick\Rules\ValidCountType;
+use App\TravelClick\Rules\ValidHtngDate;
 use App\TravelClick\Rules\ValidHtngDateRange;
 use App\TravelClick\Rules\ValidRoomType;
 use App\TravelClick\Rules\ValidCurrencyCode;
@@ -192,12 +193,11 @@ class TravelClickServiceProvider extends ServiceProvider
         // Register ValidationService interface binding
         $this->app->bind(ValidationServiceInterface::class, ValidationService::class);
 
-        // Register ValidationService as singleton
+        // Register ValidationService as singleton - corrected to match actual constructor
         $this->app->singleton(ValidationService::class, function ($app) {
             return new ValidationService(
-                $app->make(XmlValidator::class),
-                $app->make(BusinessRulesValidator::class),
-                $app->make(ValidationRulesHelper::class)
+                $app->make(ConfigurationServiceInterface::class),
+                $app->make(ConfigurationValidator::class)
             );
         });
     }
@@ -209,6 +209,7 @@ class TravelClickServiceProvider extends ServiceProvider
     {
         // Register HTNG-specific validation rules
         Validator::extend('valid_count_type', ValidCountType::class . '@validate');
+        Validator::extend('valid_htng_date', ValidHtngDate::class . '@validate');
         Validator::extend('valid_htng_date_range', ValidHtngDateRange::class . '@validate');
         Validator::extend('valid_room_type', ValidRoomType::class . '@validate');
         Validator::extend('valid_currency_code', ValidCurrencyCode::class . '@validate');
@@ -248,6 +249,10 @@ class TravelClickServiceProvider extends ServiceProvider
             return str_replace(':attribute', $attribute, 'The :attribute must be a valid HTNG count type (1, 2, 4, 5, 6, or 99).');
         });
 
+        Validator::replacer('valid_htng_date', function ($message, $attribute, $rule, $parameters) {
+            return str_replace(':attribute', $attribute, 'The :attribute must be a valid HTNG date in ISO format.');
+        });
+
         Validator::replacer('valid_htng_date_range', function ($message, $attribute, $rule, $parameters) {
             return str_replace(':attribute', $attribute, 'The :attribute must be a valid HTNG date range with start date before end date.');
         });
@@ -272,7 +277,7 @@ class TravelClickServiceProvider extends ServiceProvider
 
         // Configuration-related events
         // Event::listen(ConfigurationUpdated::class, ClearConfigurationCacheListener::class);
-        // Event::listen(ConfigurationValidationFailed::class, NotifyAdministratorListener::class);
+        // Event::listen(ConfigurationValidationFailed::class, NotifyConfigurationManagerListener::class);
 
         // Validation-related events
         // Event::listen(ValidationFailed::class, LogValidationErrorListener::class);
