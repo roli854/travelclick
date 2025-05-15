@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.opentravel.org/OTA/2003/05"
+           xmlns:tns="http://www.opentravel.org/OTA/2003/05"
+           elementFormDefault="qualified">
+
+  <!-- Root element for Inventory Block Notification Request -->
+  <xs:element name="OTA_HotelInvBlockNotifRQ" type="tns:OTA_HotelInvBlockNotifRQType"/>
+
+  <!-- Main Request Type -->
+  <xs:complexType name="OTA_HotelInvBlockNotifRQType">
+    <xs:sequence>
+      <xs:element name="InvBlocks" type="tns:InvBlocksType"/>
+    </xs:sequence>
+    <xs:attribute name="EchoToken" type="xs:string" use="optional"/>
+    <xs:attribute name="TimeStamp" type="xs:dateTime" use="optional"/>
+    <xs:attribute name="Target" type="xs:string" use="optional"/>
+    <xs:attribute name="Version" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <!-- Inventory Blocks Container -->
+  <xs:complexType name="InvBlocksType">
+    <xs:sequence>
+      <xs:element name="InvBlock" type="tns:InvBlockType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Individual Inventory Block -->
+  <xs:complexType name="InvBlockType">
+    <xs:sequence>
+      <xs:element name="HotelRef" type="tns:HotelRefType"/>
+      <xs:element name="InvBlockDates" type="tns:InvBlockDatesType"/>
+      <xs:element name="RoomTypes" type="tns:RoomTypesType"/>
+      <xs:element name="MethodInfo" type="tns:MethodInfoType"/>
+      <xs:element name="Contacts" type="tns:ContactsType" minOccurs="0"/>
+      <xs:element name="Comments" type="tns:CommentsType" minOccurs="0"/>
+      <xs:element name="MarketCode" type="tns:MarketCodeType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="InvBlockStatusCode" type="xs:string" use="required"/>
+    <xs:attribute name="InvBlockCode" type="xs:string" use="required"/>
+    <xs:attribute name="TransactionAction" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="new"/>
+          <xs:enumeration value="modify"/>
+          <xs:enumeration value="cancel"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="InvBlockLongName" type="xs:string" use="optional"/>
+    <xs:attribute name="InvBlockShortName" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <!-- Hotel Reference -->
+  <xs:complexType name="HotelRefType">
+    <xs:attribute name="HotelCode" type="xs:string" use="required"/>
+    <xs:attribute name="ChainCode" type="xs:string" use="optional"/>
+    <xs:attribute name="HotelCodeContext" type="xs:string" use="optional"/>
+    <xs:attribute name="ChainCodeContext" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <!-- Inventory Block Dates -->
+  <xs:complexType name="InvBlockDatesType">
+    <xs:attribute name="Start" type="xs:date" use="required"/>
+    <xs:attribute name="End" type="xs:date" use="required"/>
+    <xs:attribute name="AbsoluteCutoff" type="xs:date" use="optional"/>
+    <xs:attribute name="ReleaseCutoff" type="xs:string" use="optional"/>
+    <xs:attribute name="ExtendedCutoff" type="xs:date" use="optional"/>
+  </xs:complexType>
+
+  <!-- Room Types Container -->
+  <xs:complexType name="RoomTypesType">
+    <xs:sequence>
+      <xs:element name="RoomType" type="tns:RoomTypeType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Individual Room Type for Block -->
+  <xs:complexType name="RoomTypeType">
+    <xs:sequence>
+      <xs:element name="RoomTypeAllocations" type="tns:RoomTypeAllocationsType" maxOccurs="unbounded"/>
+      <xs:element name="RatePlans" type="tns:RatePlansType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="RoomTypeCode" type="xs:string" use="required"/>
+    <xs:attribute name="RoomType" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <!-- Room Type Allocations -->
+  <xs:complexType name="RoomTypeAllocationsType">
+    <xs:sequence>
+      <xs:element name="RoomTypeAllocation" type="tns:RoomTypeAllocationType" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="RoomTypePickUpStatus" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:int">
+          <xs:enumeration value="1"/> <!-- Allocated Rooms -->
+          <xs:enumeration value="2"/> <!-- Available Rooms -->
+          <xs:enumeration value="3"/> <!-- Sold Rooms -->
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+
+  <!-- Individual Room Type Allocation -->
+  <xs:complexType name="RoomTypeAllocationType">
+    <xs:attribute name="Start" type="xs:date" use="required"/>
+    <xs:attribute name="End" type="xs:date" use="required"/>
+    <xs:attribute name="NumberOfUnits" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <!-- Rate Plans for Block -->
+  <xs:complexType name="RatePlansType">
+    <xs:sequence>
+      <xs:element name="RatePlan" type="tns:RatePlanType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Individual Rate Plan for Block -->
+  <xs:complexType name="RatePlanType">
+    <xs:sequence>
+      <xs:element name="BaseByGuestAmts" type="tns:BaseByGuestAmtsType"/>
+      <xs:element name="AdditionalGuestAmounts" type="tns:AdditionalGuestAmountsType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="RatePlanCode" type="xs:string" use="required"/>
+    <xs:attribute name="RatePlanName" type="xs:string" use="optional"/>
+    <xs:attribute name="Start" type="xs:date" use="optional"/>
+    <xs:attribute name="End" type="xs:date" use="optional"/>
+    <xs:attribute name="MaxGuestApplicable" type="xs:int" use="optional"/>
+    <xs:attribute name="CurrencyCode" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <!-- Base By Guest Amounts -->
+  <xs:complexType name="BaseByGuestAmtsType">
+    <xs:sequence>
+      <xs:element name="BaseByGuestAmt" type="tns:BaseByGuestAmtType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Individual Base By Guest Amount -->
+  <xs:complexType name="BaseByGuestAmtType">
+    <xs:attribute name="NumberOfGuests" type="xs:positiveInteger" use="required"/>
+    <xs:attribute name="AmountBeforeTax" type="xs:decimal" use="required"/>
+    <xs:attribute name="AmountAfterTax" type="xs:decimal" use="optional"/>
+    <xs:attribute name="CurrencyCode" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <!-- Additional Guest Amounts -->
+  <xs:complexType name="AdditionalGuestAmountsType">
+    <xs:sequence>
+      <xs:element name="AdditionalGuestAmount" type="tns:AdditionalGuestAmountType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Individual Additional Guest Amount -->
+  <xs:complexType name="AdditionalGuestAmountType">
+    <xs:attribute name="AgeQualifyingCode" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:int">
+          <xs:enumeration value="10"/> <!-- Adult -->
+          <xs:enumeration value="8"/>  <!-- Child -->
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="Amount" type="xs:decimal" use="required"/>
+    <xs:attribute name="CurrencyCode" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <!-- Method Information -->
+  <xs:complexType name="MethodInfoType">
+    <xs:attribute name="ReservationMethodCode" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:int">
+          <xs:enumeration value="1"/> <!-- Traditional -->
+          <xs:enumeration value="2"/> <!-- Dynamic -->
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+
+  <!-- Contacts Container -->
+  <xs:complexType name="ContactsType">
+    <xs:sequence>
+      <xs:element name="Contact" type="tns:ContactType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Individual Contact -->
+  <xs:complexType name="ContactType">
+    <xs:sequence>
+      <xs:element name="PersonName" type="tns:PersonNameType"/>
+      <xs:element name="Telephone" type="tns:TelephoneType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Address" type="tns:AddressType" minOccurs="0"/>
+      <xs:element name="Email" type="tns:EmailType" minOccurs="0"/>
+      <xs:element name="CompanyName" type="tns:CompanyNameType" minOccurs="0"/>
+      <xs:element name="EmployeeInfo" type="tns:EmployeeInfoType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="ContactType" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="GroupOrganizer"/>
+          <xs:enumeration value="GroupCompany"/>
+          <xs:enumeration value="GroupContact"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="Gender" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <!-- Person Name -->
+  <xs:complexType name="PersonNameType">
+    <xs:sequence>
+      <xs:element name="NamePrefix" type="xs:string" minOccurs="0"/>
+      <xs:element name="GivenName" type="xs:string"/>
+      <xs:element name="MiddleName" type="xs:string" minOccurs="0"/>
+      <xs:element name="Surname" type="xs:string"/>
+      <xs:element name="NameSuffix" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Telephone -->
+  <xs:complexType name="TelephoneType">
+    <xs:attribute name="PhoneNumber" type="xs:string" use="required"/>
+    <xs:attribute name="PhoneTechType" type="xs:string" use="optional"/>
+    <xs:attribute name="CountryAccessCode" type="xs:string" use="optional"/>
+    <xs:attribute name="AreaCityCode" type="xs:string" use="optional"/>
+    <xs:attribute name="PhoneLocationType" type="xs:string" use="optional"/>
+    <xs:attribute name="FormattedInd" type="xs:boolean" use="optional"/>
+    <xs:attribute name="DefaultInd" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+
+  <!-- Address -->
+  <xs:complexType name="AddressType">
+    <xs:sequence>
+      <xs:element name="AddressLine" type="xs:string" maxOccurs="unbounded"/>
+      <xs:element name="CityName" type="xs:string" minOccurs="0"/>
+      <xs:element name="PostalCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="StateProv" type="tns:StateProvType" minOccurs="0"/>
+      <xs:element name="CountryName" type="tns:CountryNameType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="Type" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <!-- State/Province -->
+  <xs:complexType name="StateProvType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="StateCode" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <!-- Country Name -->
+  <xs:complexType name="CountryNameType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="Code" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <!-- Email -->
+  <xs:complexType name="EmailType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="EmailType" type="xs:string" use="optional"/>
+        <xs:attribute name="DefaultInd" type="xs:boolean" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <!-- Company Name -->
+  <xs:complexType name="CompanyNameType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="CompanyShortName" type="xs:string" use="optional"/>
+        <xs:attribute name="Code" type="xs:string" use="optional"/>
+        <xs:attribute name="CodeContext" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <!-- Employee Information -->
+  <xs:complexType name="EmployeeInfoType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="EmployeeId" type="xs:string" use="optional"/>
+        <xs:attribute name="EmployeeLevel" type="xs:string" use="optional"/>
+        <xs:attribute name="EmployeeTitle" type="xs:string" use="optional"/>
+        <xs:attribute name="EmployeeStatus" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <!-- Comments -->
+  <xs:complexType name="CommentsType">
+    <xs:sequence>
+      <xs:element name="Comment" type="tns:CommentType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Individual Comment -->
+  <xs:complexType name="CommentType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="Name" type="xs:string" use="optional"/>
+        <xs:attribute name="Language" type="xs:string" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <!-- Market Code -->
+  <xs:complexType name="MarketCodeType">
+    <xs:attribute name="MarketCode" type="xs:string" use="required"/>
+  </xs:complexType>
+
+</xs:schema>

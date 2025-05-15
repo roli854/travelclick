@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.opentravel.org/OTA/2003/05"
+           xmlns:tns="http://www.opentravel.org/OTA/2003/05"
+           elementFormDefault="qualified">
+
+  <!-- Root element for Rate Notification Request -->
+  <xs:element name="OTA_HotelRateNotifRQ" type="tns:OTA_HotelRateNotifRQType"/>
+
+  <!-- Main Request Type -->
+  <xs:complexType name="OTA_HotelRateNotifRQType">
+    <xs:sequence>
+      <xs:element name="RatePlans" type="tns:RatePlansType"/>
+    </xs:sequence>
+    <xs:attribute name="EchoToken" type="xs:string" use="optional"/>
+    <xs:attribute name="TimeStamp" type="xs:dateTime" use="optional"/>
+    <xs:attribute name="Target" type="xs:string" use="optional"/>
+    <xs:attribute name="Version" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <!-- Rate Plans Container -->
+  <xs:complexType name="RatePlansType">
+    <xs:sequence>
+      <xs:element name="RatePlan" type="tns:RatePlanType" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="HotelCode" type="xs:string" use="required"/>
+    <xs:attribute name="HotelCodeContext" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <!-- Individual Rate Plan -->
+  <xs:complexType name="RatePlanType">
+    <xs:sequence>
+      <xs:element name="RatePlanDescription" type="tns:ParagraphType" minOccurs="0"/>
+      <xs:element name="Rates" type="tns:RatesType"/>
+      <xs:element name="SellableProducts" type="tns:SellableProductsType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="RatePlanCode" type="xs:string" use="required"/>
+    <xs:attribute name="RatePlanType" type="xs:string" use="optional"/>
+    <xs:attribute name="RatePlanNotifType" type="xs:string" use="optional"/>
+    <xs:attribute name="Start" type="xs:date" use="optional"/>
+    <xs:attribute name="End" type="xs:date" use="optional"/>
+  </xs:complexType>
+
+  <!-- Paragraph Type -->
+  <xs:complexType name="ParagraphType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="Name" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <!-- Rates Container -->
+  <xs:complexType name="RatesType">
+    <xs:sequence>
+      <xs:element name="Rate" type="tns:RateType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Individual Rate -->
+  <xs:complexType name="RateType">
+    <xs:sequence>
+      <xs:element name="BaseByGuestAmts" type="tns:BaseByGuestAmtsType" minOccurs="0"/>
+      <xs:element name="AdditionalGuestAmounts" type="tns:AdditionalGuestAmountsType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="Start" type="xs:date" use="required"/>
+    <xs:attribute name="End" type="xs:date" use="required"/>
+    <xs:attribute name="Sun" type="xs:boolean" use="optional"/>
+    <xs:attribute name="Mon" type="xs:boolean" use="optional"/>
+    <xs:attribute name="Tue" type="xs:boolean" use="optional"/>
+    <xs:attribute name="Wed" type="xs:boolean" use="optional"/>
+    <xs:attribute name="Thu" type="xs:boolean" use="optional"/>
+    <xs:attribute name="Fri" type="xs:boolean" use="optional"/>
+    <xs:attribute name="Sat" type="xs:boolean" use="optional"/>
+    <xs:attribute name="InvTypeCode" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <!-- Base By Guest Amounts -->
+  <xs:complexType name="BaseByGuestAmtsType">
+    <xs:sequence>
+      <xs:element name="BaseByGuestAmt" type="tns:BaseByGuestAmtType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Individual Base By Guest Amount -->
+  <xs:complexType name="BaseByGuestAmtType">
+    <xs:attribute name="NumberOfGuests" type="xs:positiveInteger" use="required"/>
+    <xs:attribute name="AmountBeforeTax" type="xs:decimal" use="required"/>
+    <xs:attribute name="AmountAfterTax" type="xs:decimal" use="optional"/>
+    <xs:attribute name="CurrencyCode" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <!-- Additional Guest Amounts -->
+  <xs:complexType name="AdditionalGuestAmountsType">
+    <xs:sequence>
+      <xs:element name="AdditionalGuestAmount" type="tns:AdditionalGuestAmountType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Individual Additional Guest Amount -->
+  <xs:complexType name="AdditionalGuestAmountType">
+    <xs:attribute name="AgeQualifyingCode" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:int">
+          <xs:enumeration value="10"/> <!-- Adult -->
+          <xs:enumeration value="8"/>  <!-- Child -->
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="Amount" type="xs:decimal" use="required"/>
+    <xs:attribute name="CurrencyCode" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <!-- Sellable Products -->
+  <xs:complexType name="SellableProductsType">
+    <xs:sequence>
+      <xs:element name="SellableProduct" type="tns:SellableProductType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Individual Sellable Product -->
+  <xs:complexType name="SellableProductType">
+    <xs:attribute name="InvTypeCode" type="xs:string" use="required"/>
+    <xs:attribute name="InvCode" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+</xs:schema>

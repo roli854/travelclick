@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.opentravel.org/OTA/2003/05"
+           xmlns:tns="http://www.opentravel.org/OTA/2003/05"
+           elementFormDefault="qualified">
+
+  <!-- Root element for Inventory Count Notification Request -->
+  <xs:element name="OTA_HotelInvCountNotifRQ" type="tns:OTA_HotelInvCountNotifRQType"/>
+
+  <!-- Main Request Type -->
+  <xs:complexType name="OTA_HotelInvCountNotifRQType">
+    <xs:sequence>
+      <xs:element name="POS" type="tns:POSType" minOccurs="0"/>
+      <xs:element name="Inventories" type="tns:InventoriesType"/>
+    </xs:sequence>
+    <xs:attribute name="EchoToken" type="xs:string" use="optional"/>
+    <xs:attribute name="TimeStamp" type="xs:dateTime" use="optional"/>
+    <xs:attribute name="Target" type="xs:string" use="optional"/>
+    <xs:attribute name="Version" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <!-- Point of Sale Type -->
+  <xs:complexType name="POSType">
+    <xs:sequence>
+      <xs:element name="Source" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="ISOCountry" type="xs:string"/>
+          <xs:attribute name="ISOCurrency" type="xs:string"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Inventories Container -->
+  <xs:complexType name="InventoriesType">
+    <xs:sequence>
+      <xs:element name="Inventory" type="tns:InventoryType" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="HotelCode" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <!-- Individual Inventory Type -->
+  <xs:complexType name="InventoryType">
+    <xs:sequence>
+      <xs:element name="StatusApplicationControl" type="tns:StatusApplicationControlType"/>
+      <xs:element name="InvCounts" type="tns:InvCountsType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Status Application Control -->
+  <xs:complexType name="StatusApplicationControlType">
+    <xs:attribute name="Start" type="xs:date" use="required"/>
+    <xs:attribute name="End" type="xs:date" use="required"/>
+    <xs:attribute name="InvTypeCode" type="xs:string" use="optional"/>
+    <xs:attribute name="AllInvCode" type="xs:boolean" use="optional"/>
+  </xs:complexType>
+
+  <!-- Inventory Counts Container -->
+  <xs:complexType name="InvCountsType">
+    <xs:sequence>
+      <xs:element name="InvCount" type="tns:InvCountType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Individual Inventory Count -->
+  <xs:complexType name="InvCountType">
+    <xs:attribute name="CountType" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:int">
+          <xs:enumeration value="1"/>  <!-- Physical Rooms -->
+          <xs:enumeration value="2"/>  <!-- Available Rooms -->
+          <xs:enumeration value="4"/>  <!-- Definite Sold -->
+          <xs:enumeration value="5"/>  <!-- Tentative Sold -->
+          <xs:enumeration value="6"/>  <!-- Out of Order -->
+          <xs:enumeration value="99"/> <!-- Oversell Rooms -->
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="Count" type="xs:int" use="required"/>
+  </xs:complexType>
+
+</xs:schema>
