@@ -117,6 +117,11 @@ class TravelClickServiceProvider extends ServiceProvider
 
         // Register event listeners
         $this->registerEventListeners();
+
+        \App\TravelClick\Models\TravelClickMessageHistory::observe(\App\TravelClick\Observers\TravelClickMessageHistoryObserver::class);
+        \App\TravelClick\Models\TravelClickErrorLog::observe(\App\TravelClick\Observers\TravelClickErrorLogObserver::class);
+        \App\TravelClick\Models\TravelClickPropertyMapping::observe(\App\TravelClick\Observers\TravelClickPropertyMappingObserver::class);
+        \App\TravelClick\Models\TravelClickSyncStatus::observe(\App\TravelClick\Observers\TravelClickSyncStatusObserver::class);
     }
 
     /**

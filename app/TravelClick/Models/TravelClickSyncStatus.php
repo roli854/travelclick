@@ -2,6 +2,7 @@
 
 namespace App\TravelClick\Models;
 
+use App\Models\Property;
 use App\Models\SystemUser;
 use App\TravelClick\Enums\MessageType;
 use App\TravelClick\Enums\SyncStatus as SyncStatusEnum;
@@ -40,6 +41,7 @@ use Spatie\LaravelData\Data;
  * @property Carbon $DateCreated
  * @property Carbon|null $DateModified
  * @property string|null $Context
+ * @property Property|null $property
  */
 class TravelClickSyncStatus extends Model
 {
@@ -138,6 +140,17 @@ class TravelClickSyncStatus extends Model
         static::updating(function ($model) {
             $model->DateModified = now();
         });
+    }
+
+    /**
+     * Relationship: Property (cross-database relationship)
+     *
+     * Since TravelClickSyncStatus is in centriumLog database and Property is in main database,
+     * we need to handle this relationship carefully.
+     */
+    public function property(): BelongsTo
+    {
+        return $this->belongsTo(Property::class, 'PropertyID', 'PropertyID');
     }
 
     /**
@@ -477,9 +490,9 @@ class TravelClickSyncStatus extends Model
     {
         return [
             'status' => $this->Status->value,
-            'label' => $this->Status->label(),
-            'color' => $this->Status->color(),
-            'icon' => $this->Status->icon(),
+            'label' => $this->Status->description(),
+            'color' => $this->Status->getColor(),
+            'icon' => $this->Status->getIcon(),
         ];
     }
 
@@ -491,7 +504,7 @@ class TravelClickSyncStatus extends Model
         return [
             'property_id' => $this->PropertyID,
             'message_type' => $this->MessageType->label(),
-            'status' => $this->Status->label(),
+            'status' => $this->Status->description(),
             'progress' => $this->getProgressPercentage(),
             'success_rate' => $this->SuccessRate,
             'last_sync' => $this->getTimeSinceLastSync(),
@@ -654,5 +667,36 @@ class TravelClickSyncStatus extends Model
                 'auto_retry_disabled' => $allSyncs->where('AutoRetryEnabled', false)->count(),
             ],
         ];
+    }
+
+    /**
+     * Helper method to get property information safely (cross-database)
+     * This method helps handle the cross-database relationship gracefully
+     */
+    public function getPropertyInfo(): ?array
+    {
+        try {
+            $property = $this->property;
+            if (!$property) {
+                return null;
+            }
+
+            return [
+                'id' => $property->PropertyID,
+                'name' => $property->Name,
+                'short_name' => $property->ShortName,
+                'reference' => $property->Reference,
+                'code' => $property->PropertyCode,
+            ];
+        } catch (\Exception $e) {
+            // Log the error but don't fail the entire operation
+            logger()->warning('Could not load property information for sync status', [
+                'sync_status_id' => $this->SyncStatusID,
+                'property_id' => $this->PropertyID,
+                'error' => $e->getMessage(),
+            ]);
+
+            return null;
+        }
     }
 }

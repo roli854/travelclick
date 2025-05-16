@@ -74,6 +74,15 @@ enum SyncStatus: string
     case INACTIVE = 'inactive';
 
     case RUNNING = 'running';
+
+    /**
+     * Get human-readable description (alias of description for compatibility)
+     */
+    public function label(): string
+    {
+        return $this->description();
+    }
+
     /**
      * Get human-readable description
      */
@@ -181,6 +190,7 @@ enum SyncStatus: string
             self::PARTIAL => 'orange',
             self::ON_HOLD => 'yellow',
             self::MARKED_FOR_DELETION => 'purple',
+            self::INACTIVE => 'gray',
         };
     }
 
@@ -200,6 +210,7 @@ enum SyncStatus: string
             self::PARTIAL => 'alert-triangle',
             self::ON_HOLD => 'pause-circle',
             self::MARKED_FOR_DELETION => 'trash-2',
+            self::INACTIVE => 'pause',
         };
     }
 
