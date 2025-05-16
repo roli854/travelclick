@@ -6,408 +6,403 @@ namespace App\TravelClick\Builders;
 
 use App\TravelClick\DTOs\RateData;
 use App\TravelClick\DTOs\RatePlanData;
+use App\TravelClick\DTOs\SoapHeaderDto;
 use App\TravelClick\Enums\MessageType;
 use App\TravelClick\Enums\RateOperationType;
 use App\TravelClick\Support\RateStructureValidator;
 use App\TravelClick\Support\LinkedRateHandler;
-use Illuminate\Support\Collection;
+use Carbon\Carbon;
 use InvalidArgumentException;
 
 /**
- * XML Builder for HTNG 2011B Rate Notification Messages
+ * XML Builder for Rate messages (OTA_HotelRateNotifRQ)
  *
- * This builder constructs OTA_HotelRateNotifRQ messages for synchronizing
- * rate plans and pricing data with TravelClick. It handles all four types
- * of rate operations and ensures compliance with HTNG 2011B specifications.
+ * This builder constructs HTNG 2011B compliant rate notification messages
+ * for sending to TravelClick. Think of it as a specialized architect who
+ * knows exactly how to design rate messages that TravelClick understands.
  *
- * Key Features:
- * - Support for all rate operation types (UPDATE, CREATION, INACTIVE, REMOVE)
- * - Mandatory 1st/2nd adult rates for certification compliance
- * - Linked rates handling with configurable strategy
- * - Delta vs overlay upload support
- * - Comprehensive validation using business rules
+ * Key responsibilities:
+ * - Build OTA_HotelRateNotifRQ messages for different operation types
+ * - Handle linked rates according to external system capabilities
+ * - Support both delta updates and full synchronization
+ * - Validate rate structures before building XML
+ * - Apply business rules specific to rate operations
+ *
+ * Usage example:
+ * ```php
+ * $builder = new RateXmlBuilder(
+ *     MessageType::RATES,
+ *     $soapHeaders,
+ *     RateOperationType::RATE_UPDATE
+ * );
+ *
+ * $xml = $builder->build(['rate_plans' => [$ratePlan1, $ratePlan2]]);
+ * ```
  */
 class RateXmlBuilder extends XmlBuilder
 {
   /**
-   * Rate structure validator
+   * Rate structure validator for business rules
    */
-  protected RateStructureValidator $rateValidator;
+  private RateStructureValidator $rateValidator;
 
   /**
-   * Linked rate handler
+   * Linked rate handler for master/child relationships
    */
-  protected LinkedRateHandler $linkedRateHandler;
+  private LinkedRateHandler $linkedRateHandler;
 
   /**
-   * Current operation type
+   * Operation type for this rate message
    */
-  protected RateOperationType $operationType;
+  private RateOperationType $operationType;
 
   /**
-   * Whether this is a delta upload (true) or overlay upload (false)
+   * Whether to use delta updates (send only changes)
    */
-  protected bool $isDeltaUpload = true;
+  private bool $isDeltaUpdate;
+
+  /**
+   * Maximum number of rate plans per message
+   * Configured based on operation type
+   */
+  private int $maxRatePlansPerMessage;
+
+  /**
+   * Whether external system handles linked rates
+   */
+  private bool $externalHandlesLinkedRates;
 
   public function __construct(
+    MessageType $messageType,
     SoapHeaderDto $soapHeaders,
-    RateOperationType $operationType = RateOperationType::UPDATE,
-    bool $isDeltaUpload = true,
+    RateOperationType $operationType,
+    bool $isDeltaUpdate = true,
     bool $validateXml = true,
     bool $formatOutput = false
   ) {
-    parent::__construct(
-      MessageType::RATES,
-      $soapHeaders,
-      $validateXml,
-      $formatOutput
-    );
+    if ($messageType !== MessageType::RATES) {
+      throw new InvalidArgumentException('RateXmlBuilder can only handle RATES message type');
+    }
+
+    parent::__construct($messageType, $soapHeaders, $validateXml, $formatOutput);
 
     $this->operationType = $operationType;
-    $this->isDeltaUpload = $isDeltaUpload;
+    $this->isDeltaUpdate = $isDeltaUpdate;
     $this->rateValidator = new RateStructureValidator();
     $this->linkedRateHandler = new LinkedRateHandler();
+
+    // Load configuration
+    $this->maxRatePlansPerMessage = $operationType->getRecommendedBatchSize();
+    $this->externalHandlesLinkedRates = $this->linkedRateHandler->externalSystemHandlesLinkedRates();
   }
 
   /**
-   * Validate the message data for rate notifications
+   * Validate the message data before building
    *
-   * @param array<string, mixed> $messageData Expected format:
-   *   - hotel_code: string
-   *   - rate_plans: array of rate plan data
-   *   - operation_type: string (optional, override constructor)
+   * Ensures that rate plans are valid according to HTNG 2011B specification
+   * and TravelClick's business rules for the specific operation type.
+   *
+   * @param array<string, mixed> $messageData The message data to validate
    * @throws InvalidArgumentException If validation fails
    */
   protected function validateMessageData(array $messageData): void
   {
-    // Validate required fields
-    if (empty($messageData['hotel_code'])) {
-      throw new InvalidArgumentException('Hotel code is required');
+    // Validate required data structure
+    if (!isset($messageData['rate_plans'])) {
+      throw new InvalidArgumentException('Rate message must contain "rate_plans" key');
     }
 
-    if (empty($messageData['rate_plans']) || !is_array($messageData['rate_plans'])) {
-      throw new InvalidArgumentException('Rate plans array is required');
+    $ratePlans = $messageData['rate_plans'];
+
+    // Validate it's an array
+    if (!is_array($ratePlans)) {
+      throw new InvalidArgumentException('Rate plans must be an array');
     }
 
-    // Validate hotel code format
-    $this->validateHotelCode($messageData['hotel_code']);
+    // Convert array items to RatePlanData if needed
+    $ratePlanInstances = collect($ratePlans)->map(function ($ratePlan) {
+      if ($ratePlan instanceof RatePlanData) {
+        return $ratePlan;
+      }
 
-    // Override operation type if provided
-    if (isset($messageData['operation_type'])) {
-      $this->operationType = RateOperationType::from($messageData['operation_type']);
-    }
+      if (is_array($ratePlan)) {
+        return RatePlanData::fromArray($ratePlan);
+      }
 
-    // Validate batch size according to operation type
-    $maxBatchSize = $this->operationType->getRecommendedBatchSize();
-    if (count($messageData['rate_plans']) > $maxBatchSize) {
+      throw new InvalidArgumentException('Each rate plan must be a RatePlanData instance or array');
+    });
+
+    // Validate batch size
+    if ($ratePlanInstances->count() > $this->maxRatePlansPerMessage) {
       throw new InvalidArgumentException(
-        "Batch size ({$messageData['rate_plans']}) exceeds recommended maximum ($maxBatchSize) for {$this->operationType->value} operations"
+        "Too many rate plans in message. Maximum {$this->maxRatePlansPerMessage} allowed for {$this->operationType->value} operations"
       );
     }
 
-    // Convert and validate each rate plan
-    $ratePlans = $this->convertToRatePlanData($messageData['rate_plans']);
+    // Use the validator to check business rules
+    $this->rateValidator->validateBatchRatePlans(
+      $ratePlanInstances->toArray(),
+      $this->operationType
+    );
 
-    // Validate business rules for all rate plans
-    foreach ($ratePlans as $ratePlan) {
-      $this->rateValidator->validateRatePlan($ratePlan, $this->operationType);
-    }
-
-    // Validate consistency across all rate plans
-    $this->validateRatePlansConsistency($ratePlans);
+    // Validate linked rate dependencies
+    $this->linkedRateHandler->validateLinkedRateDependencies(
+      $ratePlanInstances,
+      $this->operationType
+    );
   }
 
   /**
    * Build the message body for rate notifications
    *
-   * @param array<string, mixed> $messageData
-   * @return array<string, mixed>
+   * Creates the complete OTA_HotelRateNotifRQ structure with all rate plans,
+   * handling different operation types and linked rate logic.
+   *
+   * @param array<string, mixed> $messageData Message data containing rate plans
+   * @return array<string, mixed> The complete message body structure
    */
   protected function buildMessageBody(array $messageData): array
   {
-    // Convert rate plans to DTOs
-    $ratePlans = $this->convertToRatePlanData($messageData['rate_plans']);
+    $ratePlans = collect($messageData['rate_plans'])->map(function ($ratePlan) {
+      if ($ratePlan instanceof RatePlanData) {
+        return $ratePlan;
+      }
+      return RatePlanData::fromArray($ratePlan);
+    });
 
-    // Handle linked rates according to configuration
-    $ratePlans = $this->processLinkedRates($ratePlans);
-
-    // Build the OTA_HotelRateNotifRQ structure
-    return [
-      $this->getOtaRootElement() => array_merge(
-        ['_attributes' => $this->getOtaMessageAttributes()],
-        $this->buildRatesElement($messageData['hotel_code'], $ratePlans)
-      ),
-    ];
-  }
-
-  /**
-   * Convert rate plan arrays to RatePlanData DTOs
-   *
-   * @param array<array<string, mixed>> $ratePlansData
-   * @return Collection<RatePlanData>
-   */
-  protected function convertToRatePlanData(array $ratePlansData): Collection
-  {
-    return collect($ratePlansData)->map(function (array $planData): RatePlanData {
-      // Convert individual rates to RateData DTOs
-      $rates = collect($planData['rates'] ?? [])->map(function (array $rateData): RateData {
-        return RateData::fromArray($rateData);
-      });
-
-      // Create RatePlanData with the converted rates
-      return new RatePlanData(
-        ratePlanCode: $planData['rate_plan_code'],
-        ratePlanName: $planData['rate_plan_name'] ?? '',
-        rates: $rates,
-        currency: $planData['currency'] ?? 'USD',
-        isLinked: $planData['is_linked'] ?? false,
-        linkedToCode: $planData['linked_to_code'] ?? null,
-        linkType: $planData['link_type'] ?? null,
-        linkValue: $planData['link_value'] ?? null
+    // Filter linked rates if external system handles them
+    $filteredRatePlans = $ratePlans->map(function (RatePlanData $ratePlan) {
+      return $this->linkedRateHandler->filterLinkedRatesIfNeeded(
+        $ratePlan,
+        $this->operationType
       );
     });
+
+    // Build the complete OTA message
+    $otaMessage = [
+      '_attributes' => $this->getOtaMessageAttributes(),
+      'RateAmountMessages' => $this->buildRateAmountMessages($filteredRatePlans),
+    ];
+
+    return [$this->getOtaRootElement() => $otaMessage];
   }
 
   /**
-   * Process linked rates according to system configuration
+   * Build RateAmountMessages structure
    *
-   * @param Collection<RatePlanData> $ratePlans
-   * @return Collection<RatePlanData>
+   * This method creates the core content of the rate message, organizing
+   * rate plans by hotel and handling the specific XML structure required
+   * by TravelClick.
+   *
+   * @param \Illuminate\Support\Collection<RatePlanData> $ratePlans Collection of rate plans
+   * @return array<string, mixed> RateAmountMessages structure
    */
-  protected function processLinkedRates(Collection $ratePlans): Collection
+  private function buildRateAmountMessages($ratePlans): array
   {
-    // Check if external system handles linked rates
-    $externalSystemHandlesLinked = config('travelclick.message_types.rates.supports_linked_rates', true);
+    // Group rate plans by hotel code
+    $ratePlansByHotel = $ratePlans->groupBy('hotelCode');
 
-    if ($externalSystemHandlesLinked) {
-      // Filter out linked rates if external system handles them
-      $ratePlans = $ratePlans->map(function (RatePlanData $ratePlan): RatePlanData {
-        return $ratePlan->filterLinkedRatesIfNeeded(true);
-      });
-    } else {
-      // Calculate derived rates if we handle linking
-      $ratePlans = $this->linkedRateHandler->calculateDerivedRates($ratePlans);
+    $rateAmountMessages = [];
+
+    foreach ($ratePlansByHotel as $hotelCode => $hotelRatePlans) {
+      $rateAmountMessage = [
+        '_attributes' => $this->buildHotelReference()['_attributes'],
+        'RateAmountMessage' => $this->buildRateAmountMessage($hotelRatePlans),
+      ];
+
+      $rateAmountMessages[] = $rateAmountMessage;
     }
 
-    // Get recommendation for strategy
-    $recommendation = $this->linkedRateHandler->recommendStrategy($ratePlans, $this->operationType);
-
-    // Log recommendation for operational insight
-    logger()->info('Linked rate strategy', [
-      'operation_type' => $this->operationType->value,
-      'total_plans' => $ratePlans->count(),
-      'recommendation' => $recommendation,
-    ]);
-
-    return $ratePlans;
-  }
-
-  /**
-   * Build the main Rates element
-   *
-   * @param string $hotelCode
-   * @param Collection<RatePlanData> $ratePlans
-   * @return array<string, mixed>
-   */
-  protected function buildRatesElement(string $hotelCode, Collection $ratePlans): array
-  {
     return [
-      'Rates' => array_merge(
-        ['_attributes' => ['HotelCode' => $hotelCode]],
-        $this->buildRatePlansXml($ratePlans)
-      ),
+      'RateAmountMessage' => count($rateAmountMessages) === 1
+        ? $rateAmountMessages[0]
+        : $rateAmountMessages
     ];
   }
 
   /**
-   * Build XML structure for all rate plans
+   * Build RateAmountMessage for a specific hotel
    *
-   * @param Collection<RatePlanData> $ratePlans
-   * @return array<string, mixed>
+   * @param \Illuminate\Support\Collection<RatePlanData> $ratePlans Rate plans for one hotel
+   * @return array<string, mixed> RateAmountMessage structure
    */
-  protected function buildRatePlansXml(Collection $ratePlans): array
+  private function buildRateAmountMessage($ratePlans): array
   {
-    $ratePlansXml = [];
+    $rateAmountMessage = [];
 
     foreach ($ratePlans as $ratePlan) {
-      // Group rates by room type for efficient XML structure
-      $ratesByRoomType = $ratePlan->groupRatesByRoomType();
+      // Build status application control for the entire rate plan
+      $statusControl = $this->buildStatusApplicationControl(
+        $ratePlan->startDate->format('Y-m-d'),
+        $ratePlan->endDate->format('Y-m-d')
+      );
 
-      foreach ($ratesByRoomType as $roomType => $rates) {
-        // Build base rate element
-        $rateElement = $this->buildBaseRateElement($ratePlan, $roomType, $rates);
+      // Build rates structure grouped by room type
+      $rates = $this->buildRatesStructure($ratePlan);
 
-        // Add operation-specific attributes
-        $rateElement = $this->addOperationSpecificAttributes($rateElement, $ratePlan);
-
-        // Add rate plans (room-rate combinations)
-        $rateElement = $this->addRatePlansToElement($rateElement, $ratePlan, $rates);
-
-        $ratePlansXml[] = $rateElement;
-      }
+      $messageElement = array_merge($statusControl, ['Rates' => $rates]);
+      $rateAmountMessage[] = $messageElement;
     }
 
-    return ['Rate' => $ratePlansXml];
+    return count($rateAmountMessage) === 1
+      ? $rateAmountMessage[0]
+      : $rateAmountMessage;
   }
 
   /**
-   * Build the base rate element structure
+   * Build Rates structure for a rate plan
    *
-   * @param RatePlanData $ratePlan
-   * @param string $roomType
-   * @param Collection<RateData> $rates
-   * @return array<string, mixed>
+   * Organizes rates by room type and builds the proper XML structure
+   * according to HTNG 2011B specification.
+   *
+   * @param RatePlanData $ratePlan The rate plan to process
+   * @return array<string, mixed> Rates structure
    */
-  protected function buildBaseRateElement(
-    RatePlanData $ratePlan,
-    string $roomType,
-    Collection $rates
-  ): array {
-    // Get date range for this room type
-    $dateRange = $this->calculateDateRange($rates);
+  private function buildRatesStructure(RatePlanData $ratePlan): array
+  {
+    $ratesStructure = [];
 
+    // Group rates by room type
+    $ratesByRoomType = $ratePlan->rates->groupBy('roomTypeCode');
+
+    foreach ($ratesByRoomType as $roomTypeCode => $roomTypeRates) {
+      $rateElement = [
+        '_attributes' => ['RoomTypeCode' => $roomTypeCode],
+        'RatePlans' => $this->buildRatePlansForRoomType($roomTypeRates)
+      ];
+
+      $ratesStructure[] = $rateElement;
+    }
+
+    return ['Rate' => $ratesStructure];
+  }
+
+  /**
+   * Build RatePlans structure for a specific room type
+   *
+   * Creates RatePlan elements with proper date ranges and rate values
+   * according to the operation type and HTNG requirements.
+   *
+   * @param \Illuminate\Support\Collection<RateData> $rates Rates for one room type
+   * @return array<string, mixed> RatePlans structure
+   */
+  private function buildRatePlansForRoomType($rates): array
+  {
+    $ratePlans = [];
+
+    // Group rates by date range to create separate RatePlan elements
+    $ratesByDateRange = $rates->groupBy(function (RateData $rate) {
+      return $rate->startDate->format('Y-m-d') . '_' . $rate->endDate->format('Y-m-d');
+    });
+
+    foreach ($ratesByDateRange as $dateRangeKey => $dateRangeRates) {
+      $firstRate = $dateRangeRates->first();
+
+      $ratePlanElement = [
+        '_attributes' => $this->buildRatePlanAttributes($firstRate),
+      ];
+
+      // Add base guest amounts (1st and 2nd adult - mandatory for HTNG)
+      $ratePlanElement['BaseByGuestAmts'] = $this->buildBaseByGuestAmts($firstRate);
+
+      // Add additional guest amounts if present
+      if ($firstRate->additionalAdultRate !== null || $firstRate->additionalChildRate !== null) {
+        $ratePlanElement['AdditionalGuestAmounts'] = $this->buildAdditionalGuestAmounts($firstRate);
+      }
+
+      // Handle operation-specific elements
+      $ratePlanElement = $this->addOperationSpecificElements($ratePlanElement, $firstRate);
+
+      $ratePlans[] = $ratePlanElement;
+    }
+
+    return ['RatePlan' => $ratePlans];
+  }
+
+  /**
+   * Build RatePlan attributes
+   *
+   * @param RateData $rate The rate to build attributes from
+   * @return array<string, string> RatePlan attributes
+   */
+  private function buildRatePlanAttributes(RateData $rate): array
+  {
+    $attributes = [
+      'RatePlanCode' => $rate->ratePlanCode,
+      'Start' => $rate->startDate->format('Y-m-d'),
+      'End' => $rate->endDate->format('Y-m-d'),
+    ];
+
+    // Add optional attributes
+    if ($rate->maxGuestApplicable !== null) {
+      $attributes['MaxGuestApplicable'] = (string) $rate->maxGuestApplicable;
+    }
+
+    if ($rate->restrictedDisplayIndicator !== null) {
+      $attributes['RestrictedDisplayIndicator'] = $rate->restrictedDisplayIndicator ? 'true' : 'false';
+    }
+
+    if ($rate->isCommissionable !== null) {
+      $attributes['IsCommissionable'] = $rate->isCommissionable ? 'true' : 'false';
+    }
+
+    if ($rate->ratePlanQualifier !== null) {
+      $attributes['RatePlanQualifier'] = $rate->ratePlanQualifier;
+    }
+
+    if ($rate->marketCode !== null) {
+      $attributes['MarketCode'] = $rate->marketCode;
+    }
+
+    return $attributes;
+  }
+
+  /**
+   * Build BaseByGuestAmts structure (1st and 2nd adult rates)
+   *
+   * This is mandatory according to HTNG 2011B certification requirements.
+   * Both first and second adult rates must be present.
+   *
+   * @param RateData $rate The rate to extract guest amounts from
+   * @return array<string, mixed> BaseByGuestAmts structure
+   */
+  private function buildBaseByGuestAmts(RateData $rate): array
+  {
     return [
-      '_attributes' => [
-        'RatePlanCode' => $ratePlan->ratePlanCode,
-        'CurrencyCode' => $ratePlan->currency,
+      'BaseByGuestAmt' => [
+        [
+          '_attributes' => [
+            'NumberOfGuests' => '1',
+            'AmountBeforeTax' => number_format($rate->firstAdultRate, 2, '.', ''),
+          ],
+        ],
+        [
+          '_attributes' => [
+            'NumberOfGuests' => '2',
+            'AmountBeforeTax' => number_format($rate->secondAdultRate, 2, '.', ''),
+          ],
+        ],
       ],
-      'StatusApplicationControl' => $this->buildStatusApplicationControl(
-        startDate: $dateRange['start'],
-        endDate: $dateRange['end'],
-        roomTypeCode: $roomType,
-        ratePlanCode: $ratePlan->ratePlanCode
-      ),
     ];
   }
 
   /**
-   * Add operation-specific attributes to rate element
+   * Build AdditionalGuestAmounts structure
    *
-   * @param array<string, mixed> $rateElement
-   * @param RatePlanData $ratePlan
-   * @return array<string, mixed>
-   */
-  protected function addOperationSpecificAttributes(
-    array $rateElement,
-    RatePlanData $ratePlan
-  ): array {
-    switch ($this->operationType) {
-      case RateOperationType::CREATION:
-        $rateElement['_attributes']['Operation'] = 'Create';
-        break;
-
-      case RateOperationType::INACTIVE:
-        $rateElement['_attributes']['Operation'] = 'Inactive';
-        // For inactive operations, we don't need rate details
-        return $rateElement;
-
-      case RateOperationType::REMOVE_ROOM_TYPES:
-        $rateElement['_attributes']['Operation'] = 'Remove';
-        return $rateElement;
-
-      case RateOperationType::UPDATE:
-      default:
-        // UPDATE is default, no special operation attribute needed
-        break;
-    }
-
-    // Add linked rate attributes if applicable
-    if ($ratePlan->isLinked && $ratePlan->linkedToCode) {
-      $rateElement['_attributes']['BaseRatePlanCode'] = $ratePlan->linkedToCode;
-
-      if ($ratePlan->linkType === 'percentage') {
-        $rateElement['_attributes']['RateChangeIndicator'] = 'Percentage';
-        $rateElement['_attributes']['RateChangeValue'] = (string) $ratePlan->linkValue;
-      } elseif ($ratePlan->linkType === 'offset') {
-        $rateElement['_attributes']['RateChangeIndicator'] = 'Amount';
-        $rateElement['_attributes']['RateChangeValue'] = (string) $ratePlan->linkValue;
-      }
-    }
-
-    return $rateElement;
-  }
-
-  /**
-   * Add rate plans (room-rate combinations) to the element
+   * Optional element for additional adult and child rates beyond the standard
+   * two adults included in BaseByGuestAmts.
    *
-   * @param array<string, mixed> $rateElement
-   * @param RatePlanData $ratePlan
-   * @param Collection<RateData> $rates
-   * @return array<string, mixed>
+   * @param RateData $rate The rate to extract additional amounts from
+   * @return array<string, mixed> AdditionalGuestAmounts structure
    */
-  protected function addRatePlansToElement(
-    array $rateElement,
-    RatePlanData $ratePlan,
-    Collection $rates
-  ): array {
-    // Skip adding rates for inactive/remove operations
-    if (in_array($this->operationType, [RateOperationType::INACTIVE, RateOperationType::REMOVE_ROOM_TYPES])) {
-      return $rateElement;
-    }
-
-    // Group rates by date for efficient processing
-    $ratesByDate = $rates->groupBy('effectiveDate');
-
-    $ratePlans = [];
-
-    foreach ($ratesByDate as $effectiveDate => $dateRates) {
-      foreach ($dateRates as $rate) {
-        $ratePlans[] = $this->buildSingleRatePlan($rate, $ratePlan);
-      }
-    }
-
-    if (!empty($ratePlans)) {
-      $rateElement['RatePlans'] = ['RatePlan' => $ratePlans];
-    }
-
-    return $rateElement;
-  }
-
-  /**
-   * Build a single rate plan element
-   *
-   * @param RateData $rate
-   * @param RatePlanData $ratePlan
-   * @return array<string, mixed>
-   */
-  protected function buildSingleRatePlan(RateData $rate, RatePlanData $ratePlan): array
+  private function buildAdditionalGuestAmounts(RateData $rate): array
   {
-    $ratePlanElement = [];
-
-    // Add mandatory adult rates (required for HTNG 2011B certification)
-    if ($rate->adultRate1 !== null || $rate->adultRate2 !== null) {
-      $baseByGuestAmts = [];
-
-      // 1st adult rate (mandatory)
-      if ($rate->adultRate1 !== null) {
-        $baseByGuestAmts[] = [
-          '_attributes' => [
-            'NumberOfGuests' => '1',
-            'AmountBeforeTax' => number_format($rate->adultRate1, 2, '.', ''),
-          ],
-        ];
-      }
-
-      // 2nd adult rate (mandatory)
-      if ($rate->adultRate2 !== null) {
-        $baseByGuestAmts[] = [
-          '_attributes' => [
-            'NumberOfGuests' => '2',
-            'AmountBeforeTax' => number_format($rate->adultRate2, 2, '.', ''),
-          ],
-        ];
-      }
-
-      $ratePlanElement['BaseByGuestAmts'] = ['BaseByGuestAmt' => $baseByGuestAmts];
-    }
-
-    // Add additional guest amounts if present
     $additionalAmounts = [];
 
     if ($rate->additionalAdultRate !== null) {
       $additionalAmounts[] = [
         '_attributes' => [
-          'AgeQualifyingCode' => '10', // Adult code
+          'AgeQualifyingCode' => '10', // Adult
           'Amount' => number_format($rate->additionalAdultRate, 2, '.', ''),
         ],
       ];
@@ -416,128 +411,110 @@ class RateXmlBuilder extends XmlBuilder
     if ($rate->additionalChildRate !== null) {
       $additionalAmounts[] = [
         '_attributes' => [
-          'AgeQualifyingCode' => '8', // Child code
+          'AgeQualifyingCode' => '8', // Child
           'Amount' => number_format($rate->additionalChildRate, 2, '.', ''),
         ],
       ];
     }
 
-    if (!empty($additionalAmounts)) {
-      $ratePlanElement['AdditionalGuestAmounts'] = [
-        'AdditionalGuestAmount' => $additionalAmounts,
-      ];
-    }
+    return ['AdditionalGuestAmount' => $additionalAmounts];
+  }
 
-    // Add effective date if different from plan date range
-    if ($rate->effectiveDate) {
-      $ratePlanElement['_attributes']['EffectiveDate'] = $rate->effectiveDate;
-    }
+  /**
+   * Add operation-specific elements to RatePlan
+   *
+   * Different operation types may require additional elements or modifications
+   * to the standard RatePlan structure.
+   *
+   * @param array<string, mixed> $ratePlanElement Current RatePlan element
+   * @param RateData $rate The rate data
+   * @return array<string, mixed> Enhanced RatePlan element
+   */
+  private function addOperationSpecificElements(array $ratePlanElement, RateData $rate): array
+  {
+    switch ($this->operationType) {
+      case RateOperationType::RATE_CREATION:
+        // For creation, we might need additional metadata
+        if (!empty($rate->ratePlanQualifier)) {
+          $ratePlanElement['_attributes']['RatePlanQualifier'] = $rate->ratePlanQualifier;
+        }
+        break;
 
-    // Add optional attributes
-    if ($rate->rateBasis) {
-      $ratePlanElement['_attributes']['RateBasis'] = $rate->rateBasis;
+      case RateOperationType::INACTIVE_RATE:
+        // For inactive rates, set the status
+        $ratePlanElement['_attributes']['Status'] = 'Inactive';
+        break;
+
+      case RateOperationType::REMOVE_ROOM_TYPES:
+        // For room type removal, we need special handling
+        $ratePlanElement['_attributes']['RemoveFromInventory'] = 'true';
+        break;
+
+      case RateOperationType::FULL_SYNC:
+        // Full sync might include additional validation flags
+        $ratePlanElement['_attributes']['SyncType'] = 'Full';
+        break;
+
+      case RateOperationType::DELTA_UPDATE:
+        // Delta updates are the default, no special attributes needed
+        break;
     }
 
     return $ratePlanElement;
   }
 
   /**
-   * Calculate date range for a collection of rates
+   * Get OTA message attributes specific to rate operations
    *
-   * @param Collection<RateData> $rates
-   * @return array{start: string, end: string}
+   * @return array<string, string> Message attributes
    */
-  protected function calculateDateRange(Collection $rates): array
+  protected function getOtaMessageAttributes(): array
   {
-    $startDates = $rates->pluck('effectiveDate')->filter()->sort();
-    $endDates = $rates->pluck('expirationDate')->filter()->sort();
+    $attributes = parent::getOtaMessageAttributes();
 
-    return [
-      'start' => $startDates->first() ?: now()->format('Y-m-d'),
-      'end' => $endDates->last() ?: now()->addYear()->format('Y-m-d'),
-    ];
+    // Add rate-specific attributes
+    $attributes['MessageType'] = $this->operationType->value;
+
+    // Add delta indicator if applicable
+    if ($this->isDeltaUpdate && in_array($this->operationType, RateOperationType::getBatchableOperations())) {
+      $attributes['UpdateType'] = 'Delta';
+    } elseif (!$this->isDeltaUpdate || $this->operationType === RateOperationType::FULL_SYNC) {
+      $attributes['UpdateType'] = 'Full';
+    }
+
+    return $attributes;
   }
 
   /**
-   * Validate consistency across multiple rate plans
+   * Set operation type for the builder
    *
-   * @param Collection<RatePlanData> $ratePlans
-   * @throws InvalidArgumentException If inconsistencies found
-   */
-  protected function validateRatePlansConsistency(Collection $ratePlans): void
-  {
-    // Check currency consistency
-    $currencies = $ratePlans->pluck('currency')->unique();
-    if ($currencies->count() > 1) {
-      throw new InvalidArgumentException(
-        'All rate plans must use the same currency. Found: ' . $currencies->implode(', ')
-      );
-    }
-
-    // Check for duplicate rate plan codes
-    $ratePlanCodes = $ratePlans->pluck('ratePlanCode');
-    $duplicates = $ratePlanCodes->duplicates();
-    if ($duplicates->isNotEmpty()) {
-      throw new InvalidArgumentException(
-        'Duplicate rate plan codes found: ' . $duplicates->implode(', ')
-      );
-    }
-
-    // Validate linked rate references
-    $this->validateLinkedRateReferences($ratePlans);
-  }
-
-  /**
-   * Validate that linked rates reference valid master rates
+   * Allows changing the operation type after instantiation, useful for
+   * builders that handle multiple operation types.
    *
-   * @param Collection<RatePlanData> $ratePlans
-   * @throws InvalidArgumentException If invalid references found
-   */
-  protected function validateLinkedRateReferences(Collection $ratePlans): void
-  {
-    $masterRateCodes = $ratePlans
-      ->filter(fn(RatePlanData $plan) => !$plan->isLinked)
-      ->pluck('ratePlanCode')
-      ->toArray();
-
-    $invalidReferences = $ratePlans
-      ->filter(fn(RatePlanData $plan) => $plan->isLinked)
-      ->filter(fn(RatePlanData $plan) => !in_array($plan->linkedToCode, $masterRateCodes))
-      ->pluck('ratePlanCode');
-
-    if ($invalidReferences->isNotEmpty()) {
-      throw new InvalidArgumentException(
-        'Invalid linked rate references found: ' . $invalidReferences->implode(', ')
-      );
-    }
-  }
-
-  /**
-   * Set the operation type for this builder
-   *
-   * @param RateOperationType $operationType
+   * @param RateOperationType $operationType The operation type to set
    * @return self
    */
   public function withOperationType(RateOperationType $operationType): self
   {
     $this->operationType = $operationType;
+    $this->maxRatePlansPerMessage = $operationType->getRecommendedBatchSize();
     return $this;
   }
 
   /**
-   * Set whether this is a delta upload
+   * Set delta update mode
    *
-   * @param bool $isDelta
+   * @param bool $isDeltaUpdate Whether to use delta updates
    * @return self
    */
-  public function withDeltaUpload(bool $isDelta = true): self
+  public function withDeltaUpdate(bool $isDeltaUpdate = true): self
   {
-    $this->isDeltaUpload = $isDelta;
+    $this->isDeltaUpdate = $isDeltaUpdate;
     return $this;
   }
 
   /**
-   * Get the current operation type
+   * Get the operation type
    *
    * @return RateOperationType
    */
@@ -547,42 +524,114 @@ class RateXmlBuilder extends XmlBuilder
   }
 
   /**
-   * Check if this is a delta upload
+   * Check if delta updates are enabled
    *
    * @return bool
    */
-  public function isDeltaUpload(): bool
+  public function isDeltaUpdate(): bool
   {
-    return $this->isDeltaUpload;
+    return $this->isDeltaUpdate;
   }
 
   /**
-   * Get validation summary for debugging
+   * Get the maximum rate plans per message for current operation
    *
-   * @param array<string, mixed> $messageData
+   * @return int
+   */
+  public function getMaxRatePlansPerMessage(): int
+  {
+    return $this->maxRatePlansPerMessage;
+  }
+
+  /**
+   * Get linked rate configuration summary
+   *
+   * Useful for debugging and understanding how linked rates will be handled.
+   *
+   * @return array<string, mixed> Linked rate configuration
+   */
+  public function getLinkedRateConfig(): array
+  {
+    return [
+      'external_handles_linked' => $this->externalHandlesLinkedRates,
+      'operation_supports_linked' => $this->operationType->supportsLinkedRates(),
+      'will_send_linked_rates' => $this->linkedRateHandler->shouldSendLinkedRates($this->operationType),
+      'strategy' => $this->linkedRateHandler->getLinkedRateStrategy($this->operationType),
+    ];
+  }
+
+  /**
+   * Build rate message with comprehensive validation and error handling
+   *
+   * This is the main entry point with additional safety measures and
+   * detailed error reporting for rate-specific issues.
+   *
+   * @param array<string, mixed> $messageData The rate data to build
+   * @return string The complete XML message
+   * @throws InvalidArgumentException If rate data is invalid
+   */
+  public function buildWithValidation(array $messageData): string
+  {
+    try {
+      // Pre-validate rate plans
+      if (!isset($messageData['rate_plans'])) {
+        throw new InvalidArgumentException('Rate plans are required');
+      }
+
+      $ratePlans = collect($messageData['rate_plans'])->map(function ($ratePlan) {
+        return $ratePlan instanceof RatePlanData ? $ratePlan : RatePlanData::fromArray($ratePlan);
+      });
+
+      // Generate summary for logging/debugging
+      $summary = $this->generateBuildSummary($ratePlans);
+
+      // Perform the build
+      $xml = $this->build($messageData);
+
+      // Log success if configured
+      if (config('travelclick.logging.log_successful_operations', true)) {
+        logger()->info('Rate XML built successfully', [
+          'operation_type' => $this->operationType->value,
+          'is_delta' => $this->isDeltaUpdate,
+          'summary' => $summary,
+        ]);
+      }
+
+      return $xml;
+    } catch (\Exception $e) {
+      // Enhanced error logging for rate-specific issues
+      logger()->error('Rate XML build failed', [
+        'operation_type' => $this->operationType->value,
+        'is_delta' => $this->isDeltaUpdate,
+        'error' => $e->getMessage(),
+        'trace' => config('app.debug') ? $e->getTraceAsString() : null,
+      ]);
+
+      throw $e;
+    }
+  }
+
+  /**
+   * Generate build summary for logging and debugging
+   *
+   * @param \Illuminate\Support\Collection<RatePlanData> $ratePlans
    * @return array<string, mixed>
    */
-  public function getValidationSummary(array $messageData): array
+  private function generateBuildSummary($ratePlans): array
   {
-    $ratePlans = $this->convertToRatePlanData($messageData['rate_plans'] ?? []);
-
-    $summary = [
+    return [
       'total_rate_plans' => $ratePlans->count(),
+      'hotels' => $ratePlans->pluck('hotelCode')->unique()->toArray(),
       'operation_type' => $this->operationType->value,
-      'is_delta_upload' => $this->isDeltaUpload,
-      'currencies' => $ratePlans->pluck('currency')->unique()->values(),
-      'linked_rates_count' => $ratePlans->filter(fn($p) => $p->isLinked)->count(),
-      'master_rates_count' => $ratePlans->filter(fn($p) => !$p->isLinked)->count(),
+      'is_delta_update' => $this->isDeltaUpdate,
+      'total_rates' => $ratePlans->sum(fn($plan) => $plan->rates->count()),
+      'room_types' => $ratePlans->flatMap(fn($plan) => $plan->roomTypes)->unique()->toArray(),
+      'currencies' => $ratePlans->pluck('currencyCode')->unique()->toArray(),
+      'date_range' => [
+        'earliest' => $ratePlans->min('startDate')->format('Y-m-d'),
+        'latest' => $ratePlans->max('endDate')->format('Y-m-d'),
+      ],
+      'linked_rates_config' => $this->getLinkedRateConfig(),
     ];
-
-    // Add individual rate plan summaries
-    $summary['rate_plans'] = $ratePlans->map(function (RatePlanData $plan) {
-      return $this->rateValidator->getValidationSummary($plan);
-    })->toArray();
-
-    // Add linked rate analysis
-    $summary['linked_rate_analysis'] = $this->linkedRateHandler->getLinkedRateSummary($ratePlans);
-
-    return $summary;
   }
 }
