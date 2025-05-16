@@ -62,6 +62,8 @@ enum ErrorType: string
      */
     case UNKNOWN = 'unknown';
 
+    case WARNING = 'warning';
+
     /**
      * Get human-readable description
      */

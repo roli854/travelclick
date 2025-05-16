@@ -151,7 +151,7 @@ return [
     | How detailed our logging should be and where to store the logs.
     | Like choosing what level of detail to include in a diary.
     |
-    */
+
   'logging' => [
     'level' => env('TRAVELCLICK_LOG_LEVEL', 'info'),
     'channels' => [
@@ -162,6 +162,30 @@ return [
     'log_successful_operations' => env('TRAVELCLICK_LOG_SUCCESS', true),
     'log_soap_payloads' => env('TRAVELCLICK_LOG_SOAP', false),
     'retention_days' => 30,               // Keep logs for 30 days
+  ],
+      */
+  'logging' => [
+    'debug_enabled' => env('TRAVELCLICK_DEBUG', false),
+    'store_xml' => env('TRAVELCLICK_STORE_XML', true),
+    'max_xml_size' => env('TRAVELCLICK_MAX_XML_SIZE', 1048576), // 1MB
+    'log_level' => env('TRAVELCLICK_LOG_LEVEL', 'standard'), // standard, verbose, debug
+    'slow_operation_threshold' => env('TRAVELCLICK_SLOW_THRESHOLD', 5000), // milliseconds
+    'channel' => 'travelclick',
+
+    // Performance thresholds for classification
+    'performance_thresholds' => [
+      'excellent' => 1000,  // < 1 second
+      'good' => 3000,       // < 3 seconds
+      'acceptable' => 5000, // < 5 seconds
+      // Above 5 seconds = slow
+    ],
+
+    // Cleanup settings
+    'cleanup' => [
+      'enabled' => env('TRAVELCLICK_CLEANUP_ENABLED', true),
+      'retain_days' => env('TRAVELCLICK_RETAIN_DAYS', 30),
+      'batch_size' => env('TRAVELCLICK_CLEANUP_BATCH', 1000),
+    ]
   ],
 
   /*
