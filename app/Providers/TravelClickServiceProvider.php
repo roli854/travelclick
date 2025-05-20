@@ -21,6 +21,7 @@ use App\TravelClick\Rules\ValidHtngDate;
 use App\TravelClick\Rules\ValidHtngDateRange;
 use App\TravelClick\Rules\ValidRoomType;
 use App\TravelClick\Rules\ValidCurrencyCode;
+use App\TravelClick\Jobs\OutboundJobs\UpdateRatesJob;
 
 /**
  * Service Provider for TravelClick integration services
@@ -59,6 +60,11 @@ class TravelClickServiceProvider extends ServiceProvider
         // Register the SoapService as a singleton to reuse connections
         $this->app->singleton(SoapService::class, function ($app) {
             return new SoapService($app->make(SoapClientFactory::class));
+        });
+
+        // Registrar el binding para el facade RateSync
+        $this->app->bind('travelclick.rate-sync', function ($app) {
+            return new UpdateRatesJob([], '', \App\TravelClick\Enums\RateOperationType::RATE_UPDATE);
         });
 
         // Register additional TravelClick services here as they are created
@@ -122,6 +128,21 @@ class TravelClickServiceProvider extends ServiceProvider
         \App\TravelClick\Models\TravelClickErrorLog::observe(\App\TravelClick\Observers\TravelClickErrorLogObserver::class);
         \App\TravelClick\Models\TravelClickPropertyMapping::observe(\App\TravelClick\Observers\TravelClickPropertyMappingObserver::class);
         \App\TravelClick\Models\TravelClickSyncStatus::observe(\App\TravelClick\Observers\TravelClickSyncStatusObserver::class);
+
+        // Configuración de rate limiting para TravelClick API
+        $this->configureRateLimiting();
+    }
+
+    /**
+     * Configure the rate limiters for the application.
+     *
+     * @return void
+     */
+    protected function configureRateLimiting(): void
+    {
+        \Illuminate\Support\Facades\RateLimiter::for('travelclick-api', function (\Illuminate\Http\Request $request) {
+            return \Illuminate\Cache\RateLimiting\Limit::perMinute(config('travelclick.rate_limits.api_calls_per_minute', 60));
+        });
     }
 
     /**
