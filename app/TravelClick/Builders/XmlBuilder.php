@@ -148,7 +148,7 @@ abstract class XmlBuilder
   protected function convertToXml(array $data): string
   {
     $xml = ArrayToXml::convert(
-      data: $data,
+      $data,
       rootElement: 'soapenv:Envelope',
       replaceSpacesByUnderScoresInKeyNames: false,
       xmlEncoding: 'UTF-8',

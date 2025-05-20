@@ -298,4 +298,61 @@ class SyncStatusChanged implements ShouldBroadcast
             'timestamp' => $this->context['timestamp'],
         ];
     }
+
+    /**
+     * Get data formatted for webhook delivery
+     */
+    public function toWebhook(): array
+    {
+        return array_merge($this->toArray(), [
+            'webhook_id' => uniqid('whk_', true),
+            'webhook_timestamp' => now()->timestamp,
+            'webhook_signature' => hash_hmac('sha256', json_encode($this->toArray()), config('app.key')),
+        ]);
+    }
+
+    /**
+     * Get notification data for various channels
+     */
+    public function toNotification(): array
+    {
+        $baseInfo = [
+            'title' => $this->getNotificationTitle(),
+            'body' => $this->getDescription(),
+            'severity' => $this->getSeverity(),
+            'property_id' => $this->syncStatus->PropertyID,
+            'sync_status_id' => $this->syncStatus->SyncStatusID,
+        ];
+
+        return [
+            'database' => $baseInfo,
+            'mail' => array_merge($baseInfo, [
+                'details_url' => route('travelclick.sync.show', $this->syncStatus->SyncStatusID),
+            ]),
+            'slack' => array_merge($baseInfo, [
+                'color' => $this->syncStatus->Status->getColor(),
+                'icon' => $this->syncStatus->Status->getIcon(),
+            ]),
+        ];
+    }
+
+    /**
+     * Get notification title based on event type
+     */
+    private function getNotificationTitle(): string
+    {
+        if ($this->isCritical()) {
+            return '🚨 Critical Sync Failure';
+        }
+
+        if ($this->isFailure()) {
+            return '⚠️ Sync Failed';
+        }
+
+        if ($this->isCompletion()) {
+            return '✅ Sync Completed';
+        }
+
+        return 'Sync Status Updated';
+    }
 }
