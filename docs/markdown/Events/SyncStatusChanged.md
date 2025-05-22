@@ -163,6 +163,26 @@ public function toArray(): array
 
 ---
 
+### `toWebhook`
+
+Get data formatted for webhook delivery
+
+```php
+public function toWebhook(): array
+```
+
+---
+
+### `toNotification`
+
+Get notification data for various channels
+
+```php
+public function toNotification(): array
+```
+
+---
+
 ### `dispatch`
 
 Dispatch the event with the given arguments.

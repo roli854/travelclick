@@ -22,10 +22,11 @@ return [
     |
     */
   'endpoints' => [
-    'production' => env('TRAVELCLICK_ENDPOINT_PROD', 'https://pms.ihotelier.com/HTNGService/services/HTNG2011BService'),
+        'production' => env('TRAVELCLICK_ENDPOINT_PROD', 'https://pms.ihotelier.com/HTNGService/services/HTNG2011BService'),
     'test' => env('TRAVELCLICK_ENDPOINT_TEST', 'https://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService'),
     'wsdl' => env('TRAVELCLICK_WSDL_URL', 'https://pms.ihotelier.com/HTNGService/services/HTNG2011BService?wsdl'),
-  ],
+        'wsdl' => 'http://opentravel.centriumres.test/api/travelclick/soap/wsdl',
+    ],
 
   /*
     |--------------------------------------------------------------------------

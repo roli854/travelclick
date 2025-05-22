@@ -78,7 +78,6 @@ class TravelClickServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Publish configuration files
         $this->publishes([
             __DIR__ . '/../../config/travelclick.php' => config_path('travelclick.php'),
         ], 'travelclick-config');
@@ -87,41 +86,28 @@ class TravelClickServiceProvider extends ServiceProvider
             __DIR__ . '/../../config/travelclick/validation.php' => config_path('travelclick/validation.php'),
         ], 'travelclick-validation-config');
 
-        // Publish schema files
         $this->publishes([
             __DIR__ . '/../../storage/schemas' => storage_path('schemas'),
         ], 'travelclick-schemas');
 
-        // Publish TravelClick migrations
         $this->publishes([
             __DIR__ . '/../TravelClick/Database/Migrations' => database_path('migrations'),
         ], 'travelclick-migrations');
 
-        // Load TravelClick migrations
         $this->loadMigrationsFrom(__DIR__ . '/../TravelClick/Database/Migrations');
+        $this->loadRoutesFrom(__DIR__ . '/../TravelClick/Http/routes.php');
 
-        // Load package routes if needed
-        // $this->loadRoutesFrom(__DIR__.'/../TravelClick/Http/routes.php');
-
-        // Load package views if needed
-        // $this->loadViewsFrom(__DIR__.'/../resources/views/travelclick', 'travelclick');
-
-        // Register custom validation rules
         $this->registerValidationRules();
 
-        // Register command classes for artisan commands
         if ($this->app->runningInConsole()) {
+
             $this->commands([
-                // Configuration commands
                 \App\TravelClick\Console\Commands\ValidateConfigurationCommand::class,
                 \App\TravelClick\Console\Commands\CacheConfigurationCommand::class,
-                // Add custom artisan commands here as they are created
-                // \App\TravelClick\Console\SyncInventoryCommand::class,
-                // \App\TravelClick\Console\TestConnectionCommand::class,
+                \App\TravelClick\Console\Commands\SetupSoapEndpointCommand::class,
             ]);
         }
 
-        // Register event listeners
         $this->registerEventListeners();
 
         \App\TravelClick\Models\TravelClickMessageHistory::observe(\App\TravelClick\Observers\TravelClickMessageHistoryObserver::class);
@@ -129,7 +115,6 @@ class TravelClickServiceProvider extends ServiceProvider
         \App\TravelClick\Models\TravelClickPropertyMapping::observe(\App\TravelClick\Observers\TravelClickPropertyMappingObserver::class);
         \App\TravelClick\Models\TravelClickSyncStatus::observe(\App\TravelClick\Observers\TravelClickSyncStatusObserver::class);
 
-        // Configuración de rate limiting para TravelClick API
         $this->configureRateLimiting();
     }
 
