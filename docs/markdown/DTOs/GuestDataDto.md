@@ -13,6 +13,136 @@ This DTO handles all guest-related data for constructing reservation XML.
 It provides structured access to guest details while enforcing validation
 for required fields based on TravelClick HTNG 2011B specifications.
 
+## Properties
+
+### `$title`
+
+Guest personal details
+
+**Type:** `string`
+
+---
+
+### `$firstName`
+
+**Type:** `string`
+
+---
+
+### `$lastName`
+
+**Type:** `string`
+
+---
+
+### `$middleName`
+
+**Type:** `string|null`
+
+---
+
+### `$suffix`
+
+**Type:** `string|null`
+
+---
+
+### `$dateOfBirth`
+
+**Type:** `Carbon\Carbon|null`
+
+---
+
+### `$passportNumber`
+
+**Type:** `string|null`
+
+---
+
+### `$email`
+
+Guest contact information
+
+**Type:** `string|null`
+
+---
+
+### `$phone`
+
+**Type:** `string|null`
+
+---
+
+### `$phoneMobile`
+
+**Type:** `string|null`
+
+---
+
+### `$fax`
+
+**Type:** `string|null`
+
+---
+
+### `$addressLine1`
+
+Guest address details
+
+**Type:** `string|null`
+
+---
+
+### `$addressLine2`
+
+**Type:** `string|null`
+
+---
+
+### `$city`
+
+**Type:** `string|null`
+
+---
+
+### `$state`
+
+**Type:** `string|null`
+
+---
+
+### `$postalCode`
+
+**Type:** `string|null`
+
+---
+
+### `$countryCode`
+
+**Type:** `string|null`
+
+---
+
+### `$guestType`
+
+Guest type and age classification
+
+**Type:** `string`
+
+---
+
+### `$age`
+
+**Type:** `int|null`
+
+---
+
+### `$isPrimaryGuest`
+
+**Type:** `bool`
+
+---
+
 ## Methods
 
 ### `__construct`
@@ -126,7 +256,7 @@ public function getFormalName(): string
 Create from a lead guest in a Centrium booking
 
 ```php
-public function fromCentriumBooking(mixed $booking): self
+public function fromCentriumBooking($booking): self
 ```
 
 **Parameters:**

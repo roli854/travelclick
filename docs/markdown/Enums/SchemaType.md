@@ -4,13 +4,59 @@
 
 **File:** `Enums/SchemaType.php`
 
-**Type:** Class
+**Type:** Enum
 
 ## Description
 
 XSD Schema Types for HTNG 2011B Messages
 Maps message types to their corresponding XSD schema files for validation.
 Each schema type corresponds to a specific HTNG 2011B message structure.
+
+## Constants
+
+### `INVENTORY`
+
+**Value:** `\App\TravelClick\Enums\SchemaType::INVENTORY`
+
+---
+
+### `RATES`
+
+**Value:** `\App\TravelClick\Enums\SchemaType::RATES`
+
+---
+
+### `RESERVATION`
+
+**Value:** `\App\TravelClick\Enums\SchemaType::RESERVATION`
+
+---
+
+### `RESTRICTIONS`
+
+**Value:** `\App\TravelClick\Enums\SchemaType::RESTRICTIONS`
+
+---
+
+### `GROUP_BLOCK`
+
+**Value:** `\App\TravelClick\Enums\SchemaType::GROUP_BLOCK`
+
+---
+
+## Properties
+
+### `$name`
+
+**Type:** `string`
+
+---
+
+### `$value`
+
+**Type:** `string`
+
+---
 
 ## Methods
 
@@ -19,7 +65,7 @@ Each schema type corresponds to a specific HTNG 2011B message structure.
 Get the corresponding MessageType for this schema
 
 ```php
-public function getMessageType(): App\TravelClick\Enums\MessageType
+public function getMessageType(): MessageType
 ```
 
 ---
@@ -29,7 +75,7 @@ public function getMessageType(): App\TravelClick\Enums\MessageType
 Get schema from MessageType
 
 ```php
-public function fromMessageType(App\TravelClick\Enums\MessageType $messageType): self
+public function fromMessageType(MessageType $messageType): self
 ```
 
 ---

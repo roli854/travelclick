@@ -1,0 +1,36 @@
+default:
+  suites:
+    travelclick_outbound:
+      paths:
+        - '%paths.base%/tests/Behat/features/outbound'
+      contexts:
+        - Tests\\Behat\\Contexts\\TravelClickOutboundContext
+        - Tests\\Behat\\Contexts\\DatabaseContext
+        - Tests\\Behat\\Contexts\\WireMockContext
+      filters:
+        tags: '@outbound'
+
+    travelclick_inbound:
+      paths:
+        - '%paths.base%/tests/Behat/features/inbound'
+      contexts:
+        - Tests\\Behat\\Contexts\\TravelClickInboundContext
+        - Tests\\Behat\\Contexts\\DatabaseContext
+        - Tests\\Behat\\Contexts\\WireMockContext
+      filters:
+        tags: '@inbound'
+
+  extensions:
+    FriendsOfBehat\\SymfonyExtension:
+      bootstrap: tests/Behat/bootstrap.php
+      kernel:
+        class: App\\Http\\Kernel
+        path: app/Http/Kernel.php
+        environment: testing
+        debug: true
+
+  formatters:
+    pretty:
+      verbose: true
+      paths: false
+      snippets: false

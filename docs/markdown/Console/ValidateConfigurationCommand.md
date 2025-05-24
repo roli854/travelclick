@@ -17,7 +17,7 @@ all required fields are present and properly formatted.
 ### `__construct`
 
 ```php
-public function __construct(App\TravelClick\Services\ConfigurationService $configService)
+public function __construct(ConfigurationService $configService)
 ```
 
 ---

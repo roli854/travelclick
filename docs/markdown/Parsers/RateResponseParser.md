@@ -29,7 +29,7 @@ This method extends the base parser functionality to extract rate-specific
 information from the response.
 
 ```php
-public function parse(string $messageId, string $rawResponse, float $durationMs = null, array $headers = []): App\TravelClick\DTOs\SoapResponseDto
+public function parse(string $messageId, string $rawResponse, float|null $durationMs = null, array $headers = []): SoapResponseDto
 ```
 
 **Parameters:**

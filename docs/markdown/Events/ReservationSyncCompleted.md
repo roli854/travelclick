@@ -10,6 +10,38 @@
 
 Event fired when a reservation is successfully synchronized with TravelClick.
 
+## Properties
+
+### `$reservationData`
+
+**Type:** `ReservationDataDto`
+
+---
+
+### `$response`
+
+**Type:** `SoapResponseDto`
+
+---
+
+### `$confirmationNumber`
+
+**Type:** `string|null`
+
+---
+
+### `$jobId`
+
+**Type:** `string|null`
+
+---
+
+### `$socket`
+
+The socket ID for the user that raised the event.
+
+---
+
 ## Methods
 
 ### `__construct`
@@ -17,7 +49,7 @@ Event fired when a reservation is successfully synchronized with TravelClick.
 Create a new event instance.
 
 ```php
-public function __construct(App\TravelClick\DTOs\ReservationDataDto $reservationData, App\TravelClick\DTOs\SoapResponseDto $response, string $confirmationNumber = null, string $jobId = null)
+public function __construct(ReservationDataDto $reservationData, SoapResponseDto $response, string|null $confirmationNumber = null, string|null $jobId = null)
 ```
 
 **Parameters:**
@@ -46,7 +78,7 @@ public function dispatch()
 Dispatch the event with the given arguments if the given truth test passes.
 
 ```php
-public function dispatchIf(mixed $boolean, mixed $arguments)
+public function dispatchIf($boolean, ...$arguments)
 ```
 
 **Parameters:**
@@ -62,7 +94,7 @@ public function dispatchIf(mixed $boolean, mixed $arguments)
 Dispatch the event with the given arguments unless the given truth test passes.
 
 ```php
-public function dispatchUnless(mixed $boolean, mixed $arguments)
+public function dispatchUnless($boolean, ...$arguments)
 ```
 
 **Parameters:**
@@ -142,7 +174,7 @@ public function __unserialize(array $values)
 Restore the model from the model identifier instance.
 
 ```php
-public function restoreModel(mixed $value)
+public function restoreModel($value)
 ```
 
 **Parameters:**

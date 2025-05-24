@@ -4,13 +4,59 @@
 
 **File:** `Enums/Environment.php`
 
-**Type:** Class
+**Type:** Enum
 
 ## Description
 
 Environment Enum for TravelClick Integration
 Defines the different environments available for TravelClick operations.
 Each environment has specific endpoints, credentials, and behavior.
+
+## Constants
+
+### `PRODUCTION`
+
+**Value:** `\App\TravelClick\Enums\Environment::PRODUCTION`
+
+---
+
+### `TESTING`
+
+**Value:** `\App\TravelClick\Enums\Environment::TESTING`
+
+---
+
+### `STAGING`
+
+**Value:** `\App\TravelClick\Enums\Environment::STAGING`
+
+---
+
+### `DEVELOPMENT`
+
+**Value:** `\App\TravelClick\Enums\Environment::DEVELOPMENT`
+
+---
+
+### `LOCAL`
+
+**Value:** `\App\TravelClick\Enums\Environment::LOCAL`
+
+---
+
+## Properties
+
+### `$name`
+
+**Type:** `string`
+
+---
+
+### `$value`
+
+**Type:** `string`
+
+---
 
 ## Methods
 

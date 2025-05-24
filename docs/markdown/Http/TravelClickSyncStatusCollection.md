@@ -13,6 +13,14 @@ Handles collections of TravelClickSyncStatus resources with additional
 aggregation and summary data. Think of this as a dashboard summary
 that provides insights across multiple synchronization statuses.
 
+## Properties
+
+### `$collects`
+
+The resource that this resource collects
+
+---
+
 ## Methods
 
 ### `toArray`
@@ -46,7 +54,7 @@ public function with(Illuminate\Http\Request $request): array
 Customize the HTTP response for the collection
 
 ```php
-public function withResponse(Illuminate\Http\Request $request, mixed $response): void
+public function withResponse(Illuminate\Http\Request $request, $response): void
 ```
 
 ---

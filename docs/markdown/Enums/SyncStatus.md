@@ -4,7 +4,7 @@
 
 **File:** `Enums/SyncStatus.php`
 
-**Type:** Class
+**Type:** Enum
 
 ## Description
 
@@ -17,6 +17,126 @@ Think of this like tracking a package shipment:
 - Completed: Delivered successfully
 - Failed: Delivery failed
 - etc.
+
+## Constants
+
+### `PENDING`
+
+Data is ready to be synchronized but hasn't started yet
+
+**Value:** `\App\TravelClick\Enums\SyncStatus::PENDING`
+
+---
+
+### `PROCESSING`
+
+Synchronization is currently in progress
+
+**Value:** `\App\TravelClick\Enums\SyncStatus::PROCESSING`
+
+---
+
+### `COMPLETED`
+
+Synchronization completed successfully
+
+**Value:** `\App\TravelClick\Enums\SyncStatus::COMPLETED`
+
+---
+
+### `FAILED`
+
+Synchronization failed but can be retried
+
+**Value:** `\App\TravelClick\Enums\SyncStatus::FAILED`
+
+---
+
+### `FAILED_PERMANENT`
+
+Synchronization failed and will not be retried
+
+**Value:** `\App\TravelClick\Enums\SyncStatus::FAILED_PERMANENT`
+
+---
+
+### `CANCELLED`
+
+Synchronization was cancelled by user or system
+
+**Value:** `\App\TravelClick\Enums\SyncStatus::CANCELLED`
+
+---
+
+### `RETRY_PENDING`
+
+Waiting for retry after a failed attempt
+
+**Value:** `\App\TravelClick\Enums\SyncStatus::RETRY_PENDING`
+
+---
+
+### `PARTIAL`
+
+Partial success - some items succeeded, some failed
+
+**Value:** `\App\TravelClick\Enums\SyncStatus::PARTIAL`
+
+---
+
+### `ON_HOLD`
+
+Synchronization is on hold (manual intervention needed)
+
+**Value:** `\App\TravelClick\Enums\SyncStatus::ON_HOLD`
+
+---
+
+### `MARKED_FOR_DELETION`
+
+Data is marked for deletion/cleanup
+
+**Value:** `\App\TravelClick\Enums\SyncStatus::MARKED_FOR_DELETION`
+
+---
+
+### `SUCCESS`
+
+**Value:** `\App\TravelClick\Enums\SyncStatus::SUCCESS`
+
+---
+
+### `ERROR`
+
+**Value:** `\App\TravelClick\Enums\SyncStatus::ERROR`
+
+---
+
+### `INACTIVE`
+
+**Value:** `\App\TravelClick\Enums\SyncStatus::INACTIVE`
+
+---
+
+### `RUNNING`
+
+**Value:** `\App\TravelClick\Enums\SyncStatus::RUNNING`
+
+---
+
+## Properties
+
+### `$name`
+
+**Type:** `string`
+
+---
+
+### `$value`
+
+**Type:** `string`
+
+---
 
 ## Methods
 

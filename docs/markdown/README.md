@@ -19,3 +19,4 @@ Documentation for all TravelClick integration classes.
 - [Model Observers](Observers/README.md)
 - [Validation Rules](Rules/README.md)
 - [Support Classes](Support/README.md)
+- [Facades](Facades/README.md)

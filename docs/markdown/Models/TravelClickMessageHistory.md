@@ -12,6 +12,15 @@ TravelClickMessageHistory Model
 This model represents a detailed history entry of all messages exchanged with TravelClick.
 It's like a filing cabinet that keeps copies of all business correspondence for future reference.
 
+## Properties
+
+### `$timestamps`
+
+Indicates if the model should be timestamped
+We handle timestamps manually to match Centrium conventions
+
+---
+
 ## Methods
 
 ### `travelClickLog`
@@ -69,7 +78,7 @@ public function batchMessages(): Illuminate\Database\Eloquent\Relations\HasMany
 Scope for messages of a specific type
 
 ```php
-public function scopeOfType(Illuminate\Database\Eloquent\Builder $query, App\TravelClick\Enums\MessageType $messageType): Illuminate\Database\Eloquent\Builder
+public function scopeOfType(Illuminate\Database\Eloquent\Builder $query, MessageType $messageType): Illuminate\Database\Eloquent\Builder
 ```
 
 ---
@@ -79,7 +88,7 @@ public function scopeOfType(Illuminate\Database\Eloquent\Builder $query, App\Tra
 Scope for messages in a specific direction
 
 ```php
-public function scopeDirection(Illuminate\Database\Eloquent\Builder $query, App\TravelClick\Enums\MessageDirection $direction): Illuminate\Database\Eloquent\Builder
+public function scopeDirection(Illuminate\Database\Eloquent\Builder $query, MessageDirection $direction): Illuminate\Database\Eloquent\Builder
 ```
 
 ---
@@ -99,7 +108,7 @@ public function scopeForProperty(Illuminate\Database\Eloquent\Builder $query, in
 Scope for messages with specific processing status
 
 ```php
-public function scopeWithStatus(Illuminate\Database\Eloquent\Builder $query, App\TravelClick\Enums\ProcessingStatus $status): Illuminate\Database\Eloquent\Builder
+public function scopeWithStatus(Illuminate\Database\Eloquent\Builder $query, ProcessingStatus $status): Illuminate\Database\Eloquent\Builder
 ```
 
 ---
@@ -229,7 +238,7 @@ public function markAsSent(): void
 Mark message as received with response
 
 ```php
-public function markAsReceived(string $responseXml = null): void
+public function markAsReceived(string|null $responseXml = null): void
 ```
 
 ---
@@ -239,7 +248,7 @@ public function markAsReceived(string $responseXml = null): void
 Mark message as processed
 
 ```php
-public function markAsProcessed(string $notes = null): void
+public function markAsProcessed(string|null $notes = null): void
 ```
 
 ---
@@ -309,7 +318,7 @@ public function exportMessages(int $propertyId, Carbon\Carbon $startDate, Carbon
 Get a new factory instance for the model.
 
 ```php
-public function factory(mixed $count = null, mixed $state = [])
+public function factory($count = null, $state = [])
 ```
 
 **Returns:** TFactory - 

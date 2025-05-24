@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BDD Fixture: reservations/incoming_reservation_cancel.xml -->
+<!-- Generated from TravelClick Gold Certification Samples -->
+<!-- Variables: Use {{variable_name}} format for template replacement -->
+
+<soapenv:Envelope xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:htn="https://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService" xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope">
+	<soapenv:Header>
+		<wsa:MessageID>8750</wsa:MessageID>
+		<wsa:To>https://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService</wsa:To>
+		<wsa:ReplyTo>
+			<wsa:Address>https://autoclerkqa.net</wsa:Address>
+		</wsa:ReplyTo>
+		<wsa:Action>https://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService/HTNG2011B_SubmitRequest</wsa:Action>
+		<wsse:Security>
+			<wsse:UsernameToken>
+				<wsse:Username>177587</wsse:Username>
+				<wsse:Password>C0nn3ct177587</wsse:Password>
+			</wsse:UsernameToken>
+		</wsse:Security>
+		<wsa:From>
+			<wsa:ReferenceProperties>
+				<htn:HotelCode>177587</htn:HotelCode>
+			</wsa:ReferenceProperties>
+		</wsa:From>
+	</soapenv:Header>
+	<soapenv:Body>
+		<OTA_HotelResNotifRQ xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05 OTA_HotelResNotifRQ.xsd" Version="1.003" EchoToken="{{echo_token}}" TimeStamp="{{timestamp}}" ResStatus="Cancel">
+			<POS>
+				<Source>
+					<RequestorID Type="4" ID="PMS" /> 
+				</Source>
+			</POS>
+			<HotelReservations>
+				<HotelReservation CreatorID="PMS" CreateDateTime="2013-03-14T12:00:00" LastModifierID="PMS" ResStatus="Cancelled">
+					<UniqueID ID="{{reservation_id}}" Type="14" /> 
+					<ResGlobalInfo>
+						<HotelReservationIDs>
+							<HotelReservationID ResID_Value="{{confirmation_number}}" ResID_Type="15" ResID_Source="TRAVELCLICK" /> 
+							<HotelReservationID ResID_Value="{{confirmation_number}}" ResID_Type="10" ResID_Source="PMS" /> 
+						</HotelReservationIDs>
+						<Profiles>
+							<ProfileInfo>
+								<Profile ProfileType="1">
+									<Customer>
+										<PersonName>
+											<GivenName>{{guest_first_name}}</GivenName> 
+											<Surname>{{guest_last_name}}</Surname> 
+										</PersonName>
+										<Telephone PhoneLocationType="6" PhoneTechType="1" PhoneNumber="{{phone_number}}" FormattedInd="1" DefaultInd="1" /> 
+										<Telephone PhoneLocationType="6" PhoneTechType="1" PhoneNumber="{{phone_number}}" FormattedInd="1" DefaultInd="1" /> 
+										<Email>{{guest_email}}</Email> 
+										<Address UseType="1">
+											<AddressLine>{{address_line}}</AddressLine> 
+											<CityName>{{city}}</CityName> 
+											<PostalCode>{{postal_code}}</PostalCode> 
+											<StateProv StateCode="IL">Illinois</StateProv> 
+											<CountryName Code="US">US</CountryName> 
+										</Address>
+									</Customer>
+								</Profile>
+							</ProfileInfo>
+						</Profiles>
+					</ResGlobalInfo>
+				</HotelReservation>
+				<TPA_Extensions>
+					<HotelCode>177587</HotelCode> 
+				</TPA_Extensions>
+			</HotelReservations>
+		</OTA_HotelResNotifRQ>
+	</soapenv:Body>
+</soapenv:Envelope>

@@ -15,12 +15,56 @@ that the data is properly formatted before building the XML message.
 Think of this as a smart container that knows exactly what inventory data
 should look like and can validate itself before sending it anywhere.
 
+## Properties
+
+### `$hotelCode`
+
+**Type:** `string`
+
+---
+
+### `$startDate`
+
+**Type:** `string`
+
+---
+
+### `$endDate`
+
+**Type:** `string`
+
+---
+
+### `$roomTypeCode`
+
+**Type:** `string|null`
+
+---
+
+### `$isPropertyLevel`
+
+**Type:** `bool`
+
+---
+
+### `$counts`
+
+**Type:** `Spatie\LaravelData\DataCollection`
+
+---
+
+### `$uniqueId`
+
+**Type:** `string|null`
+
+---
+
 ## Methods
 
 ### `__construct`
 
 ```php
-public function __construct(string $hotelCode, string $startDate, string $endDate, string $roomTypeCode, bool $isPropertyLevel, Spatie\LaravelData\DataCollection $counts, string $uniqueId = null)
+public function __construct(string $hotelCode, string $startDate, string $endDate, string|null $roomTypeCode, bool $isPropertyLevel, Spatie\LaravelData\DataCollection $counts, string|null $uniqueId = null)
 ```
 
 **Parameters:**
@@ -51,7 +95,7 @@ public function fromCentrium(array $inventoryRecord): self
 Create calculated inventory data (using count types 4, 5, 6, 99)
 
 ```php
-public function createCalculated(string $hotelCode, string $startDate, string $endDate, string $roomTypeCode = null, int $definiteSold = 0, int $tentativeSold = 0, int $outOfOrder = 0, int $oversell = 0, int $physical = null): self
+public function createCalculated(string $hotelCode, string $startDate, string $endDate, string|null $roomTypeCode = null, int $definiteSold = 0, int $tentativeSold = 0, int $outOfOrder = 0, int $oversell = 0, int|null $physical = null): self
 ```
 
 **Parameters:**
@@ -75,7 +119,7 @@ public function createCalculated(string $hotelCode, string $startDate, string $e
 Create available count inventory data (using count type 2)
 
 ```php
-public function createAvailable(string $hotelCode, string $startDate, string $endDate, string $roomTypeCode = null, int $availableCount = 0): self
+public function createAvailable(string $hotelCode, string $startDate, string $endDate, string|null $roomTypeCode = null, int $availableCount = 0): self
 ```
 
 **Parameters:**
@@ -143,7 +187,7 @@ public function getTotalCount(): int
 Get count by specific count type
 
 ```php
-public function getCountByType(App\TravelClick\Enums\CountType $countType): int
+public function getCountByType(CountType $countType): int
 ```
 
 **Parameters:**

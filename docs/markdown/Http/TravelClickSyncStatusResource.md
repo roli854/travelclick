@@ -36,7 +36,7 @@ public function toArray(Illuminate\Http\Request $request): array
 Static method to create a collection resource with additional metadata
 
 ```php
-public function collection(mixed $resource): App\TravelClick\Http\Resources\TravelClickSyncStatusCollection
+public function collection($resource): TravelClickSyncStatusCollection
 ```
 
 ---
@@ -56,7 +56,7 @@ public function with(Illuminate\Http\Request $request): array
 Customize the HTTP response when this resource is served
 
 ```php
-public function withResponse(Illuminate\Http\Request $request, mixed $response): void
+public function withResponse(Illuminate\Http\Request $request, $response): void
 ```
 
 ---

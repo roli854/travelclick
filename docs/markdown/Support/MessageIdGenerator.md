@@ -23,7 +23,7 @@ with TravelClick PMS Connect. These IDs are critical for:
 Generate a unique message ID for a specific hotel and message type
 
 ```php
-public function generate(mixed $hotelId, App\TravelClick\Enums\MessageType $messageType, string $prefix = null): string
+public function generate($hotelId, MessageType $messageType, string|null $prefix = null): string
 ```
 
 **Parameters:**
@@ -42,7 +42,7 @@ Generate a timestamp-based message ID for traceability
 Includes a timestamp component for easier chronological tracing
 
 ```php
-public function generateWithTimestamp(mixed $hotelId, App\TravelClick\Enums\MessageType $messageType): string
+public function generateWithTimestamp($hotelId, MessageType $messageType): string
 ```
 
 **Parameters:**
@@ -61,7 +61,7 @@ This ensures that identical requests generate the same ID,
 helping prevent duplicate processing
 
 ```php
-public function generateIdempotent(mixed $hotelId, App\TravelClick\Enums\MessageType $messageType, string $payload): string
+public function generateIdempotent($hotelId, MessageType $messageType, string $payload): string
 ```
 
 **Parameters:**
@@ -111,7 +111,7 @@ public function isValid(string $messageId): bool
 Extract the hotel ID from a message ID
 
 ```php
-public function extractHotelId(string $messageId): string
+public function extractHotelId(string $messageId): string|null
 ```
 
 **Parameters:**
@@ -127,7 +127,7 @@ public function extractHotelId(string $messageId): string
 Extract the message type from a message ID
 
 ```php
-public function extractMessageType(string $messageId): string
+public function extractMessageType(string $messageId): string|null
 ```
 
 **Parameters:**

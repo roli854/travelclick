@@ -17,7 +17,7 @@ Can warm up cache, clear cache, or show cache statistics.
 ### `__construct`
 
 ```php
-public function __construct(App\TravelClick\Services\ConfigurationService $configService)
+public function __construct(ConfigurationService $configService)
 ```
 
 ---

@@ -4,7 +4,7 @@
 
 **File:** `Enums/ErrorType.php`
 
-**Type:** Class
+**Type:** Enum
 
 ## Description
 
@@ -12,6 +12,108 @@ ErrorType Enum for TravelClick Integration
 Categorizes different types of errors that can occur during TravelClick integration.
 This helps with error handling, logging, and automated recovery procedures.
 Think of this as a filing system for problems - each type goes in its own drawer.
+
+## Constants
+
+### `CONNECTION`
+
+Connection errors - Can't reach TravelClick services
+
+**Value:** `\App\TravelClick\Enums\ErrorType::CONNECTION`
+
+---
+
+### `AUTHENTICATION`
+
+Authentication errors - Wrong credentials or expired tokens
+
+**Value:** `\App\TravelClick\Enums\ErrorType::AUTHENTICATION`
+
+---
+
+### `VALIDATION`
+
+Validation errors - Data doesn't match required format/rules
+
+**Value:** `\App\TravelClick\Enums\ErrorType::VALIDATION`
+
+---
+
+### `SOAP_XML`
+
+SOAP/XML errors - Invalid XML structure or SOAP faults
+
+**Value:** `\App\TravelClick\Enums\ErrorType::SOAP_XML`
+
+---
+
+### `BUSINESS_LOGIC`
+
+Business logic errors - Data conflicts, inventory issues, etc.
+
+**Value:** `\App\TravelClick\Enums\ErrorType::BUSINESS_LOGIC`
+
+---
+
+### `RATE_LIMIT`
+
+Rate limiting - Too many requests to TravelClick
+
+**Value:** `\App\TravelClick\Enums\ErrorType::RATE_LIMIT`
+
+---
+
+### `TIMEOUT`
+
+Timeout errors - Request took too long
+
+**Value:** `\App\TravelClick\Enums\ErrorType::TIMEOUT`
+
+---
+
+### `CONFIGURATION`
+
+Configuration errors - Wrong settings, missing config, etc.
+
+**Value:** `\App\TravelClick\Enums\ErrorType::CONFIGURATION`
+
+---
+
+### `DATA_MAPPING`
+
+Data mapping errors - Problems converting between systems
+
+**Value:** `\App\TravelClick\Enums\ErrorType::DATA_MAPPING`
+
+---
+
+### `UNKNOWN`
+
+Unknown/unexpected errors
+
+**Value:** `\App\TravelClick\Enums\ErrorType::UNKNOWN`
+
+---
+
+### `WARNING`
+
+**Value:** `\App\TravelClick\Enums\ErrorType::WARNING`
+
+---
+
+## Properties
+
+### `$name`
+
+**Type:** `string`
+
+---
+
+### `$value`
+
+**Type:** `string`
+
+---
 
 ## Methods
 

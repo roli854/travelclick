@@ -35,7 +35,7 @@ public function __construct(array $config = [])
 Register a retry strategy for a specific operation type.
 
 ```php
-public function registerStrategy(string $operationType, App\TravelClick\Support\Contracts\RetryStrategyInterface $strategy): self
+public function registerStrategy(string $operationType, RetryStrategyInterface $strategy): self
 ```
 
 **Parameters:**
@@ -52,7 +52,7 @@ public function registerStrategy(string $operationType, App\TravelClick\Support\
 Execute an operation with retry logic.
 
 ```php
-public function executeWithRetry(callable $operation, string $operationType, string $serviceIdentifier = null): mixed
+public function executeWithRetry(callable $operation, string $operationType, string|null $serviceIdentifier = null): mixed
 ```
 
 **Parameters:**
@@ -70,7 +70,7 @@ public function executeWithRetry(callable $operation, string $operationType, str
 Get the retry strategy for a specific operation type.
 
 ```php
-public function getStrategyForOperationType(string $operationType): App\TravelClick\Support\Contracts\RetryStrategyInterface
+public function getStrategyForOperationType(string $operationType): RetryStrategyInterface
 ```
 
 **Parameters:**

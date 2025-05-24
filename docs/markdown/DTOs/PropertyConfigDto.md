@@ -12,12 +12,122 @@ Property Configuration DTO
 This DTO encapsulates property-specific TravelClick configuration data.
 It provides structured access to hotel-specific settings and overrides.
 
+## Properties
+
+### `$propertyId`
+
+**Type:** `int`
+
+---
+
+### `$hotelCode`
+
+**Type:** `string`
+
+---
+
+### `$propertyName`
+
+**Type:** `string`
+
+---
+
+### `$environment`
+
+**Type:** `Environment`
+
+---
+
+### `$username`
+
+**Type:** `string`
+
+---
+
+### `$password`
+
+**Type:** `string`
+
+---
+
+### `$timeout`
+
+**Type:** `int|null`
+
+---
+
+### `$retryAttempts`
+
+**Type:** `int|null`
+
+---
+
+### `$backoffSeconds`
+
+**Type:** `array|null`
+
+---
+
+### `$enabledMessageTypes`
+
+**Type:** `array`
+
+---
+
+### `$customSettings`
+
+**Type:** `array`
+
+---
+
+### `$overrideGlobal`
+
+**Type:** `bool`
+
+---
+
+### `$isActive`
+
+**Type:** `bool`
+
+---
+
+### `$queueOverrides`
+
+**Type:** `array`
+
+---
+
+### `$endpointOverrides`
+
+**Type:** `array`
+
+---
+
+### `$lastSyncDate`
+
+**Type:** `Carbon\Carbon|null`
+
+---
+
+### `$lastUpdated`
+
+**Type:** `Carbon\Carbon|null`
+
+---
+
+### `$notes`
+
+**Type:** `string|null`
+
+---
+
 ## Methods
 
 ### `__construct`
 
 ```php
-public function __construct(int $propertyId, string $hotelCode, string $propertyName, App\TravelClick\Enums\Environment $environment, string $username, string $password, int $timeout = null, int $retryAttempts = null, array $backoffSeconds = null, array $enabledMessageTypes = [], array $customSettings = [], bool $overrideGlobal = false, bool $isActive = true, array $queueOverrides = [], array $endpointOverrides = [], Carbon\Carbon|null $lastSyncDate = null, Carbon\Carbon|null $lastUpdated = null, string $notes = null)
+public function __construct(int $propertyId, string $hotelCode, string $propertyName, Environment $environment, string $username, string $password, int|null $timeout = null, int|null $retryAttempts = null, array|null $backoffSeconds = null, array $enabledMessageTypes = [], array $customSettings = [], bool $overrideGlobal = false, bool $isActive = true, array $queueOverrides = [], array $endpointOverrides = [], Carbon\Carbon|null $lastSyncDate = null, Carbon\Carbon|null $lastUpdated = null, string|null $notes = null)
 ```
 
 ---
@@ -37,7 +147,7 @@ public function fromArray(array $data): self
 Create from database model
 
 ```php
-public function fromModel(App\TravelClick\Models\TravelClickPropertyConfig $model): self
+public function fromModel(TravelClickPropertyConfig $model): self
 ```
 
 ---
@@ -137,7 +247,7 @@ public function requiresSync(int $maxDaysWithoutSync = 7): bool
 Merge with global configuration
 
 ```php
-public function mergeWithGlobal(App\TravelClick\DTOs\TravelClickConfigDto $global): self
+public function mergeWithGlobal(TravelClickConfigDto $global): self
 ```
 
 ---

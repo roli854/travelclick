@@ -13,6 +13,15 @@ This model manages the mapping between Centrium properties and TravelClick hotel
 It's like a translation dictionary that ensures both systems can communicate about
 the same hotel using their respective identifiers.
 
+## Properties
+
+### `$timestamps`
+
+Indicates if the model should be timestamped
+We handle timestamps manually to match Centrium conventions
+
+---
+
 ## Methods
 
 ### `property`
@@ -80,7 +89,7 @@ public function scopeActive(Illuminate\Database\Eloquent\Builder $query): Illumi
 Scope for mappings with specific sync status
 
 ```php
-public function scopeWithSyncStatus(Illuminate\Database\Eloquent\Builder $query, App\TravelClick\Enums\SyncStatus $status): Illuminate\Database\Eloquent\Builder
+public function scopeWithSyncStatus(Illuminate\Database\Eloquent\Builder $query, SyncStatus $status): Illuminate\Database\Eloquent\Builder
 ```
 
 ---
@@ -220,7 +229,7 @@ public function markSyncStarted(): void
 Mark sync as successful
 
 ```php
-public function markSyncSuccess(string $notes = null): void
+public function markSyncSuccess(string|null $notes = null): void
 ```
 
 ---
@@ -250,7 +259,7 @@ public function markSyncError(string $error): void
 Get specific configuration value
 
 ```php
-public function getConfigValue(string $key, mixed $default = null)
+public function getConfigValue(string $key, $default = null)
 ```
 
 ---
@@ -260,7 +269,7 @@ public function getConfigValue(string $key, mixed $default = null)
 Set specific configuration value
 
 ```php
-public function setConfigValue(string $key, mixed $value): void
+public function setConfigValue(string $key, $value): void
 ```
 
 ---
@@ -300,7 +309,7 @@ public function getDefaultConfiguration(): array
 Deactivate mapping with reason
 
 ```php
-public function deactivate(string $reason = null): void
+public function deactivate(string|null $reason = null): void
 ```
 
 ---
@@ -350,7 +359,7 @@ public function exportMappings(array $propertyIds = []): array
 Bulk update sync status for multiple mappings
 
 ```php
-public function bulkUpdateSyncStatus(array $mappingIds, App\TravelClick\Enums\SyncStatus $status, string $error = null): int
+public function bulkUpdateSyncStatus(array $mappingIds, SyncStatus $status, string|null $error = null): int
 ```
 
 ---
@@ -360,7 +369,7 @@ public function bulkUpdateSyncStatus(array $mappingIds, App\TravelClick\Enums\Sy
 Bulk deactivate mappings
 
 ```php
-public function bulkDeactivate(array $mappingIds, string $reason = null): int
+public function bulkDeactivate(array $mappingIds, string|null $reason = null): int
 ```
 
 ---
@@ -380,7 +389,7 @@ public function cleanupInactiveMappings(int $daysOld = 365): int
 Get a new factory instance for the model.
 
 ```php
-public function factory(mixed $count = null, mixed $state = [])
+public function factory($count = null, $state = [])
 ```
 
 **Returns:** TFactory - 

@@ -19,7 +19,7 @@ It ensures consistent method signatures and proper error handling across impleme
 Send a SOAP request to TravelClick
 
 ```php
-public function sendRequest(App\TravelClick\DTOs\SoapRequestDto $request): App\TravelClick\DTOs\SoapResponseDto
+public function sendRequest(SoapRequestDto $request): SoapResponseDto
 ```
 
 **Parameters:**
@@ -35,7 +35,7 @@ public function sendRequest(App\TravelClick\DTOs\SoapRequestDto $request): App\T
 Update inventory at TravelClick
 
 ```php
-public function updateInventory(string $xml, string $hotelCode): App\TravelClick\DTOs\SoapResponseDto
+public function updateInventory(string $xml, string $hotelCode): SoapResponseDto
 ```
 
 **Parameters:**
@@ -52,7 +52,7 @@ public function updateInventory(string $xml, string $hotelCode): App\TravelClick
 Update rates at TravelClick
 
 ```php
-public function updateRates(string $xml, string $hotelCode): App\TravelClick\DTOs\SoapResponseDto
+public function updateRates(string $xml, string $hotelCode): SoapResponseDto
 ```
 
 **Parameters:**
@@ -69,7 +69,7 @@ public function updateRates(string $xml, string $hotelCode): App\TravelClick\DTO
 Send reservation to TravelClick
 
 ```php
-public function sendReservation(string $xml, string $hotelCode): App\TravelClick\DTOs\SoapResponseDto
+public function sendReservation(string $xml, string $hotelCode): SoapResponseDto
 ```
 
 **Parameters:**

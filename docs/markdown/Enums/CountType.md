@@ -4,7 +4,7 @@
 
 **File:** `Enums/CountType.php`
 
-**Type:** Class
+**Type:** Enum
 
 ## Description
 
@@ -18,6 +18,77 @@ Think of these as different categories of room status:
 - Tentative: Group blocks or options
 - Out of Order: Rooms unavailable (maintenance, etc.)
 - Oversell: Additional rooms beyond physical capacity
+
+## Constants
+
+### `PHYSICAL`
+
+Physical Rooms - The actual number of physical units available
+Use only if the external system supports inventory messages at room and property level
+
+**Value:** `\App\TravelClick\Enums\CountType::PHYSICAL`
+
+---
+
+### `AVAILABLE`
+
+Available Rooms - Actual count of rooms available for sale
+Send only when inventory is managed for available rooms
+Do not send with other count types
+
+**Value:** `\App\TravelClick\Enums\CountType::AVAILABLE`
+
+---
+
+### `DEFINITE_SOLD`
+
+Definite Sold - Confirmed bookings/reservations
+This is the main count for sold rooms
+
+**Value:** `\App\TravelClick\Enums\CountType::DEFINITE_SOLD`
+
+---
+
+### `TENTATIVE_SOLD`
+
+Tentative Sold - Group booking count, pickup count for group inventory
+Must be passed with value of zero in calculated method
+
+**Value:** `\App\TravelClick\Enums\CountType::TENTATIVE_SOLD`
+
+---
+
+### `OUT_OF_ORDER`
+
+Out of Order - Rooms unavailable due to maintenance, repairs, etc.
+Optional count type
+
+**Value:** `\App\TravelClick\Enums\CountType::OUT_OF_ORDER`
+
+---
+
+### `OVERSELL`
+
+Oversell Rooms - Used to send oversell counts for specific dates/periods
+Optional if oversell is supported
+
+**Value:** `\App\TravelClick\Enums\CountType::OVERSELL`
+
+---
+
+## Properties
+
+### `$name`
+
+**Type:** `string`
+
+---
+
+### `$value`
+
+**Type:** `int`
+
+---
 
 ## Methods
 

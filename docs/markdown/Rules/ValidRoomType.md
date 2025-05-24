@@ -13,7 +13,7 @@
 Create a new rule instance.
 
 ```php
-public function __construct(int $propertyId = null)
+public function __construct(int|null $propertyId = null)
 ```
 
 **Parameters:**

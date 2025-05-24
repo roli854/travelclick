@@ -19,7 +19,7 @@ This service ensures data integrity, business logic compliance, and XML structur
 Validate complete SOAP message (request or response)
 
 ```php
-public function validateSoapMessage(App\TravelClick\DTOs\SoapRequestDto|App\TravelClick\DTOs\SoapResponseDto $message, App\TravelClick\Enums\MessageType $messageType): array
+public function validateSoapMessage(App\TravelClick\DTOs\SoapRequestDto|App\TravelClick\DTOs\SoapResponseDto $message, MessageType $messageType): array
 ```
 
 **Parameters:**
@@ -85,7 +85,7 @@ public function validateRateData(array $rateData, string $propertyId): array
 Validate reservation data according to business rules
 
 ```php
-public function validateReservationData(array $reservationData, App\TravelClick\Enums\ReservationType $reservationType, string $propertyId): array
+public function validateReservationData(array $reservationData, ReservationType $reservationType, string $propertyId): array
 ```
 
 **Parameters:**
@@ -184,7 +184,7 @@ public function validatePropertyRules(string $propertyId, array $data, string $o
 Validate required fields based on message type
 
 ```php
-public function validateRequiredFields(array $data, App\TravelClick\Enums\MessageType $messageType, array $optionalFields = []): array
+public function validateRequiredFields(array $data, MessageType $messageType, array $optionalFields = []): array
 ```
 
 **Parameters:**
@@ -201,7 +201,7 @@ public function validateRequiredFields(array $data, App\TravelClick\Enums\Messag
 Validate business logic for specific HTNG operations
 
 ```php
-public function validateBusinessLogic(array $data, string $operationType, App\TravelClick\Enums\MessageType $messageType): array
+public function validateBusinessLogic(array $data, string $operationType, MessageType $messageType): array
 ```
 
 **Parameters:**
@@ -234,7 +234,7 @@ public function validateSoapHeaders(array $headers, string $propertyId): array
 Get validation rules for a specific message type
 
 ```php
-public function getValidationRules(App\TravelClick\Enums\MessageType $messageType, string $operation = 'create'): array
+public function getValidationRules(MessageType $messageType, string $operation = 'create'): array
 ```
 
 **Parameters:**

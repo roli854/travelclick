@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BDD Fixture: reservations/reservation_modify_travel_agency.xml -->
+<!-- Generated from TravelClick Gold Certification Samples -->
+<!-- Variables: Use {{variable_name}} format for template replacement -->
+
+<soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:htn="http://pms.ihotelier.com/HTNGService/services/HTNG2011BService" >
+	<soapenv:Header>
+		<wsa:MessageID>720</wsa:MessageID>
+		<wsa:To>http://pmcoutllm01-t5.tcprod.local:8080/HtngSimulator/PMSInterfaceSimulator</wsa:To>
+		<!-- wss:To contains the vendor's URL where our end should send the response messages -->
+		<wsa:ReplyTo>
+			<wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
+		</wsa:ReplyTo>
+		<wsa:Action>http://htng.org/2011B/HTNG2011B_SubmitResult</wsa:Action>
+	</soapenv:Header>
+	<soapenv:Body>
+		<OTA_HotelResNotifRQ xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05 OTA_HotelResNotifRQ.xsd" Version="1.003" EchoToken="{{echo_token}}" TimeStamp="{{timestamp}}" ResStatus="Modify">
+			<POS>
+				<Source>
+					<RequestorID Type="14" ID="Travelclick"/>
+					<BookingChannel Type="5" Primary="1">
+						<CompanyName Code="WEBTA">WEBTA</CompanyName>
+					</BookingChannel>
+				</Source>
+				<Source>
+					<BookingChannel Primary="0" Type="5">
+						<CompanyName Code="TC">Travelclick</CompanyName>
+					</BookingChannel>
+				</Source>
+			</POS>
+			<HotelReservations>
+				<HotelReservation CreatorID="Travelclick" CreateDateTime="2013-03-14T12:00:00" LastModifiedDateTime="2013-03-14T01:15:00" LastModifierID="Travelclick" ResStatus="Reserved">
+					<UniqueID ID="{{reservation_id}}" Type="14"/>
+					<RoomStays>
+						<RoomStay MarketCode="BR" SourceOfBusiness="WEBTA">
+							<RatePlans>
+								<RatePlan RatePlanCode="{{rate_plan}}"/>
+							</RatePlans>
+							<RoomRates>
+								<RoomRate RoomTypeCode="{{room_type}}" NumberOfUnits="1" RatePlanCode="{{rate_plan}}" RatePlanCategory="RACK">
+									<Rates>
+										<Rate EffectiveDate="2013-04-22" ExpireDate="2013-04-24" RateTimeUnit="DAY" UnitMultiplier="2">
+											<Base AmountBeforeTax="{{rate_amount}}" AmountAfterTax="{{rate_amount_with_tax}}" CurrencyCode="USD">
+												<Taxes Amount="39.0" CurrencyCode="USD"/>
+											</Base>
+										</Rate>
+									</Rates>
+								</RoomRate>
+							</RoomRates>
+							<GuestCounts IsPerRoom="1">
+								<GuestCount AgeQualifyingCode="10" Count="{{count}}"/>
+								<GuestCount AgeQualifyingCode="8" Count="{{count}}"/>
+							</GuestCounts>
+							<TimeSpan Start="{{start_date}}" End="{{end_date}}"/>
+							<Guarantee GuaranteeCode="GX" GuaranteeType="CC/DC/Voucher">
+								<GuaranteesAccepted>
+									<GuaranteeAccepted>
+										<PaymentCard CardType="1" CardCode="MC" CardNumber="{{card_number}}" ExpireDate="0314">
+											<CardHolderName>Card Holder Name Goes Here</CardHolderName>
+										</PaymentCard>
+									</GuaranteeAccepted>
+								</GuaranteesAccepted>
+								<GuaranteeDescription>
+									<Text>Credit Card required at time of booking.</Text>
+								</GuaranteeDescription>
+							</Guarantee>
+							<Total AmountBeforeTax="{{rate_amount}}" CurrencyCode="USD">
+								<Taxes Amount="39.0" CurrencyCode="USD"/>
+							</Total>
+							<BasicPropertyInfo HotelCode="{{hotel_code}}"/>
+							<ResGuestRPHs>
+								<ResGuestRPH RPH="0"/>
+							</ResGuestRPHs>
+							<Memberships>
+								<Membership AccountID="LY-13-456789-00" ProgramCode="Frequent Guest ID"/>
+							</Memberships>
+							<Comments>
+								<Comment Name="RESERVATION" GuestViewable="1">
+									<Text>Travel Agengy Reservation with all possible information on it.</Text>
+								</Comment>
+								<Comment Name="ARRIVAL_INFO" GuestViewable="1">
+									<Text>During Afternoon Hours</Text>
+								</Comment>
+							</Comments>
+							<SpecialRequests>
+								<SpecialRequest RequestCode="Aroom">
+									<Text>Accesible Room:Accesible Room:Accesible Room</Text>
+								</SpecialRequest>
+							</SpecialRequests>
+						</RoomStay>
+					</RoomStays>
+					<Services>
+						<Service ServiceInventoryCode="PROOM" Inclusive="0" Quantity="1" ServicePricingType="11">
+							<Price>
+								<Total AmountBeforeTax="{{rate_amount}}" AmountAfterTax="{{rate_amount_with_tax}}" CurrencyCode="USD"/>
+							</Price>
+							<ServiceDetails>
+								<TimeSpan Start="{{start_date}}" End="{{end_date}}"/>
+								<Comments>
+									<Comment Name="SERVICE" GuestViewable="1">
+										<Text>Per Room:Per Room</Text>
+									</Comment>
+								</Comments>
+							</ServiceDetails>
+						</Service>
+						<Service ServiceInventoryCode="PPPN" Inclusive="0" Quantity="2" ServicePricingType="3">
+							<Price>
+								<Total AmountBeforeTax="{{rate_amount}}" AmountAfterTax="{{rate_amount_with_tax}}" CurrencyCode="USD"/>
+							</Price>
+							<ServiceDetails>
+								<GuestCounts>
+									<GuestCount AgeQualifyingCode="10" Count="{{count}}"/>
+									<GuestCount AgeQualifyingCode="8" Count="{{count}}"/>
+								</GuestCounts>
+								<TimeSpan Start="{{start_date}}" End="{{end_date}}"/>
+								<Comments>
+									<Comment Name="SERVICE" GuestViewable="1">
+										<Text>Per Person Per Night:Per Person Per Night</Text>
+									</Comment>
+								</Comments>
+							</ServiceDetails>
+						</Service>
+						<Service ServiceInventoryCode="PPERSON" Inclusive="0" Quantity="2" ServicePricingType="2">
+							<Price>
+								<Total AmountBeforeTax="{{rate_amount}}" AmountAfterTax="{{rate_amount_with_tax}}" CurrencyCode="USD"/>
+							</Price>
+							<ServiceDetails>
+								<GuestCounts>
+									<GuestCount AgeQualifyingCode="10" Count="{{count}}"/>
+									<GuestCount AgeQualifyingCode="8" Count="{{count}}"/>
+								</GuestCounts>
+								<TimeSpan Start="{{start_date}}" End="{{end_date}}"/>
+								<Comments>
+									<Comment Name="SERVICE" GuestViewable="1">
+										<Text>Per Person:Per Person</Text>
+									</Comment>
+								</Comments>
+							</ServiceDetails>
+						</Service>
+						<Service ServiceInventoryCode="PRES" Inclusive="0" Quantity="1" ServicePricingType="1">
+							<Price>
+								<Total AmountBeforeTax="{{rate_amount}}" AmountAfterTax="{{rate_amount_with_tax}}" CurrencyCode="USD"/>
+							</Price>
+							<ServiceDetails>
+								<TimeSpan Start="{{start_date}}" End="{{end_date}}"/>
+								<Comments>
+									<Comment Name="SERVICE" GuestViewable="1">
+										<Text>Per Reservation:Per Reservation</Text>
+									</Comment>
+								</Comments>
+							</ServiceDetails>
+						</Service>
+						<Service ServiceInventoryCode="PRPN" Inclusive="0" Quantity="0" ServicePricingType="12">
+							<Price>
+								<Total AmountBeforeTax="{{rate_amount}}" AmountAfterTax="{{rate_amount_with_tax}}" CurrencyCode="USD"/>
+							</Price>
+							<ServiceDetails>
+								<TimeSpan Start="{{start_date}}" End="{{end_date}}"/>
+								<Comments>
+									<Comment Name="SERVICE" GuestViewable="1">
+										<Text>Per Room Per Night:Per Room Per Night</Text>
+									</Comment>
+								</Comments>
+							</ServiceDetails>
+						</Service>
+					</Services>
+					<ResGuests>
+						<ResGuest ResGuestRPH="0" PrimaryIndicator="1">
+							<Profiles>
+								<ProfileInfo>
+									<UniqueID ID="{{reservation_id}}" Type="1" ID_Context="Customer"/>
+									<Profile ProfileType="1">
+										<Customer>
+											<PersonName>
+												<NamePrefix>Mr</NamePrefix>
+												<GivenName>{{guest_first_name}}</GivenName>
+												<Surname>{{guest_last_name}}</Surname>
+											</PersonName>
+											<Telephone PhoneLocationType="6" PhoneTechType="1" PhoneNumber="{{phone_number}}" FormattedInd="0"/>
+											<Telephone PhoneLocationType="6" PhoneTechType="1" PhoneNumber="{{phone_number}}" FormattedInd="0"/>
+											<Email>{{guest_email}}</Email>
+											<Address Type="1">
+												<AddressLine>{{address_line}}</AddressLine>
+												<AddressLine>{{address_line}}</AddressLine>
+												<CityName>{{city}}</CityName>
+												<PostalCode>{{postal_code}}</PostalCode>
+												<StateProv StateCode="TX">Texas</StateProv>
+												<CountryName Code="US">UNITED STATES</CountryName>
+											</Address>
+											<Address Type="2">
+												<AddressLine>{{address_line}}</AddressLine>
+												<AddressLine>{{address_line}}</AddressLine>
+												<CityName>{{city}}</CityName>
+												<PostalCode>{{postal_code}}</PostalCode>
+												<StateProv StateCode="TX">Texas</StateProv>
+												<CountryName Code="US">UNITED STATES</CountryName>
+											</Address>
+										</Customer>
+									</Profile>
+								</ProfileInfo>
+								<ProfileInfo>
+									<UniqueID ID="{{reservation_id}}" Type="5" ID_Context="IATA"/>
+									<Profile ProfileType="4">
+										<CompanyInfo>
+											<CompanyName>Lori's Travel</CompanyName>
+											<AddressInfo>
+												<AddressLine>{{address_line}}</AddressLine>
+												<CityName>{{city}}</CityName>
+												<PostalCode>{{postal_code}}</PostalCode>
+												<StateProv StateCode="FL">FL</StateProv>
+												<CountryName Code="U.S.">U.S.</CountryName>
+											</AddressInfo>
+											<TelephoneInfo PhoneLocationType="7" PhoneTechType="1" PhoneNumber="{{phone_number}}" FormattedInd="1"/>
+											<TelephoneInfo PhoneLocationType="7" PhoneTechType="3" PhoneNumber="{{phone_number}}" FormattedInd="1"/>
+										</CompanyInfo>
+									</Profile>
+								</ProfileInfo>
+							</Profiles>
+						</ResGuest>
+					</ResGuests>
+					<ResGlobalInfo>
+						<HotelReservationIDs>
+							<HotelReservationID ResID_Value="{{confirmation_number}}" ResID_Type="14" ResID_Source="TRAVELCLICK"/>
+							<HotelReservationID ResID_Value="{{confirmation_number}}" ResID_Type="10" ResID_Source="PMS"/>
+						</HotelReservationIDs>
+					</ResGlobalInfo>
+				</HotelReservation>
+			</HotelReservations>
+		</OTA_HotelResNotifRQ>
+	</soapenv:Body>
+</soapenv:Envelope>

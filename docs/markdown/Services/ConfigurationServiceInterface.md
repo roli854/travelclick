@@ -19,7 +19,7 @@ including global, property-specific, and environment-based settings.
 Get complete TravelClick configuration for a specific property
 
 ```php
-public function getPropertyConfig(int $propertyId): App\TravelClick\DTOs\PropertyConfigDto
+public function getPropertyConfig(int $propertyId): PropertyConfigDto
 ```
 
 ---
@@ -29,7 +29,7 @@ public function getPropertyConfig(int $propertyId): App\TravelClick\DTOs\Propert
 Get global TravelClick configuration
 
 ```php
-public function getGlobalConfig(): App\TravelClick\DTOs\TravelClickConfigDto
+public function getGlobalConfig(): TravelClickConfigDto
 ```
 
 ---
@@ -39,7 +39,7 @@ public function getGlobalConfig(): App\TravelClick\DTOs\TravelClickConfigDto
 Get endpoint configuration for current environment
 
 ```php
-public function getEndpointConfig(App\TravelClick\Enums\Environment|null $environment = null): App\TravelClick\DTOs\EndpointConfigDto
+public function getEndpointConfig(Environment|null $environment = null): EndpointConfigDto
 ```
 
 ---
@@ -69,7 +69,7 @@ public function cacheConfiguration(int $propertyId): bool
 Clear configuration cache
 
 ```php
-public function clearCache(App\TravelClick\Enums\ConfigScope $scope = \App\TravelClick\Enums\ConfigScope::ALL, int $propertyId = null): bool
+public function clearCache(ConfigScope $scope = \App\TravelClick\Enums\ConfigScope::ALL, int|null $propertyId = null): bool
 ```
 
 ---
@@ -79,7 +79,7 @@ public function clearCache(App\TravelClick\Enums\ConfigScope $scope = \App\Trave
 Update property-specific configuration
 
 ```php
-public function updatePropertyConfig(int $propertyId, array $config): App\TravelClick\DTOs\PropertyConfigDto
+public function updatePropertyConfig(int $propertyId, array $config): PropertyConfigDto
 ```
 
 ---
@@ -89,7 +89,7 @@ public function updatePropertyConfig(int $propertyId, array $config): App\Travel
 Get configuration value with fallback logic
 
 ```php
-public function getConfigValue(string $key, int $propertyId = null, mixed $default = null): mixed
+public function getConfigValue(string $key, int|null $propertyId = null, mixed $default = null): mixed
 ```
 
 ---
@@ -129,7 +129,7 @@ public function exportPropertyConfig(int $propertyId): array
 Import configuration for a property
 
 ```php
-public function importPropertyConfig(int $propertyId, array $config): App\TravelClick\DTOs\PropertyConfigDto
+public function importPropertyConfig(int $propertyId, array $config): PropertyConfigDto
 ```
 
 ---

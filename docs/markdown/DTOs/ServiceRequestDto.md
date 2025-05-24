@@ -12,6 +12,120 @@ Data Transfer Object for service requests in TravelClick integrations
 This DTO handles service requests that incur additional costs.
 Examples include room service, spa treatments, transfers, etc.
 
+## Properties
+
+### `$serviceCode`
+
+Service details
+
+**Type:** `string`
+
+---
+
+### `$serviceName`
+
+**Type:** `string`
+
+---
+
+### `$serviceDescription`
+
+**Type:** `string|null`
+
+---
+
+### `$quantity`
+
+**Type:** `int`
+
+---
+
+### `$startDate`
+
+Service timing
+
+**Type:** `Carbon\Carbon|null`
+
+---
+
+### `$endDate`
+
+**Type:** `Carbon\Carbon|null`
+
+---
+
+### `$deliveryTime`
+
+**Type:** `string|null`
+
+---
+
+### `$amount`
+
+Financial information
+
+**Type:** `float`
+
+---
+
+### `$totalAmount`
+
+**Type:** `float|null`
+
+---
+
+### `$currencyCode`
+
+**Type:** `string`
+
+---
+
+### `$includedInRate`
+
+**Type:** `bool`
+
+---
+
+### `$numberOfAdults`
+
+Guest information
+
+**Type:** `int`
+
+---
+
+### `$numberOfChildren`
+
+**Type:** `int`
+
+---
+
+### `$roomStayIndex`
+
+**Type:** `int|null`
+
+---
+
+### `$supplierConfirmationNumber`
+
+**Type:** `string|null`
+
+---
+
+### `$comments`
+
+Additional information
+
+**Type:** `string|null`
+
+---
+
+### `$confirmed`
+
+**Type:** `bool`
+
+---
+
 ## Methods
 
 ### `__construct`
@@ -29,7 +143,7 @@ public function __construct(array $data)
 Get formatted start date (YYYY-MM-DD)
 
 ```php
-public function getFormattedStartDate(): string
+public function getFormattedStartDate(): string|null
 ```
 
 **Returns:** string|null - Formatted date or null if not set
@@ -41,7 +155,7 @@ public function getFormattedStartDate(): string
 Get formatted end date (YYYY-MM-DD)
 
 ```php
-public function getFormattedEndDate(): string
+public function getFormattedEndDate(): string|null
 ```
 
 **Returns:** string|null - Formatted date or null if not set
@@ -89,7 +203,7 @@ public function getTotalCost(): float
 Convert from Centrium property booking adjustment
 
 ```php
-public function fromCentriumPropertyRoomBookingAdjust(mixed $adjustment): self|null
+public function fromCentriumPropertyRoomBookingAdjust($adjustment): self|null
 ```
 
 **Parameters:**

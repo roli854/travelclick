@@ -21,7 +21,7 @@ Provides comprehensive validation for HTNG 2011B messages including:
 ### `__construct`
 
 ```php
-public function __construct(App\TravelClick\Support\ValidationRulesHelper|null $rulesHelper = null, App\TravelClick\Support\BusinessRulesValidator|null $businessRulesValidator = null)
+public function __construct(ValidationRulesHelper|null $rulesHelper = null, BusinessRulesValidator|null $businessRulesValidator = null)
 ```
 
 ---
@@ -31,7 +31,7 @@ public function __construct(App\TravelClick\Support\ValidationRulesHelper|null $
 {@inheritDoc}
 
 ```php
-public function validateSoapMessage(App\TravelClick\DTOs\SoapRequestDto|App\TravelClick\DTOs\SoapResponseDto $message, App\TravelClick\Enums\MessageType $messageType): array
+public function validateSoapMessage(App\TravelClick\DTOs\SoapRequestDto|App\TravelClick\DTOs\SoapResponseDto $message, MessageType $messageType): array
 ```
 
 ---
@@ -71,7 +71,7 @@ public function validateRateData(array $rateData, string $propertyId): array
 {@inheritDoc}
 
 ```php
-public function validateReservationData(array $reservationData, App\TravelClick\Enums\ReservationType $reservationType, string $propertyId): array
+public function validateReservationData(array $reservationData, ReservationType $reservationType, string $propertyId): array
 ```
 
 ---
@@ -131,7 +131,7 @@ public function validatePropertyRules(string $propertyId, array $data, string $o
 {@inheritDoc}
 
 ```php
-public function validateRequiredFields(array $data, App\TravelClick\Enums\MessageType $messageType, array $optionalFields = []): array
+public function validateRequiredFields(array $data, MessageType $messageType, array $optionalFields = []): array
 ```
 
 ---
@@ -141,7 +141,7 @@ public function validateRequiredFields(array $data, App\TravelClick\Enums\Messag
 {@inheritDoc}
 
 ```php
-public function validateBusinessLogic(array $data, string $operationType, App\TravelClick\Enums\MessageType $messageType): array
+public function validateBusinessLogic(array $data, string $operationType, MessageType $messageType): array
 ```
 
 ---
@@ -161,7 +161,7 @@ public function validateSoapHeaders(array $headers, string $propertyId): array
 {@inheritDoc}
 
 ```php
-public function getValidationRules(App\TravelClick\Enums\MessageType $messageType, string $operation = 'create'): array
+public function getValidationRules(MessageType $messageType, string $operation = 'create'): array
 ```
 
 ---

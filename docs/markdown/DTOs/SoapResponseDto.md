@@ -12,12 +12,74 @@ Data Transfer Object for SOAP Response
 This DTO encapsulates the response received from TravelClick SOAP calls.
 It provides structured access to response data and metadata.
 
+## Properties
+
+### `$messageId`
+
+**Type:** `string`
+
+---
+
+### `$isSuccess`
+
+**Type:** `bool`
+
+---
+
+### `$rawResponse`
+
+**Type:** `string`
+
+---
+
+### `$errorMessage`
+
+**Type:** `string|null`
+
+---
+
+### `$errorCode`
+
+**Type:** `string|null`
+
+---
+
+### `$warnings`
+
+**Type:** `array|null`
+
+---
+
+### `$timestamp`
+
+**Type:** `Carbon\Carbon|null`
+
+---
+
+### `$echoToken`
+
+**Type:** `string|null`
+
+---
+
+### `$headers`
+
+**Type:** `array|null`
+
+---
+
+### `$durationMs`
+
+**Type:** `float|null`
+
+---
+
 ## Methods
 
 ### `__construct`
 
 ```php
-public function __construct(string $messageId, bool $isSuccess, string $rawResponse, string $errorMessage = null, string $errorCode = null, array $warnings = null, Carbon\Carbon|null $timestamp = null, string $echoToken = null, array $headers = null, float $durationMs = null)
+public function __construct(string $messageId, bool $isSuccess, string $rawResponse, string|null $errorMessage = null, string|null $errorCode = null, array|null $warnings = null, Carbon\Carbon|null $timestamp = null, string|null $echoToken = null, array|null $headers = null, float|null $durationMs = null)
 ```
 
 ---
@@ -27,7 +89,7 @@ public function __construct(string $messageId, bool $isSuccess, string $rawRespo
 Create a successful response DTO
 
 ```php
-public function success(string $messageId, string $rawResponse, string $echoToken = null, array $headers = null, float $durationMs = null): self
+public function success(string $messageId, string $rawResponse, string|null $echoToken = null, array|null $headers = null, float|null $durationMs = null): self
 ```
 
 ---
@@ -37,7 +99,7 @@ public function success(string $messageId, string $rawResponse, string $echoToke
 Create a failed response DTO
 
 ```php
-public function failure(string $messageId, string $rawResponse, string $errorMessage, string $errorCode = null, array $warnings = null, float $durationMs = null): self
+public function failure(string $messageId, string $rawResponse, string $errorMessage, string|null $errorCode = null, array|null $warnings = null, float|null $durationMs = null): self
 ```
 
 ---
@@ -47,7 +109,7 @@ public function failure(string $messageId, string $rawResponse, string $errorMes
 Create response from SoapFault
 
 ```php
-public function fromSoapFault(string $messageId, SoapFault $fault, float $durationMs = null): self
+public function fromSoapFault(string $messageId, SoapFault $fault, float|null $durationMs = null): self
 ```
 
 ---

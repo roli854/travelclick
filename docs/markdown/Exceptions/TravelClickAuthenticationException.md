@@ -12,12 +12,32 @@ Exception thrown when authentication with TravelClick fails
 This exception is thrown specifically for authentication issues,
 including invalid credentials, expired tokens, or authorization failures.
 
+## Properties
+
+### `$username`
+
+**Type:** `string|null`
+
+---
+
+### `$authenticationMethod`
+
+**Type:** `string|null`
+
+---
+
+### `$faultDetail`
+
+**Type:** `string|null`
+
+---
+
 ## Methods
 
 ### `__construct`
 
 ```php
-public function __construct(string $message, string $messageId = null, string $username = null, string $authenticationMethod = 'WSSE', string $faultDetail = null, Throwable|null $previous = null)
+public function __construct(string $message, string|null $messageId = null, string|null $username = null, string|null $authenticationMethod = 'WSSE', string|null $faultDetail = null, Throwable|null $previous = null)
 ```
 
 ---
@@ -27,7 +47,7 @@ public function __construct(string $message, string $messageId = null, string $u
 Create exception for invalid credentials
 
 ```php
-public function invalidCredentials(string $username, string $messageId = null, string $details = null): self
+public function invalidCredentials(string $username, string|null $messageId = null, string|null $details = null): self
 ```
 
 ---
@@ -37,7 +57,7 @@ public function invalidCredentials(string $username, string $messageId = null, s
 Create exception for expired credentials
 
 ```php
-public function expiredCredentials(string $username, string $messageId = null): self
+public function expiredCredentials(string $username, string|null $messageId = null): self
 ```
 
 ---
@@ -47,7 +67,7 @@ public function expiredCredentials(string $username, string $messageId = null): 
 Create exception for insufficient permissions
 
 ```php
-public function insufficientPermissions(string $username, string $requiredPermission, string $messageId = null): self
+public function insufficientPermissions(string $username, string $requiredPermission, string|null $messageId = null): self
 ```
 
 ---
@@ -57,7 +77,7 @@ public function insufficientPermissions(string $username, string $requiredPermis
 Create exception for authentication service unavailable
 
 ```php
-public function serviceUnavailable(string $messageId = null, string $details = null): self
+public function serviceUnavailable(string|null $messageId = null, string|null $details = null): self
 ```
 
 ---

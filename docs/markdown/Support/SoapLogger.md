@@ -19,6 +19,32 @@ Features:
 - Configurable log levels for debugging
 - XML storage with size optimization
 
+## Constants
+
+### `LEVEL_MINIMAL`
+
+**Value:** `'minimal'`
+
+---
+
+### `LEVEL_STANDARD`
+
+**Value:** `'standard'`
+
+---
+
+### `LEVEL_DETAILED`
+
+**Value:** `'detailed'`
+
+---
+
+### `LEVEL_DEBUG`
+
+**Value:** `'debug'`
+
+---
+
 ## Methods
 
 ### `__construct`
@@ -52,7 +78,7 @@ public function create(): self
 Log the start of a SOAP operation
 
 ```php
-public function logRequestStart(App\TravelClick\DTOs\SoapRequestDto $request, int $propertyId = null, string $jobId = null): App\TravelClick\Models\TravelClickLog
+public function logRequestStart(SoapRequestDto $request, int|null $propertyId = null, string|null $jobId = null): TravelClickLog
 ```
 
 **Parameters:**
@@ -70,7 +96,7 @@ public function logRequestStart(App\TravelClick\DTOs\SoapRequestDto $request, in
 Log successful SOAP response
 
 ```php
-public function logResponseSuccess(App\TravelClick\Models\TravelClickLog $log, App\TravelClick\DTOs\SoapResponseDto $response): App\TravelClick\Models\TravelClickLog
+public function logResponseSuccess(TravelClickLog $log, SoapResponseDto $response): TravelClickLog
 ```
 
 **Parameters:**
@@ -87,7 +113,7 @@ public function logResponseSuccess(App\TravelClick\Models\TravelClickLog $log, A
 Log failed SOAP response or error
 
 ```php
-public function logResponseFailure(App\TravelClick\Models\TravelClickLog $log, App\TravelClick\DTOs\SoapResponseDto|null $response = null, Throwable|null $exception = null): App\TravelClick\Models\TravelClickLog
+public function logResponseFailure(TravelClickLog $log, SoapResponseDto|null $response = null, Throwable|null $exception = null): TravelClickLog
 ```
 
 **Parameters:**
@@ -105,7 +131,7 @@ public function logResponseFailure(App\TravelClick\Models\TravelClickLog $log, A
 Log warnings from TravelClick response
 
 ```php
-public function logWarnings(App\TravelClick\Models\TravelClickLog $log, array $warnings): void
+public function logWarnings(TravelClickLog $log, array $warnings): void
 ```
 
 **Parameters:**
@@ -120,7 +146,7 @@ public function logWarnings(App\TravelClick\Models\TravelClickLog $log, array $w
 Log operation performance metrics
 
 ```php
-public function logPerformanceMetrics(App\TravelClick\Models\TravelClickLog $log, array $metrics = []): void
+public function logPerformanceMetrics(TravelClickLog $log, array $metrics = []): void
 ```
 
 **Parameters:**
@@ -135,7 +161,7 @@ public function logPerformanceMetrics(App\TravelClick\Models\TravelClickLog $log
 Log debug information (only in debug mode)
 
 ```php
-public function logDebug(string $message, array $context = [], string $messageId = null): void
+public function logDebug(string $message, array $context = [], string|null $messageId = null): void
 ```
 
 **Parameters:**

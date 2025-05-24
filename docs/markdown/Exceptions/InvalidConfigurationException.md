@@ -17,7 +17,7 @@ the required format, type, or business rules.
 ### `__construct`
 
 ```php
-public function __construct(string $message = '', array $invalidFields = [], array $validationRules = [], int $code = 0, Throwable|null $previous = null, App\TravelClick\Enums\ConfigScope $scope = \App\TravelClick\Enums\ConfigScope::ALL, int $propertyId = null, array $context = [])
+public function __construct(string $message = '', array $invalidFields = [], array $validationRules = [], int $code = 0, Throwable|null $previous = null, ConfigScope $scope = \App\TravelClick\Enums\ConfigScope::ALL, int|null $propertyId = null, array $context = [])
 ```
 
 ---
@@ -47,7 +47,7 @@ public function getValidationRules(): array
 Create exception for invalid hotel code
 
 ```php
-public function invalidHotelCode(string $hotelCode, int $propertyId = null): self
+public function invalidHotelCode(string $hotelCode, int|null $propertyId = null): self
 ```
 
 ---
@@ -57,7 +57,7 @@ public function invalidHotelCode(string $hotelCode, int $propertyId = null): sel
 Create exception for invalid credentials
 
 ```php
-public function invalidCredentials(string $username = null, string $password = null, int $propertyId = null): self
+public function invalidCredentials(string|null $username = null, string|null $password = null, int|null $propertyId = null): self
 ```
 
 ---
@@ -67,7 +67,7 @@ public function invalidCredentials(string $username = null, string $password = n
 Create exception for invalid timeout values
 
 ```php
-public function invalidTimeout(int $timeout, string $type = 'connection', int $propertyId = null): self
+public function invalidTimeout(int $timeout, string $type = 'connection', int|null $propertyId = null): self
 ```
 
 ---
@@ -77,7 +77,7 @@ public function invalidTimeout(int $timeout, string $type = 'connection', int $p
 Create exception for invalid retry configuration
 
 ```php
-public function invalidRetryConfig(int $attempts = null, array $backoffSeconds = null, int $propertyId = null): self
+public function invalidRetryConfig(int|null $attempts = null, array|null $backoffSeconds = null, int|null $propertyId = null): self
 ```
 
 ---
@@ -87,7 +87,7 @@ public function invalidRetryConfig(int $attempts = null, array $backoffSeconds =
 Create exception for invalid environment configuration
 
 ```php
-public function invalidEnvironment(string $environment, int $propertyId = null): self
+public function invalidEnvironment(string $environment, int|null $propertyId = null): self
 ```
 
 ---
@@ -97,7 +97,7 @@ public function invalidEnvironment(string $environment, int $propertyId = null):
 Create exception for invalid message types
 
 ```php
-public function invalidMessageTypes(array $messageTypes, int $propertyId = null): self
+public function invalidMessageTypes(array $messageTypes, int|null $propertyId = null): self
 ```
 
 ---
@@ -107,7 +107,7 @@ public function invalidMessageTypes(array $messageTypes, int $propertyId = null)
 Create exception for invalid endpoint URL
 
 ```php
-public function invalidEndpoint(string $url, string $type = 'endpoint', int $propertyId = null): self
+public function invalidEndpoint(string $url, string $type = 'endpoint', int|null $propertyId = null): self
 ```
 
 ---
@@ -117,7 +117,7 @@ public function invalidEndpoint(string $url, string $type = 'endpoint', int $pro
 Create exception for multiple field validation errors
 
 ```php
-public function multipleFields(array $errors, App\TravelClick\Enums\ConfigScope $scope = \App\TravelClick\Enums\ConfigScope::ALL, int $propertyId = null): self
+public function multipleFields(array $errors, ConfigScope $scope = \App\TravelClick\Enums\ConfigScope::ALL, int|null $propertyId = null): self
 ```
 
 ---

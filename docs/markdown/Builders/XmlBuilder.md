@@ -4,7 +4,7 @@
 
 **File:** `Builders/XmlBuilder.php`
 
-**Type:** Class
+**Type:** Abstract Class
 
 ## Description
 
@@ -19,7 +19,7 @@ message builders will use to construct their XML.
 ### `__construct`
 
 ```php
-public function __construct(App\TravelClick\Enums\MessageType $messageType, App\TravelClick\DTOs\SoapHeaderDto $soapHeaders, bool $validateXml = true, bool $formatOutput = false)
+public function __construct(MessageType $messageType, SoapHeaderDto $soapHeaders, bool $validateXml = true, bool $formatOutput = false)
 ```
 
 ---
@@ -73,7 +73,7 @@ public function withFormatting(bool $format = true): self
 Get the message type this builder handles
 
 ```php
-public function getMessageType(): App\TravelClick\Enums\MessageType
+public function getMessageType(): MessageType
 ```
 
 **Returns:** MessageType - 
@@ -85,7 +85,7 @@ public function getMessageType(): App\TravelClick\Enums\MessageType
 Get the SOAP headers
 
 ```php
-public function getSoapHeaders(): App\TravelClick\DTOs\SoapHeaderDto
+public function getSoapHeaders(): SoapHeaderDto
 ```
 
 **Returns:** SoapHeaderDto - 

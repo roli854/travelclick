@@ -33,7 +33,7 @@ $xml = $builder->build(['rate_plans' => [$ratePlan1, $ratePlan2]]);
 ### `__construct`
 
 ```php
-public function __construct(App\TravelClick\Enums\MessageType $messageType, App\TravelClick\DTOs\SoapHeaderDto $soapHeaders, App\TravelClick\Enums\RateOperationType $operationType, bool $isDeltaUpdate = true, bool $validateXml = true, bool $formatOutput = false)
+public function __construct(MessageType $messageType, SoapHeaderDto $soapHeaders, RateOperationType $operationType, bool $isDeltaUpdate = true, bool $validateXml = true, bool $formatOutput = false)
 ```
 
 ---
@@ -45,7 +45,7 @@ Allows changing the operation type after instantiation, useful for
 builders that handle multiple operation types.
 
 ```php
-public function withOperationType(App\TravelClick\Enums\RateOperationType $operationType): self
+public function withOperationType(RateOperationType $operationType): self
 ```
 
 **Parameters:**
@@ -77,7 +77,7 @@ public function withDeltaUpdate(bool $isDeltaUpdate = true): self
 Get the operation type
 
 ```php
-public function getOperationType(): App\TravelClick\Enums\RateOperationType
+public function getOperationType(): RateOperationType
 ```
 
 **Returns:** RateOperationType - 

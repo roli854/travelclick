@@ -4,13 +4,65 @@
 
 **File:** `Enums/ProcessingStatus.php`
 
-**Type:** Class
+**Type:** Enum
 
 ## Description
 
 ProcessingStatus Enum
 Represents the processing status of TravelClick messages.
 It's like tracking the stages of a letter delivery system.
+
+## Constants
+
+### `PENDING`
+
+**Value:** `\App\TravelClick\Enums\ProcessingStatus::PENDING`
+
+---
+
+### `PROCESSING`
+
+**Value:** `\App\TravelClick\Enums\ProcessingStatus::PROCESSING`
+
+---
+
+### `SENT`
+
+**Value:** `\App\TravelClick\Enums\ProcessingStatus::SENT`
+
+---
+
+### `RECEIVED`
+
+**Value:** `\App\TravelClick\Enums\ProcessingStatus::RECEIVED`
+
+---
+
+### `PROCESSED`
+
+**Value:** `\App\TravelClick\Enums\ProcessingStatus::PROCESSED`
+
+---
+
+### `FAILED`
+
+**Value:** `\App\TravelClick\Enums\ProcessingStatus::FAILED`
+
+---
+
+## Properties
+
+### `$name`
+
+**Type:** `string`
+
+---
+
+### `$value`
+
+**Type:** `string`
+
+---
 
 ## Methods
 

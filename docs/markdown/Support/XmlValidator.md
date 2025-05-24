@@ -35,7 +35,7 @@ public function validateXmlStructure(string $xml): bool
 Validate XML against HTNG 2011B XSD schema
 
 ```php
-public function validateAgainstSchema(string $xml, App\TravelClick\Enums\MessageType $messageType): bool
+public function validateAgainstSchema(string $xml, MessageType $messageType): bool
 ```
 
 **Parameters:**

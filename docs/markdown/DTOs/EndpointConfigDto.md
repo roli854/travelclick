@@ -12,12 +12,110 @@ Endpoint Configuration DTO
 This DTO encapsulates TravelClick endpoint configuration data.
 It provides structured access to SOAP endpoint settings, URLs, and connection parameters.
 
+## Properties
+
+### `$environment`
+
+**Type:** `Environment`
+
+---
+
+### `$url`
+
+**Type:** `string`
+
+---
+
+### `$wsdlUrl`
+
+**Type:** `string`
+
+---
+
+### `$connectionTimeout`
+
+**Type:** `int`
+
+---
+
+### `$requestTimeout`
+
+**Type:** `int`
+
+---
+
+### `$sslVerifyPeer`
+
+**Type:** `bool`
+
+---
+
+### `$sslVerifyHost`
+
+**Type:** `bool`
+
+---
+
+### `$sslCaFile`
+
+**Type:** `string|null`
+
+---
+
+### `$soapOptions`
+
+**Type:** `array`
+
+---
+
+### `$httpHeaders`
+
+**Type:** `array`
+
+---
+
+### `$userAgent`
+
+**Type:** `string|null`
+
+---
+
+### `$compression`
+
+**Type:** `bool`
+
+---
+
+### `$encoding`
+
+**Type:** `string`
+
+---
+
+### `$maxRedirects`
+
+**Type:** `int`
+
+---
+
+### `$keepAlive`
+
+**Type:** `bool`
+
+---
+
+### `$streamContext`
+
+**Type:** `array`
+
+---
+
 ## Methods
 
 ### `__construct`
 
 ```php
-public function __construct(App\TravelClick\Enums\Environment $environment, string $url, string $wsdlUrl, int $connectionTimeout, int $requestTimeout, bool $sslVerifyPeer, bool $sslVerifyHost, string $sslCaFile = null, array $soapOptions = [], array $httpHeaders = [], string $userAgent = null, bool $compression = false, string $encoding = 'UTF-8', int $maxRedirects = 0, bool $keepAlive = true, array $streamContext = [])
+public function __construct(Environment $environment, string $url, string $wsdlUrl, int $connectionTimeout, int $requestTimeout, bool $sslVerifyPeer, bool $sslVerifyHost, string|null $sslCaFile = null, array $soapOptions = [], array $httpHeaders = [], string|null $userAgent = null, bool $compression = false, string $encoding = 'UTF-8', int $maxRedirects = 0, bool $keepAlive = true, array $streamContext = [])
 ```
 
 ---
@@ -27,7 +125,7 @@ public function __construct(App\TravelClick\Enums\Environment $environment, stri
 Create from environment
 
 ```php
-public function fromEnvironment(App\TravelClick\Enums\Environment $environment): self
+public function fromEnvironment(Environment $environment): self
 ```
 
 ---

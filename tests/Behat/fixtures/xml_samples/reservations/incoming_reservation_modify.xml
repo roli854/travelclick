@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BDD Fixture: reservations/incoming_reservation_modify.xml -->
+<!-- Generated from TravelClick Gold Certification Samples -->
+<!-- Variables: Use {{variable_name}} format for template replacement -->
+
+<soapenv:Envelope xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:htn="https://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService" xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope">
+	<soapenv:Header>
+		<wsa:MessageID>8750</wsa:MessageID>
+		<wsa:To>https://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService</wsa:To>
+		<wsa:ReplyTo>
+			<wsa:Address>https://autoclerkqa.net</wsa:Address>
+		</wsa:ReplyTo>
+		<wsa:Action>https://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService/HTNG2011B_SubmitRequest</wsa:Action>
+		<wsse:Security>
+			<wsse:UsernameToken>
+				<wsse:Username>177587</wsse:Username>
+				<wsse:Password>C0nn3ct177587</wsse:Password>
+			</wsse:UsernameToken>
+		</wsse:Security>
+		<wsa:From>
+			<wsa:ReferenceProperties>
+				<htn:HotelCode>177587</htn:HotelCode>
+			</wsa:ReferenceProperties>
+		</wsa:From>
+	</soapenv:Header>
+	<soapenv:Body>
+		<OTA_HotelResNotifRQ schemaLocation="http://www.opentravel.org/OTA/2003/05 OTA_HotelResNotifRQ.xsd" EchoToken="{{echo_token}}"
+    HotelCode="{{hotel_code}}" TimeStamp="{{timestamp}}" Version="1.003" ResStatus="Modify">
+			<POS>
+				<Source>
+					<BookingChannel Type="4">
+						<CompanyName>GRAND GENEVA</CompanyName>
+					</BookingChannel>
+				</Source>
+			</POS>
+			<HotelReservations>
+				<HotelReservation CreateDateTime="2015-01-09T00:00:00" CreatorID="PMS">
+					<UniqueID ID="{{reservation_id}}" Type="10" ID_Context="PMS Confirmation ID" /> 
+					<RoomStays>
+						<RoomStay>
+							<RatePlans>
+								<RatePlan RatePlanCode="{{rate_plan}}"/>
+							</RatePlans>
+							<RoomRates>
+								<RoomRate RoomTypeCode="{{room_type}}" NumberOfUnits="1" RatePlanCode="{{rate_plan}}">
+									<Rates>
+										<Rate UnitMultiplier="1" RateTimeUnit="Day" EffectiveDate="2015-01-12" ExpireDate="2015-01-13">
+											<Base AmountBeforeTax="{{rate_amount}}" CurrencyCode="USD"/>
+										</Rate>
+									</Rates>
+								</RoomRate>
+							</RoomRates>
+							<GuestCounts>
+								<GuestCount AgeQualifyingCode="10" Count="{{count}}"/>
+							</GuestCounts>
+							<TimeSpan Start="{{start_date}}" End="{{end_date}}"/>
+							<Guarantee GuaranteeCode="HOLD=GTD" GuaranteeType="CC/DC/Voucher"/>
+							<Total AmountBeforeTax="{{rate_amount}}"/>
+							<BasicPropertyInfo HotelCode="{{hotel_code}}"/>
+						</RoomStay>
+					</RoomStays>
+					<ResGuests>
+						<ResGuest>
+							<Profiles>
+								<ProfileInfo>
+									<Profile ProfileType="1">
+										<Customer>
+											<PersonName>
+												<GivenName>{{guest_first_name}}</GivenName>
+												<Surname>{{guest_last_name}}</Surname>
+											</PersonName>
+											<Address Type="1">
+												<StateProv/>
+												<CountryName Code="US">UNITED STATES</CountryName>
+											</Address>
+										</Customer>
+									</Profile>
+								</ProfileInfo>
+							</Profiles>
+						</ResGuest>
+					</ResGuests>
+					<ResGlobalInfo>
+						<HotelReservationIDs>
+							<HotelReservationID ForGuest="true" ResID_Type="10" ResID_Source="PMS" ResID_Value="{{confirmation_number}}"/>
+							<HotelReservationID ForGuest="true" ResID_Type="14" ResID_Source="CRS" ResID_Value="{{confirmation_number}}"/>
+						</HotelReservationIDs>
+					</ResGlobalInfo>
+				</HotelReservation>
+			</HotelReservations>
+		</OTA_HotelResNotifRQ>
+	</soapenv:Body>
+</soapenv:Envelope>

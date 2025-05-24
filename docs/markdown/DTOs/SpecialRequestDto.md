@@ -12,6 +12,74 @@ Data Transfer Object for special requests in TravelClick integrations
 This DTO handles special requests that don't incur additional costs.
 Examples include accessibility requirements, room preferences, etc.
 
+## Properties
+
+### `$requestCode`
+
+Request details
+
+**Type:** `string`
+
+---
+
+### `$requestName`
+
+**Type:** `string`
+
+---
+
+### `$requestDescription`
+
+**Type:** `string|null`
+
+---
+
+### `$startDate`
+
+Request timing
+
+**Type:** `Carbon\Carbon|null`
+
+---
+
+### `$endDate`
+
+**Type:** `Carbon\Carbon|null`
+
+---
+
+### `$timeSpan`
+
+**Type:** `string|null`
+
+---
+
+### `$comments`
+
+Additional information
+
+**Type:** `string|null`
+
+---
+
+### `$confirmed`
+
+**Type:** `bool`
+
+---
+
+### `$quantity`
+
+**Type:** `int`
+
+---
+
+### `$roomStayIndex`
+
+**Type:** `int|null`
+
+---
+
 ## Methods
 
 ### `__construct`
@@ -29,7 +97,7 @@ public function __construct(array $data)
 Get formatted start date (YYYY-MM-DD)
 
 ```php
-public function getFormattedStartDate(): string
+public function getFormattedStartDate(): string|null
 ```
 
 **Returns:** string|null - Formatted date or null if not set
@@ -41,7 +109,7 @@ public function getFormattedStartDate(): string
 Get formatted end date (YYYY-MM-DD)
 
 ```php
-public function getFormattedEndDate(): string
+public function getFormattedEndDate(): string|null
 ```
 
 **Returns:** string|null - Formatted date or null if not set
@@ -77,7 +145,7 @@ public function hasDateRange(): bool
 Convert common Centrium property booking comments to special requests
 
 ```php
-public function fromCentriumPropertyBookingComment(mixed $propertyBookingComment): self|null
+public function fromCentriumPropertyBookingComment($propertyBookingComment): self|null
 ```
 
 **Parameters:**

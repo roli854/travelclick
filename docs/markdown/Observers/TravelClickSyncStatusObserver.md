@@ -26,7 +26,7 @@ Handle the TravelClickSyncStatus "creating" event.
 Fired before a new sync status record is created.
 
 ```php
-public function creating(App\TravelClick\Models\TravelClickSyncStatus $syncStatus): void
+public function creating(TravelClickSyncStatus $syncStatus): void
 ```
 
 **Parameters:**
@@ -43,7 +43,7 @@ Handle the TravelClickSyncStatus "created" event.
 Fired after a new sync status record has been saved.
 
 ```php
-public function created(App\TravelClick\Models\TravelClickSyncStatus $syncStatus): void
+public function created(TravelClickSyncStatus $syncStatus): void
 ```
 
 **Parameters:**
@@ -60,7 +60,7 @@ Handle the TravelClickSyncStatus "updating" event.
 Fired before changes are saved to the database.
 
 ```php
-public function updating(App\TravelClick\Models\TravelClickSyncStatus $syncStatus): void
+public function updating(TravelClickSyncStatus $syncStatus): void
 ```
 
 **Parameters:**
@@ -77,7 +77,7 @@ Handle the TravelClickSyncStatus "updated" event.
 Fired after changes have been saved to the database.
 
 ```php
-public function updated(App\TravelClick\Models\TravelClickSyncStatus $syncStatus): void
+public function updated(TravelClickSyncStatus $syncStatus): void
 ```
 
 **Parameters:**
@@ -94,7 +94,7 @@ Handle the TravelClickSyncStatus "deleted" event.
 Fired after a record has been deleted.
 
 ```php
-public function deleted(App\TravelClick\Models\TravelClickSyncStatus $syncStatus): void
+public function deleted(TravelClickSyncStatus $syncStatus): void
 ```
 
 **Parameters:**
@@ -111,7 +111,7 @@ Handle the TravelClickSyncStatus "restored" event.
 Fired after a soft-deleted record has been restored.
 
 ```php
-public function restored(App\TravelClick\Models\TravelClickSyncStatus $syncStatus): void
+public function restored(TravelClickSyncStatus $syncStatus): void
 ```
 
 **Parameters:**
@@ -128,7 +128,7 @@ Handle the TravelClickSyncStatus "forceDeleted" event.
 Fired after a record has been permanently deleted.
 
 ```php
-public function forceDeleted(App\TravelClick\Models\TravelClickSyncStatus $syncStatus): void
+public function forceDeleted(TravelClickSyncStatus $syncStatus): void
 ```
 
 **Parameters:**

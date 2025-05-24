@@ -4,7 +4,7 @@
 
 **File:** `Enums/ReservationType.php`
 
-**Type:** Class
+**Type:** Enum
 
 ## Description
 
@@ -18,6 +18,80 @@ Based on the TravelClick documentation, these are the mandatory reservation type
 - Package
 - Group
 - Alternate Payment (special payment scenarios)
+
+## Constants
+
+### `TRANSIENT`
+
+Standard individual guest reservations
+Most common type - regular travelers booking directly or through third parties
+
+**Value:** `\App\TravelClick\Enums\ReservationType::TRANSIENT`
+
+---
+
+### `TRAVEL_AGENCY`
+
+Travel Agency reservations
+Include travel agency profile and IATA information
+Require commission handling
+
+**Value:** `\App\TravelClick\Enums\ReservationType::TRAVEL_AGENCY`
+
+---
+
+### `CORPORATE`
+
+Corporate reservations
+Include company profile and corporate rates
+May have special terms and conditions
+
+**Value:** `\App\TravelClick\Enums\ReservationType::CORPORATE`
+
+---
+
+### `PACKAGE`
+
+Package reservations
+Include bundled services (room + amenities/services)
+Rate plan code identifies the package
+
+**Value:** `\App\TravelClick\Enums\ReservationType::PACKAGE`
+
+---
+
+### `GROUP`
+
+Group reservations
+Associated with a group block
+Decrement group inventory allocation
+
+**Value:** `\App\TravelClick\Enums\ReservationType::GROUP`
+
+---
+
+### `ALTERNATE_PAYMENT`
+
+Reservations with alternate payment methods
+For scenarios with special payment processing (deposits, etc.)
+
+**Value:** `\App\TravelClick\Enums\ReservationType::ALTERNATE_PAYMENT`
+
+---
+
+## Properties
+
+### `$name`
+
+**Type:** `string`
+
+---
+
+### `$value`
+
+**Type:** `string`
+
+---
 
 ## Methods
 
@@ -56,7 +130,7 @@ public function requiresProfile(): bool
 Get the profile type required for this reservation
 
 ```php
-public function getRequiredProfileType(): string
+public function getRequiredProfileType(): string|null
 ```
 
 ---
@@ -96,7 +170,7 @@ public function getProcessingPriority(): int
 Map from Centrium booking source to reservation type
 
 ```php
-public function fromCentriumBookingSource(string $source, string $bookingType = null): self
+public function fromCentriumBookingSource(string $source, string|null $bookingType = null): self
 ```
 
 ---

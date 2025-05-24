@@ -18,7 +18,7 @@ and TravelClick supported currencies
 Determine if the validation rule passes.
 
 ```php
-public function passes(mixed $attribute, mixed $value): bool
+public function passes($attribute, $value): bool
 ```
 
 **Parameters:**

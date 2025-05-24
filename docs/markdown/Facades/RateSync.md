@@ -17,7 +17,7 @@
 Dispatch a new rate sync job.
 
 ```php
-public function dispatch(Illuminate\Support\Collection|array $rates, string $hotelCode, App\TravelClick\Enums\RateOperationType $operationType = \App\TravelClick\Enums\RateOperationType::RATE_UPDATE, bool $isDeltaUpdate = true, int $batchSize = 0, string $trackingId = null): void
+public function dispatch(Illuminate\Support\Collection|array $rates, string $hotelCode, RateOperationType $operationType = \App\TravelClick\Enums\RateOperationType::RATE_UPDATE, bool $isDeltaUpdate = true, int $batchSize = 0, string|null $trackingId = null): void
 ```
 
 **Parameters:**
@@ -37,7 +37,7 @@ public function dispatch(Illuminate\Support\Collection|array $rates, string $hot
 Dispatch a new rate sync job synchronously.
 
 ```php
-public function dispatchSync(Illuminate\Support\Collection|array $rates, string $hotelCode, App\TravelClick\Enums\RateOperationType $operationType = \App\TravelClick\Enums\RateOperationType::RATE_UPDATE, bool $isDeltaUpdate = true, int $batchSize = 0, string $trackingId = null): void
+public function dispatchSync(Illuminate\Support\Collection|array $rates, string $hotelCode, RateOperationType $operationType = \App\TravelClick\Enums\RateOperationType::RATE_UPDATE, bool $isDeltaUpdate = true, int $batchSize = 0, string|null $trackingId = null): void
 ```
 
 **Parameters:**

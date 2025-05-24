@@ -4,7 +4,7 @@
 
 **File:** `Enums/RateOperationType.php`
 
-**Type:** Class
+**Type:** Enum
 
 ## Description
 
@@ -16,6 +16,89 @@ for different functions.
 According to HTNG 2011B specification:
 - Rate Update is mandatory for certification
 - Other operations are optional but recommended for advanced integrations
+
+## Constants
+
+### `RATE_UPDATE`
+
+Rate Update - Update existing rate information
+This is the most common operation and the ONLY mandatory one for certification.
+Use this when you need to modify existing rates in TravelClick.
+Example: Changing room rates for specific dates, updating seasonal pricing
+
+**Value:** `\App\TravelClick\Enums\RateOperationType::RATE_UPDATE`
+
+---
+
+### `RATE_CREATION`
+
+Rate Creation - Create new rate plans
+Optional operation to create entirely new rate plans in TravelClick.
+Usually done during initial setup or when launching new packages.
+Example: Creating a new "Summer Special" rate plan
+
+**Value:** `\App\TravelClick\Enums\RateOperationType::RATE_CREATION`
+
+---
+
+### `INACTIVE_RATE`
+
+Inactive Rate - Mark existing rates as inactive
+Optional operation to deactivate rate plans without deleting them.
+Useful for seasonal rates or discontinued packages.
+Example: Deactivating winter rates during summer season
+
+**Value:** `\App\TravelClick\Enums\RateOperationType::INACTIVE_RATE`
+
+---
+
+### `REMOVE_ROOM_TYPES`
+
+Remove Room Types - Remove specific room types from a rate plan
+Optional operation to exclude certain room types from a rate plan
+without affecting the plan itself.
+Example: Removing suites from a budget rate plan
+
+**Value:** `\App\TravelClick\Enums\RateOperationType::REMOVE_ROOM_TYPES`
+
+---
+
+### `FULL_SYNC`
+
+Full Synchronization - Complete rate data sync
+Special operation type for full overlay synchronization.
+Should ONLY be used when explicitly requested by user, not routinely.
+Note: TravelClick strongly recommends against daily full syncs
+to minimize message traffic and processing delays.
+
+**Value:** `\App\TravelClick\Enums\RateOperationType::FULL_SYNC`
+
+---
+
+### `DELTA_UPDATE`
+
+Delta Update - Send only changed rates
+Recommended operation type for regular synchronization.
+Only sends rate plans that have been affected by changes.
+This is the preferred method for real-time updates.
+
+**Value:** `\App\TravelClick\Enums\RateOperationType::DELTA_UPDATE`
+
+---
+
+## Properties
+
+### `$name`
+
+**Type:** `string`
+
+---
+
+### `$value`
+
+**Type:** `string`
+
+---
 
 ## Methods
 

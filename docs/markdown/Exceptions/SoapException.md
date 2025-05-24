@@ -12,12 +12,38 @@ Base exception for all SOAP-related errors in TravelClick integration
 This exception provides a base for all SOAP communication errors,
 with additional context for debugging and monitoring.
 
+## Properties
+
+### `$messageId`
+
+**Type:** `string|null`
+
+---
+
+### `$soapFaultCode`
+
+**Type:** `string|null`
+
+---
+
+### `$soapFaultString`
+
+**Type:** `string|null`
+
+---
+
+### `$context`
+
+**Type:** `array|null`
+
+---
+
 ## Methods
 
 ### `__construct`
 
 ```php
-public function __construct(string $message, string $messageId = null, string $soapFaultCode = null, string $soapFaultString = null, array $context = null, int $code = 0, Throwable|null $previous = null)
+public function __construct(string $message, string|null $messageId = null, string|null $soapFaultCode = null, string|null $soapFaultString = null, array|null $context = null, int $code = 0, Throwable|null $previous = null)
 ```
 
 ---
@@ -27,7 +53,7 @@ public function __construct(string $message, string $messageId = null, string $s
 Create exception from SoapFault
 
 ```php
-public function fromSoapFault(SoapFault $fault, string $messageId = null, array $context = null): self
+public function fromSoapFault(SoapFault $fault, string|null $messageId = null, array|null $context = null): self
 ```
 
 ---

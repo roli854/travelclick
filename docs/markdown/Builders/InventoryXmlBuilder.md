@@ -26,7 +26,7 @@ XML format that TravelClick expects, with all necessary validations and structur
 Constructor
 
 ```php
-public function __construct(App\TravelClick\DTOs\SoapHeaderDto $soapHeaders, bool $validateXml = true, bool $formatOutput = false)
+public function __construct(SoapHeaderDto $soapHeaders, bool $validateXml = true, bool $formatOutput = false)
 ```
 
 ---
@@ -48,7 +48,7 @@ public function buildBatch(Spatie\LaravelData\DataCollection $inventoryCollectio
 Build a single inventory record into XML message
 
 ```php
-public function buildSingle(App\TravelClick\DTOs\InventoryData $inventoryData): string
+public function buildSingle(InventoryData $inventoryData): string
 ```
 
 **Parameters:**
@@ -64,7 +64,7 @@ public function buildSingle(App\TravelClick\DTOs\InventoryData $inventoryData): 
 Create a new builder instance for calculated inventory
 
 ```php
-public function forCalculated(App\TravelClick\DTOs\SoapHeaderDto $soapHeaders): self
+public function forCalculated(SoapHeaderDto $soapHeaders): self
 ```
 
 **Parameters:**
@@ -80,7 +80,7 @@ public function forCalculated(App\TravelClick\DTOs\SoapHeaderDto $soapHeaders): 
 Create a new builder instance for direct (not-calculated) inventory
 
 ```php
-public function forDirect(App\TravelClick\DTOs\SoapHeaderDto $soapHeaders): self
+public function forDirect(SoapHeaderDto $soapHeaders): self
 ```
 
 **Parameters:**
@@ -96,7 +96,7 @@ public function forDirect(App\TravelClick\DTOs\SoapHeaderDto $soapHeaders): self
 Create a new builder instance for property-level inventory
 
 ```php
-public function forPropertyLevel(App\TravelClick\DTOs\SoapHeaderDto $soapHeaders): self
+public function forPropertyLevel(SoapHeaderDto $soapHeaders): self
 ```
 
 **Parameters:**

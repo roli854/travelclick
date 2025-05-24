@@ -87,7 +87,7 @@ public function validateConfiguration(): bool
 Create factory from Laravel configuration
 
 ```php
-public function fromConfig(array $config = null): self
+public function fromConfig(array|null $config = null): self
 ```
 
 ---

@@ -12,6 +12,23 @@ TravelClick Error Log Model
 This model represents detailed error tracking for TravelClick operations.
 It provides comprehensive error analysis, retry logic, and resolution tracking.
 
+## Constants
+
+### `CREATED_AT`
+
+Laravel timestamp configuration.
+Using custom created_at field name following Centrium convention.
+
+**Value:** `'DateCreated'`
+
+---
+
+### `UPDATED_AT`
+
+**Value:** `null`
+
+---
+
 ## Methods
 
 ### `travelClickLog`
@@ -111,7 +128,7 @@ public function scopeForProperty(Illuminate\Database\Eloquent\Builder $query, in
 Scope to filter by error type.
 
 ```php
-public function scopeByType(Illuminate\Database\Eloquent\Builder $query, App\TravelClick\Enums\ErrorType $errorType): Illuminate\Database\Eloquent\Builder
+public function scopeByType(Illuminate\Database\Eloquent\Builder $query, ErrorType $errorType): Illuminate\Database\Eloquent\Builder
 ```
 
 ---
@@ -181,7 +198,7 @@ public function getSeverityColorAttribute(): string
 Mark this error as resolved by a user.
 
 ```php
-public function markAsResolved(int $userId, string $notes = null): bool
+public function markAsResolved(int $userId, string|null $notes = null): bool
 ```
 
 ---
@@ -211,7 +228,7 @@ public function getSimilarErrors(int $limit = 5)
 Create a comprehensive error log entry.
 
 ```php
-public function logError(string $messageId, App\TravelClick\Enums\ErrorType $errorType, string $title, string $message, array $context = [], string $severity = 'medium', string $jobId = null, int $propertyId = 0, bool $canRetry = false, int $retryDelaySeconds = null, bool $requiresManualIntervention = false): self
+public function logError(string $messageId, ErrorType $errorType, string $title, string $message, array $context = [], string $severity = 'medium', string|null $jobId = null, int $propertyId = 0, bool $canRetry = false, int|null $retryDelaySeconds = null, bool $requiresManualIntervention = false): self
 ```
 
 ---
@@ -231,7 +248,7 @@ public function getErrorStats(int $propertyId, int $days = 7): array
 Get a new factory instance for the model.
 
 ```php
-public function factory(mixed $count = null, mixed $state = [])
+public function factory($count = null, $state = [])
 ```
 
 **Returns:** TFactory - 

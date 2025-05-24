@@ -13,6 +13,158 @@ This DTO encapsulates all details about a room stay, including dates,
 room type, rate plan, guest counts, and pricing information. It enforces
 validation and provides structured access to data for XML construction.
 
+## Properties
+
+### `$checkInDate`
+
+Room stay dates
+
+**Type:** `Carbon\Carbon`
+
+---
+
+### `$checkOutDate`
+
+**Type:** `Carbon\Carbon`
+
+---
+
+### `$stayDurationNights`
+
+**Type:** `int`
+
+---
+
+### `$roomTypeCode`
+
+Room configuration
+
+**Type:** `string`
+
+---
+
+### `$ratePlanCode`
+
+**Type:** `string`
+
+---
+
+### `$upgradedRoomTypeCode`
+
+**Type:** `string|null`
+
+---
+
+### `$mealPlanCode`
+
+**Type:** `string|null`
+
+---
+
+### `$adultCount`
+
+Guest counts
+
+**Type:** `int`
+
+---
+
+### `$childCount`
+
+**Type:** `int`
+
+---
+
+### `$infantCount`
+
+**Type:** `int`
+
+---
+
+### `$totalGuestCount`
+
+**Type:** `int`
+
+---
+
+### `$rateAmount`
+
+Financial information
+
+**Type:** `float`
+
+---
+
+### `$totalAmount`
+
+**Type:** `float|null`
+
+---
+
+### `$discountAmount`
+
+**Type:** `float|null`
+
+---
+
+### `$taxAmount`
+
+**Type:** `float|null`
+
+---
+
+### `$currencyCode`
+
+**Type:** `string`
+
+---
+
+### `$indexNumber`
+
+Room stay identifiers
+
+**Type:** `int`
+
+---
+
+### `$confirmationNumber`
+
+**Type:** `string|null`
+
+---
+
+### `$specialRequestCode`
+
+**Type:** `string|null`
+
+---
+
+### `$roomDescription`
+
+Additional information
+
+**Type:** `string|null`
+
+---
+
+### `$dailyRates`
+
+**Type:** `array|null`
+
+---
+
+### `$supplements`
+
+**Type:** `array|null`
+
+---
+
+### `$specialOffers`
+
+**Type:** `array|null`
+
+---
+
 ## Methods
 
 ### `__construct`
@@ -114,7 +266,7 @@ public function isPackageRate(): bool
 Create from a Centrium property room booking
 
 ```php
-public function fromCentriumPropertyRoomBooking(mixed $propertyRoomBooking, int $index = 1): self
+public function fromCentriumPropertyRoomBooking($propertyRoomBooking, int $index = 1): self
 ```
 
 **Parameters:**

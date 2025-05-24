@@ -109,7 +109,7 @@ public function generateMessageId(string $prefix = 'MSG'): string
 Create headers for specific operation types with validation
 
 ```php
-public function forOperation(string $operationType, string $messageId = null): array
+public function forOperation(string $operationType, string|null $messageId = null): array
 ```
 
 **Parameters:**

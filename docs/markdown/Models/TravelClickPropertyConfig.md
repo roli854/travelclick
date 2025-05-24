@@ -29,7 +29,7 @@ public function property(): Illuminate\Database\Eloquent\Relations\BelongsTo
 Scope to get only active configurations
 
 ```php
-public function scopeActive(mixed $query)
+public function scopeActive($query)
 ```
 
 ---
@@ -39,7 +39,7 @@ public function scopeActive(mixed $query)
 Scope to get configurations that need sync
 
 ```php
-public function scopeNeedsSync(mixed $query, int $hoursThreshold = 24)
+public function scopeNeedsSync($query, int $hoursThreshold = 24)
 ```
 
 ---
@@ -49,7 +49,7 @@ public function scopeNeedsSync(mixed $query, int $hoursThreshold = 24)
 Scope to get configurations for specific properties
 
 ```php
-public function scopeForProperties(mixed $query, array $propertyIds)
+public function scopeForProperties($query, array $propertyIds)
 ```
 
 ---
@@ -181,7 +181,7 @@ public function forceDelete()
 Destroy the models for the given IDs.
 
 ```php
-public function forceDestroy(mixed $ids)
+public function forceDestroy($ids)
 ```
 
 **Parameters:**
@@ -197,7 +197,7 @@ public function forceDestroy(mixed $ids)
 Get a new factory instance for the model.
 
 ```php
-public function factory(mixed $count = null, mixed $state = [])
+public function factory($count = null, $state = [])
 ```
 
 **Returns:** TFactory - 
@@ -281,7 +281,7 @@ public function trashed()
 Register a "softDeleted" model event callback with the dispatcher.
 
 ```php
-public function softDeleted(mixed $callback)
+public function softDeleted($callback)
 ```
 
 **Parameters:**
@@ -297,7 +297,7 @@ public function softDeleted(mixed $callback)
 Register a "restoring" model event callback with the dispatcher.
 
 ```php
-public function restoring(mixed $callback)
+public function restoring($callback)
 ```
 
 **Parameters:**
@@ -313,7 +313,7 @@ public function restoring(mixed $callback)
 Register a "restored" model event callback with the dispatcher.
 
 ```php
-public function restored(mixed $callback)
+public function restored($callback)
 ```
 
 **Parameters:**
@@ -329,7 +329,7 @@ public function restored(mixed $callback)
 Register a "forceDeleting" model event callback with the dispatcher.
 
 ```php
-public function forceDeleting(mixed $callback)
+public function forceDeleting($callback)
 ```
 
 **Parameters:**
@@ -345,7 +345,7 @@ public function forceDeleting(mixed $callback)
 Register a "forceDeleted" model event callback with the dispatcher.
 
 ```php
-public function forceDeleted(mixed $callback)
+public function forceDeleted($callback)
 ```
 
 **Parameters:**

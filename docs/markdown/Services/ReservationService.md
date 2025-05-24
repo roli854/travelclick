@@ -19,7 +19,7 @@ operations including new bookings, modifications, and cancellations.
 Constructor
 
 ```php
-public function __construct(App\TravelClick\Services\Contracts\SoapServiceInterface $soapService, App\TravelClick\Builders\ReservationXmlBuilder $xmlBuilder, App\TravelClick\Parsers\ReservationParser $parser)
+public function __construct(SoapServiceInterface $soapService, ReservationXmlBuilder $xmlBuilder, ReservationParser $parser)
 ```
 
 **Parameters:**
@@ -36,7 +36,7 @@ Process a reservation modification
 Main entry point for handling reservation modifications
 
 ```php
-public function processModification(App\TravelClick\DTOs\ReservationDataDto $reservationData, bool $validateRoomTypes = true): App\TravelClick\DTOs\ReservationResponseDto
+public function processModification(ReservationDataDto $reservationData, bool $validateRoomTypes = true): ReservationResponseDto
 ```
 
 **Parameters:**
@@ -55,7 +55,7 @@ Retrieves the original reservation data before modification
 from TravelClick or local storage
 
 ```php
-public function findOriginalReservation(string $confirmationNumber): App\TravelClick\DTOs\ReservationDataDto|null
+public function findOriginalReservation(string $confirmationNumber): ReservationDataDto|null
 ```
 
 **Parameters:**
@@ -72,7 +72,7 @@ Process a new reservation
 Handle creating a new reservation in the system
 
 ```php
-public function processNewReservation(App\TravelClick\DTOs\ReservationDataDto $reservationData, bool $validateRoomTypes = true): App\TravelClick\DTOs\ReservationResponseDto
+public function processNewReservation(ReservationDataDto $reservationData, bool $validateRoomTypes = true): ReservationResponseDto
 ```
 
 **Parameters:**
@@ -90,7 +90,7 @@ Process a reservation cancellation
 Handle cancelling a reservation in the system
 
 ```php
-public function processCancellation(App\TravelClick\DTOs\ReservationDataDto $reservationData): App\TravelClick\DTOs\ReservationResponseDto
+public function processCancellation(ReservationDataDto $reservationData): ReservationResponseDto
 ```
 
 **Parameters:**

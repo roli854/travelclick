@@ -19,7 +19,7 @@ using business rules, format validation, and connectivity tests.
 Validate global TravelClick configuration
 
 ```php
-public function validateGlobalConfig(App\TravelClick\DTOs\TravelClickConfigDto $config): array
+public function validateGlobalConfig(TravelClickConfigDto $config): array
 ```
 
 ---
@@ -29,7 +29,7 @@ public function validateGlobalConfig(App\TravelClick\DTOs\TravelClickConfigDto $
 Validate property-specific configuration
 
 ```php
-public function validatePropertyConfig(App\TravelClick\DTOs\PropertyConfigDto $config): array
+public function validatePropertyConfig(PropertyConfigDto $config): array
 ```
 
 ---
@@ -39,7 +39,7 @@ public function validatePropertyConfig(App\TravelClick\DTOs\PropertyConfigDto $c
 Validate endpoint configuration
 
 ```php
-public function validateEndpointConfig(App\TravelClick\DTOs\EndpointConfigDto $config): array
+public function validateEndpointConfig(EndpointConfigDto $config): array
 ```
 
 ---
@@ -49,7 +49,7 @@ public function validateEndpointConfig(App\TravelClick\DTOs\EndpointConfigDto $c
 Test endpoint connectivity
 
 ```php
-public function testEndpointConnectivity(App\TravelClick\DTOs\EndpointConfigDto $config): array
+public function testEndpointConnectivity(EndpointConfigDto $config): array
 ```
 
 ---
@@ -59,7 +59,7 @@ public function testEndpointConnectivity(App\TravelClick\DTOs\EndpointConfigDto 
 Perform comprehensive configuration validation
 
 ```php
-public function validateComplete(App\TravelClick\DTOs\TravelClickConfigDto $globalConfig, App\TravelClick\DTOs\PropertyConfigDto|null $propertyConfig = null, App\TravelClick\DTOs\EndpointConfigDto|null $endpointConfig = null): array
+public function validateComplete(TravelClickConfigDto $globalConfig, PropertyConfigDto|null $propertyConfig = null, EndpointConfigDto|null $endpointConfig = null): array
 ```
 
 ---

@@ -6,6 +6,92 @@
 
 **Type:** Class
 
+## Properties
+
+### `$tries`
+
+Number of times the job may be attempted.
+
+---
+
+### `$backoff`
+
+The number of seconds to wait before retrying the job.
+
+---
+
+### `$maxExceptions`
+
+The maximum number of unhandled exceptions to allow before failing.
+
+---
+
+### `$deleteWhenMissingModels`
+
+Delete the job if its models no longer exist.
+
+---
+
+### `$job`
+
+The underlying queue job instance.
+
+---
+
+### `$connection`
+
+The name of the connection the job should be sent to.
+
+---
+
+### `$queue`
+
+The name of the queue the job should be sent to.
+
+---
+
+### `$delay`
+
+The number of seconds before the job should be made available.
+
+---
+
+### `$afterCommit`
+
+Indicates whether the job should be dispatched after all database transactions have committed.
+
+---
+
+### `$middleware`
+
+The middleware the job should be dispatched through.
+
+---
+
+### `$chained`
+
+The jobs that should run if this job is successful.
+
+---
+
+### `$chainConnection`
+
+The name of the connection the chain should be sent to.
+
+---
+
+### `$chainQueue`
+
+The name of the queue the chain should be sent to.
+
+---
+
+### `$chainCatchCallbacks`
+
+The callbacks to be executed on chain failure.
+
+---
+
 ## Methods
 
 ### `__construct`
@@ -13,7 +99,7 @@
 Create a new job instance.
 
 ```php
-public function __construct(Illuminate\Support\Collection|array $rates, string $hotelCode, App\TravelClick\Enums\RateOperationType $operationType = \App\TravelClick\Enums\RateOperationType::RATE_UPDATE, bool $isDeltaUpdate = true, int $batchSize = 0, string $trackingId = null)
+public function __construct(Illuminate\Support\Collection|array $rates, string $hotelCode, RateOperationType $operationType = \App\TravelClick\Enums\RateOperationType::RATE_UPDATE, bool $isDeltaUpdate = true, int $batchSize = 0, string|null $trackingId = null)
 ```
 
 **Parameters:**
@@ -31,7 +117,7 @@ public function __construct(Illuminate\Support\Collection|array $rates, string $
 Execute the job.
 
 ```php
-public function handle(App\TravelClick\Services\SoapService $soapService, App\TravelClick\Builders\RateXmlBuilder $xmlBuilder, App\TravelClick\Support\RetryHelper $retryHelper): void
+public function handle(SoapService $soapService, RateXmlBuilder $xmlBuilder, RetryHelper $retryHelper): void
 ```
 
 **Parameters:**
@@ -49,7 +135,7 @@ public function handle(App\TravelClick\Services\SoapService $soapService, App\Tr
 Get the unique ID for the job.
 
 ```php
-public function getUniqueId(): string
+public function getUniqueId(): string|null
 ```
 
 **Returns:** string|null - 
@@ -85,7 +171,7 @@ public function tags(): array
 Dispatch the job with the given arguments.
 
 ```php
-public function dispatch(mixed $arguments)
+public function dispatch(...$arguments)
 ```
 
 **Returns:** \Illuminate\Foundation\Bus\PendingDispatch - 
@@ -97,7 +183,7 @@ public function dispatch(mixed $arguments)
 Dispatch the job with the given arguments if the given truth test passes.
 
 ```php
-public function dispatchIf(mixed $boolean, mixed $arguments)
+public function dispatchIf($boolean, ...$arguments)
 ```
 
 **Parameters:**
@@ -113,7 +199,7 @@ public function dispatchIf(mixed $boolean, mixed $arguments)
 Dispatch the job with the given arguments unless the given truth test passes.
 
 ```php
-public function dispatchUnless(mixed $boolean, mixed $arguments)
+public function dispatchUnless($boolean, ...$arguments)
 ```
 
 **Parameters:**
@@ -130,7 +216,7 @@ Dispatch a command to its appropriate handler in the current process.
 Queueable jobs will be dispatched to the "sync" queue.
 
 ```php
-public function dispatchSync(mixed $arguments)
+public function dispatchSync(...$arguments)
 ```
 
 **Returns:** mixed - 
@@ -142,7 +228,7 @@ public function dispatchSync(mixed $arguments)
 Dispatch a command to its appropriate handler after the current process.
 
 ```php
-public function dispatchAfterResponse(mixed $arguments)
+public function dispatchAfterResponse(...$arguments)
 ```
 
 **Returns:** mixed - 
@@ -154,7 +240,7 @@ public function dispatchAfterResponse(mixed $arguments)
 Set the jobs that should run if this job is successful.
 
 ```php
-public function withChain(mixed $chain)
+public function withChain($chain)
 ```
 
 **Parameters:**
@@ -194,7 +280,7 @@ public function delete()
 Fail the job from the queue.
 
 ```php
-public function fail(mixed $exception = null)
+public function fail($exception = null)
 ```
 
 **Parameters:**
@@ -210,7 +296,7 @@ public function fail(mixed $exception = null)
 Release the job back into the queue after (n) seconds.
 
 ```php
-public function release(mixed $delay = 0)
+public function release($delay = 0)
 ```
 
 **Parameters:**
@@ -274,7 +360,7 @@ public function assertFailed()
 Assert that the job was manually failed with a specific exception.
 
 ```php
-public function assertFailedWith(mixed $exception)
+public function assertFailedWith($exception)
 ```
 
 **Parameters:**
@@ -302,7 +388,7 @@ public function assertNotFailed()
 Assert that the job was released back onto the queue.
 
 ```php
-public function assertReleased(mixed $delay = null)
+public function assertReleased($delay = null)
 ```
 
 **Parameters:**
@@ -346,7 +432,7 @@ public function setJob(Illuminate\Contracts\Queue\Job $job)
 Set the desired connection for the job.
 
 ```php
-public function onConnection(mixed $connection)
+public function onConnection($connection)
 ```
 
 **Parameters:**
@@ -362,7 +448,7 @@ public function onConnection(mixed $connection)
 Set the desired queue for the job.
 
 ```php
-public function onQueue(mixed $queue)
+public function onQueue($queue)
 ```
 
 **Parameters:**
@@ -378,7 +464,7 @@ public function onQueue(mixed $queue)
 Set the desired connection for the chain.
 
 ```php
-public function allOnConnection(mixed $connection)
+public function allOnConnection($connection)
 ```
 
 **Parameters:**
@@ -394,7 +480,7 @@ public function allOnConnection(mixed $connection)
 Set the desired queue for the chain.
 
 ```php
-public function allOnQueue(mixed $queue)
+public function allOnQueue($queue)
 ```
 
 **Parameters:**
@@ -410,7 +496,7 @@ public function allOnQueue(mixed $queue)
 Set the desired delay in seconds for the job.
 
 ```php
-public function delay(mixed $delay)
+public function delay($delay)
 ```
 
 **Parameters:**
@@ -462,7 +548,7 @@ public function beforeCommit()
 Specify the middleware the job should be dispatched through.
 
 ```php
-public function through(mixed $middleware)
+public function through($middleware)
 ```
 
 **Parameters:**
@@ -478,7 +564,7 @@ public function through(mixed $middleware)
 Set the jobs that should run if this job is successful.
 
 ```php
-public function chain(mixed $chain)
+public function chain($chain)
 ```
 
 **Parameters:**
@@ -494,7 +580,7 @@ public function chain(mixed $chain)
 Prepend a job to the current chain so that it is run after the currently running job.
 
 ```php
-public function prependToChain(mixed $job)
+public function prependToChain($job)
 ```
 
 **Parameters:**
@@ -510,7 +596,7 @@ public function prependToChain(mixed $job)
 Append a job to the end of the current chain.
 
 ```php
-public function appendToChain(mixed $job)
+public function appendToChain($job)
 ```
 
 **Parameters:**
@@ -538,7 +624,7 @@ public function dispatchNextJobInChain()
 Invoke all of the chain's failed job callbacks.
 
 ```php
-public function invokeChainCatchCallbacks(mixed $e)
+public function invokeChainCatchCallbacks($e)
 ```
 
 **Parameters:**
@@ -554,7 +640,7 @@ public function invokeChainCatchCallbacks(mixed $e)
 Assert that the job has the given chain of jobs attached to it.
 
 ```php
-public function assertHasChain(mixed $expectedChain)
+public function assertHasChain($expectedChain)
 ```
 
 **Parameters:**
@@ -610,7 +696,7 @@ public function __unserialize(array $values)
 Restore the model from the model identifier instance.
 
 ```php
-public function restoreModel(mixed $value)
+public function restoreModel($value)
 ```
 
 **Parameters:**

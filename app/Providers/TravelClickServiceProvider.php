@@ -105,6 +105,8 @@ class TravelClickServiceProvider extends ServiceProvider
                 \App\TravelClick\Console\Commands\ValidateConfigurationCommand::class,
                 \App\TravelClick\Console\Commands\CacheConfigurationCommand::class,
                 \App\TravelClick\Console\Commands\SetupSoapEndpointCommand::class,
+                \App\TravelClick\Console\Commands\SetupBddStructureCommand::class, //creates bdd structure [php artisan travelclick:setup-bdd --with-samples --force]
+                \App\TravelClick\Console\Commands\ImportTravelClickSamplesCommand::class, //create fixtures from samples [php artisan travelclick:import-samples --source-dir="C:\Work\ExperienceEngine\Docs\PMSC Integration PacketV.2024.02.20\samples\Pmsconnect_HTNG_GoldCertificationSamples" --force]
             ]);
         }
 

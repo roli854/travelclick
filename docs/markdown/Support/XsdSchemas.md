@@ -19,7 +19,7 @@ of different message types in the TravelClick integration.
 Get the file path for a specific message type's XSD schema
 
 ```php
-public function getSchemaPath(App\TravelClick\Enums\MessageType $messageType): string
+public function getSchemaPath(MessageType $messageType): string
 ```
 
 **Parameters:**
@@ -35,7 +35,7 @@ public function getSchemaPath(App\TravelClick\Enums\MessageType $messageType): s
 Get the content of an XSD schema for a specific message type
 
 ```php
-public function getSchemaContent(App\TravelClick\Enums\MessageType $messageType): string
+public function getSchemaContent(MessageType $messageType): string
 ```
 
 **Parameters:**
@@ -51,7 +51,7 @@ public function getSchemaContent(App\TravelClick\Enums\MessageType $messageType)
 Check if a schema exists for a specific message type
 
 ```php
-public function hasSchema(App\TravelClick\Enums\MessageType $messageType): bool
+public function hasSchema(MessageType $messageType): bool
 ```
 
 **Parameters:**

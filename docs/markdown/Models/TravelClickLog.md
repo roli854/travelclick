@@ -12,6 +12,23 @@ TravelClick Log Model
 This model represents the main audit log for all TravelClick operations.
 It's like a detailed journal of every interaction with TravelClick.
 
+## Constants
+
+### `CREATED_AT`
+
+Laravel timestamp configuration.
+Using custom timestamp field names following Centrium convention.
+
+**Value:** `'DateCreated'`
+
+---
+
+### `UPDATED_AT`
+
+**Value:** `'DateModified'`
+
+---
+
 ## Methods
 
 ### `systemUser`
@@ -60,7 +77,7 @@ public function messageHistory(): Illuminate\Database\Eloquent\Relations\HasMany
 Scope to filter by direction (inbound/outbound).
 
 ```php
-public function scopeDirection(Illuminate\Database\Eloquent\Builder $query, App\TravelClick\Enums\MessageDirection $direction): Illuminate\Database\Eloquent\Builder
+public function scopeDirection(Illuminate\Database\Eloquent\Builder $query, MessageDirection $direction): Illuminate\Database\Eloquent\Builder
 ```
 
 ---
@@ -70,7 +87,7 @@ public function scopeDirection(Illuminate\Database\Eloquent\Builder $query, App\
 Scope to filter by message type.
 
 ```php
-public function scopeByType(Illuminate\Database\Eloquent\Builder $query, App\TravelClick\Enums\MessageType $messageType): Illuminate\Database\Eloquent\Builder
+public function scopeByType(Illuminate\Database\Eloquent\Builder $query, MessageType $messageType): Illuminate\Database\Eloquent\Builder
 ```
 
 ---
@@ -80,7 +97,7 @@ public function scopeByType(Illuminate\Database\Eloquent\Builder $query, App\Tra
 Scope to filter by status.
 
 ```php
-public function scopeByStatus(Illuminate\Database\Eloquent\Builder $query, App\TravelClick\Enums\SyncStatus $status): Illuminate\Database\Eloquent\Builder
+public function scopeByStatus(Illuminate\Database\Eloquent\Builder $query, SyncStatus $status): Illuminate\Database\Eloquent\Builder
 ```
 
 ---
@@ -270,7 +287,7 @@ public function markAsStarted(): bool
 Mark the operation as completed successfully.
 
 ```php
-public function markAsCompleted(string $responseXml = null): bool
+public function markAsCompleted(string|null $responseXml = null): bool
 ```
 
 ---
@@ -280,7 +297,7 @@ public function markAsCompleted(string $responseXml = null): bool
 Mark the operation as failed.
 
 ```php
-public function markAsFailed(App\TravelClick\Enums\ErrorType $errorType, string $errorMessage, string $responseXml = null): bool
+public function markAsFailed(ErrorType $errorType, string $errorMessage, string|null $responseXml = null): bool
 ```
 
 ---
@@ -310,7 +327,7 @@ public function addMetadata(array $data): bool
 Create a new TravelClick log entry.
 
 ```php
-public function createLog(string $messageId, App\TravelClick\Enums\MessageDirection $direction, App\TravelClick\Enums\MessageType $messageType, int $propertyId, string $hotelCode = null, string $requestXml = null, array $metadata = [], string $jobId = null, int $systemUserId = null): self
+public function createLog(string $messageId, MessageDirection $direction, MessageType $messageType, int $propertyId, string|null $hotelCode = null, string|null $requestXml = null, array $metadata = [], string|null $jobId = null, int|null $systemUserId = null): self
 ```
 
 ---
@@ -360,7 +377,7 @@ public function cleanup(int $daysToKeep = 30): int
 Get error pattern analysis.
 
 ```php
-public function getErrorPatterns(int $propertyId = null, int $days = 7): array
+public function getErrorPatterns(int|null $propertyId = null, int $days = 7): array
 ```
 
 ---
@@ -370,7 +387,7 @@ public function getErrorPatterns(int $propertyId = null, int $days = 7): array
 Get a new factory instance for the model.
 
 ```php
-public function factory(mixed $count = null, mixed $state = [])
+public function factory($count = null, $state = [])
 ```
 
 **Returns:** TFactory - 

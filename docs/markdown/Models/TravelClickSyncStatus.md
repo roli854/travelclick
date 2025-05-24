@@ -13,6 +13,14 @@ Tracks the synchronization status for each property and message type.
 This model is like a "status board" that shows the current state of all
 sync operations, helping identify what needs attention and what's running smoothly.
 
+## Properties
+
+### `$timestamps`
+
+Disable Laravel timestamps as we use Centrium conventions
+
+---
+
 ## Methods
 
 ### `property`
@@ -82,7 +90,7 @@ public function scopeForProperty(Illuminate\Database\Eloquent\Builder $query, in
 Scope: Filter by message type
 
 ```php
-public function scopeOfType(Illuminate\Database\Eloquent\Builder $query, App\TravelClick\Enums\MessageType $messageType): Illuminate\Database\Eloquent\Builder
+public function scopeOfType(Illuminate\Database\Eloquent\Builder $query, MessageType $messageType): Illuminate\Database\Eloquent\Builder
 ```
 
 ---
@@ -92,7 +100,7 @@ public function scopeOfType(Illuminate\Database\Eloquent\Builder $query, App\Tra
 Scope: Filter by status
 
 ```php
-public function scopeWithStatus(Illuminate\Database\Eloquent\Builder $query, App\TravelClick\Enums\SyncStatus $status): Illuminate\Database\Eloquent\Builder
+public function scopeWithStatus(Illuminate\Database\Eloquent\Builder $query, SyncStatus $status): Illuminate\Database\Eloquent\Builder
 ```
 
 ---
@@ -212,7 +220,7 @@ public function getTimeSinceLastSuccess(): string
 Mark sync as started
 
 ```php
-public function markAsStarted(int $totalRecords = null, int $userId = null): self
+public function markAsStarted(int|null $totalRecords = null, int|null $userId = null): self
 ```
 
 ---
@@ -222,7 +230,7 @@ public function markAsStarted(int $totalRecords = null, int $userId = null): sel
 Update progress during sync
 
 ```php
-public function updateProgress(int $processed, string $messageId = null): self
+public function updateProgress(int $processed, string|null $messageId = null): self
 ```
 
 ---
@@ -232,7 +240,7 @@ public function updateProgress(int $processed, string $messageId = null): self
 Mark sync as completed successfully
 
 ```php
-public function markAsCompleted(int $finalProcessed = null, array $context = []): self
+public function markAsCompleted(int|null $finalProcessed = null, array $context = []): self
 ```
 
 ---
@@ -252,7 +260,7 @@ public function markAsFailed(string $errorMessage, array $context = []): self
 Reset for manual retry
 
 ```php
-public function resetForRetry(int $userId = null): self
+public function resetForRetry(int|null $userId = null): self
 ```
 
 ---
@@ -282,7 +290,7 @@ public function enableAutoRetry(): self
 Schedule next retry attempt
 
 ```php
-public function scheduleNextRetry(int $delayMinutes = null): self
+public function scheduleNextRetry(int|null $delayMinutes = null): self
 ```
 
 ---
@@ -323,7 +331,7 @@ public function getSyncHealthScoreAttribute(): int
 Create or find sync status for a property and message type
 
 ```php
-public function findOrCreateForProperty(int $propertyId, App\TravelClick\Enums\MessageType $messageType, array $attributes = []): self
+public function findOrCreateForProperty(int $propertyId, MessageType $messageType, array $attributes = []): self
 ```
 
 ---
@@ -343,7 +351,7 @@ public function getPropertyStats(int $propertyId, int $days = 30): array
 Get syncs that need attention (failed, long running, low success rate)
 
 ```php
-public function getNeedsAttention(int $propertyId = null): array
+public function getNeedsAttention(int|null $propertyId = null): array
 ```
 
 ---
@@ -364,7 +372,7 @@ Helper method to get property information safely (cross-database)
 This method helps handle the cross-database relationship gracefully
 
 ```php
-public function getPropertyInfo(): array
+public function getPropertyInfo(): array|null
 ```
 
 ---
@@ -374,7 +382,7 @@ public function getPropertyInfo(): array
 Get a new factory instance for the model.
 
 ```php
-public function factory(mixed $count = null, mixed $state = [])
+public function factory($count = null, $state = [])
 ```
 
 **Returns:** TFactory - 

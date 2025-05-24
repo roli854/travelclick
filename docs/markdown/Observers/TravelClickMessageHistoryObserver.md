@@ -29,7 +29,7 @@ When a new message is created, we need to:
 3. Cache the message for deduplication
 
 ```php
-public function created(App\TravelClick\Models\TravelClickMessageHistory $messageHistory): void
+public function created(TravelClickMessageHistory $messageHistory): void
 ```
 
 ---
@@ -43,7 +43,7 @@ When a message is updated (usually status changes), we need to:
 3. Fire appropriate events
 
 ```php
-public function updated(App\TravelClick\Models\TravelClickMessageHistory $messageHistory): void
+public function updated(TravelClickMessageHistory $messageHistory): void
 ```
 
 ---
@@ -54,7 +54,7 @@ Handle the TravelClickMessageHistory "deleted" event.
 Clean up any related cache entries and update metrics.
 
 ```php
-public function deleted(App\TravelClick\Models\TravelClickMessageHistory $messageHistory): void
+public function deleted(TravelClickMessageHistory $messageHistory): void
 ```
 
 ---

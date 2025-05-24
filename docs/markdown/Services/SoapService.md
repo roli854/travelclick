@@ -18,7 +18,7 @@ TravelClick HTNG 2011B specifications.
 ### `__construct`
 
 ```php
-public function __construct(App\TravelClick\Support\SoapClientFactory|null $clientFactory = null)
+public function __construct(SoapClientFactory|null $clientFactory = null)
 ```
 
 ---
@@ -28,7 +28,7 @@ public function __construct(App\TravelClick\Support\SoapClientFactory|null $clie
 Send a SOAP request to TravelClick
 
 ```php
-public function sendRequest(App\TravelClick\DTOs\SoapRequestDto $request): App\TravelClick\DTOs\SoapResponseDto
+public function sendRequest(SoapRequestDto $request): SoapResponseDto
 ```
 
 ---
@@ -38,7 +38,7 @@ public function sendRequest(App\TravelClick\DTOs\SoapRequestDto $request): App\T
 Update inventory at TravelClick
 
 ```php
-public function updateInventory(string $xml, string $hotelCode): App\TravelClick\DTOs\SoapResponseDto
+public function updateInventory(string $xml, string $hotelCode): SoapResponseDto
 ```
 
 ---
@@ -48,7 +48,7 @@ public function updateInventory(string $xml, string $hotelCode): App\TravelClick
 Update rates at TravelClick
 
 ```php
-public function updateRates(string $xml, string $hotelCode): App\TravelClick\DTOs\SoapResponseDto
+public function updateRates(string $xml, string $hotelCode): SoapResponseDto
 ```
 
 ---
@@ -58,7 +58,7 @@ public function updateRates(string $xml, string $hotelCode): App\TravelClick\DTO
 Send reservation to TravelClick
 
 ```php
-public function sendReservation(string $xml, string $hotelCode): App\TravelClick\DTOs\SoapResponseDto
+public function sendReservation(string $xml, string $hotelCode): SoapResponseDto
 ```
 
 ---

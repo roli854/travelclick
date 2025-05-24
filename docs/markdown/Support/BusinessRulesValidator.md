@@ -19,7 +19,7 @@ Ensures compliance with TravelClick/iHotelier business requirements.
 Constructor
 
 ```php
-public function __construct(App\TravelClick\Services\Contracts\ConfigurationServiceInterface $configurationService)
+public function __construct(ConfigurationServiceInterface $configurationService)
 ```
 
 ---

@@ -14,6 +14,73 @@ for working with XML namespaces in TravelClick integration.
 Like having a directory of all the "languages" (namespaces) that
 different parts of the XML document speak.
 
+## Constants
+
+### `SOAP_ENVELOPE`
+
+SOAP envelope namespace - the "wrapper" for all SOAP messages
+
+**Value:** `'http://www.w3.org/2003/05/soap-envelope'`
+
+---
+
+### `WS_ADDRESSING`
+
+WS-Addressing namespace - for routing and addressing SOAP messages
+
+**Value:** `'http://www.w3.org/2005/08/addressing'`
+
+---
+
+### `WS_SECURITY`
+
+WS-Security namespace - for authentication and security headers
+
+**Value:** `'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'`
+
+---
+
+### `HTN_SERVICE`
+
+HTN namespace - TravelClick/iHotelier specific namespace
+
+**Value:** `'http://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService'`
+
+---
+
+### `OTA_2003`
+
+OTA namespace - OpenTravel Alliance standard namespace
+
+**Value:** `'http://www.opentravel.org/OTA/2003/05'`
+
+---
+
+### `XSI`
+
+XML Schema Instance namespace - for XML schema references
+
+**Value:** `'http://www.w3.org/2001/XMLSchema-instance'`
+
+---
+
+### `XSD`
+
+XML Schema namespace - for XML schema definitions
+
+**Value:** `'http://www.w3.org/2001/XMLSchema'`
+
+---
+
+### `PREFIX_MAPPING`
+
+Standard namespace prefixes mapping
+Like having standard abbreviations for long department names
+
+**Value:** `[...]`
+
+---
+
 ## Methods
 
 ### `getStandardNamespaces`
@@ -109,7 +176,7 @@ public function isValidPrefix(string $prefix): bool
 Get namespace URI by prefix
 
 ```php
-public function getNamespaceByPrefix(string $prefix): string
+public function getNamespaceByPrefix(string $prefix): string|null
 ```
 
 **Parameters:**

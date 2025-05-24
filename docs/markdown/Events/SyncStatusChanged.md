@@ -18,6 +18,46 @@ This event can be listened to by multiple parts of the system:
 - Notification systems to alert administrators
 - Analytics systems to track patterns
 
+## Properties
+
+### `$syncStatus`
+
+The sync status that changed
+
+**Type:** `TravelClickSyncStatus`
+
+---
+
+### `$previousStatus`
+
+The previous status (null if created)
+
+**Type:** `string|null`
+
+---
+
+### `$changeType`
+
+The type of change (created, updated, deleted)
+
+**Type:** `string`
+
+---
+
+### `$context`
+
+Additional context about the change
+
+**Type:** `array`
+
+---
+
+### `$socket`
+
+The socket ID for the user that raised the event.
+
+---
+
 ## Methods
 
 ### `__construct`
@@ -25,7 +65,7 @@ This event can be listened to by multiple parts of the system:
 Create a new event instance.
 
 ```php
-public function __construct(App\TravelClick\Models\TravelClickSyncStatus $syncStatus, string $previousStatus = null, string $changeType = 'updated', array $context = [])
+public function __construct(TravelClickSyncStatus $syncStatus, string|null $previousStatus = null, string $changeType = 'updated', array $context = [])
 ```
 
 **Parameters:**
@@ -200,7 +240,7 @@ public function dispatch()
 Dispatch the event with the given arguments if the given truth test passes.
 
 ```php
-public function dispatchIf(mixed $boolean, mixed $arguments)
+public function dispatchIf($boolean, ...$arguments)
 ```
 
 **Parameters:**
@@ -216,7 +256,7 @@ public function dispatchIf(mixed $boolean, mixed $arguments)
 Dispatch the event with the given arguments unless the given truth test passes.
 
 ```php
-public function dispatchUnless(mixed $boolean, mixed $arguments)
+public function dispatchUnless($boolean, ...$arguments)
 ```
 
 **Parameters:**
@@ -296,7 +336,7 @@ public function __unserialize(array $values)
 Restore the model from the model identifier instance.
 
 ```php
-public function restoreModel(mixed $value)
+public function restoreModel($value)
 ```
 
 **Parameters:**

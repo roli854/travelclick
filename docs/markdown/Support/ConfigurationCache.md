@@ -27,7 +27,7 @@ public function __construct()
 Get cached property configuration
 
 ```php
-public function getPropertyConfig(int $propertyId): App\TravelClick\DTOs\PropertyConfigDto|null
+public function getPropertyConfig(int $propertyId): PropertyConfigDto|null
 ```
 
 ---
@@ -37,7 +37,7 @@ public function getPropertyConfig(int $propertyId): App\TravelClick\DTOs\Propert
 Cache property configuration
 
 ```php
-public function putPropertyConfig(int $propertyId, App\TravelClick\DTOs\PropertyConfigDto $config): bool
+public function putPropertyConfig(int $propertyId, PropertyConfigDto $config): bool
 ```
 
 ---
@@ -47,7 +47,7 @@ public function putPropertyConfig(int $propertyId, App\TravelClick\DTOs\Property
 Get cached global configuration
 
 ```php
-public function getGlobalConfig(): App\TravelClick\DTOs\TravelClickConfigDto|null
+public function getGlobalConfig(): TravelClickConfigDto|null
 ```
 
 ---
@@ -57,7 +57,7 @@ public function getGlobalConfig(): App\TravelClick\DTOs\TravelClickConfigDto|nul
 Cache global configuration
 
 ```php
-public function putGlobalConfig(App\TravelClick\DTOs\TravelClickConfigDto $config): bool
+public function putGlobalConfig(TravelClickConfigDto $config): bool
 ```
 
 ---
@@ -67,7 +67,7 @@ public function putGlobalConfig(App\TravelClick\DTOs\TravelClickConfigDto $confi
 Get cached endpoint configuration
 
 ```php
-public function getEndpointConfig(App\TravelClick\Enums\Environment $environment): App\TravelClick\DTOs\EndpointConfigDto|null
+public function getEndpointConfig(Environment $environment): EndpointConfigDto|null
 ```
 
 ---
@@ -77,7 +77,7 @@ public function getEndpointConfig(App\TravelClick\Enums\Environment $environment
 Cache endpoint configuration
 
 ```php
-public function putEndpointConfig(App\TravelClick\Enums\Environment $environment, App\TravelClick\DTOs\EndpointConfigDto $config): bool
+public function putEndpointConfig(Environment $environment, EndpointConfigDto $config): bool
 ```
 
 ---
@@ -87,7 +87,7 @@ public function putEndpointConfig(App\TravelClick\Enums\Environment $environment
 Clear property configuration cache
 
 ```php
-public function clearPropertyConfig(int $propertyId = null): bool
+public function clearPropertyConfig(int|null $propertyId = null): bool
 ```
 
 ---

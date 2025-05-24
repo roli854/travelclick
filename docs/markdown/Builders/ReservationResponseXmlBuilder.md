@@ -18,7 +18,7 @@ for the HTNG 2011B protocol.
 Builds a success response for a reservation transaction.
 
 ```php
-public function buildSuccessResponse(string $reservationId, string $confirmationNumber, string $hotelCode, string $message = null): string
+public function buildSuccessResponse(string $reservationId, string $confirmationNumber, string $hotelCode, string|null $message = null): string
 ```
 
 **Parameters:**

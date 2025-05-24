@@ -4,7 +4,7 @@
 
 **File:** `Enums/MessageType.php`
 
-**Type:** Class
+**Type:** Enum
 
 ## Description
 
@@ -16,6 +16,82 @@ Think of these as different types of letters you might send:
 - Rates: "Here are our prices"
 - Reservation: "We have a new booking"
 - etc.
+
+## Constants
+
+### `INVENTORY`
+
+Inventory Messages - OTA_HotelInvCountNotifRQ
+Used to update room availability and counts
+
+**Value:** `\App\TravelClick\Enums\MessageType::INVENTORY`
+
+---
+
+### `RATES`
+
+Rate Messages - OTA_HotelRateNotifRQ
+Used to update room rates and pricing
+
+**Value:** `\App\TravelClick\Enums\MessageType::RATES`
+
+---
+
+### `RESERVATION`
+
+Reservation Messages - OTA_HotelResNotifRQ
+Used to send new reservations, modifications, or cancellations
+
+**Value:** `\App\TravelClick\Enums\MessageType::RESERVATION`
+
+---
+
+### `RESTRICTIONS`
+
+Restriction Messages - OTA_HotelAvailNotifRQ
+Used to send availability restrictions (stop sale, min/max stay, etc.)
+
+**Value:** `\App\TravelClick\Enums\MessageType::RESTRICTIONS`
+
+---
+
+### `GROUP_BLOCK`
+
+Group Block Messages - OTA_HotelInvBlockNotifRQ
+Used to create, modify, or cancel group allocations
+
+**Value:** `\App\TravelClick\Enums\MessageType::GROUP_BLOCK`
+
+---
+
+### `RESPONSE`
+
+Response Messages - Various response types
+Used for acknowledgments and error responses
+
+**Value:** `\App\TravelClick\Enums\MessageType::RESPONSE`
+
+---
+
+### `UNKNOWN`
+
+**Value:** `\App\TravelClick\Enums\MessageType::UNKNOWN`
+
+---
+
+## Properties
+
+### `$name`
+
+**Type:** `string`
+
+---
+
+### `$value`
+
+**Type:** `string`
+
+---
 
 ## Methods
 

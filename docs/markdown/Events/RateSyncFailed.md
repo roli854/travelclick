@@ -6,6 +6,44 @@
 
 **Type:** Class
 
+## Properties
+
+### `$hotelCode`
+
+**Type:** `string`
+
+---
+
+### `$operationType`
+
+**Type:** `RateOperationType`
+
+---
+
+### `$errorMessage`
+
+**Type:** `string`
+
+---
+
+### `$exceptionClass`
+
+**Type:** `string`
+
+---
+
+### `$trackingId`
+
+**Type:** `string|null`
+
+---
+
+### `$socket`
+
+The socket ID for the user that raised the event.
+
+---
+
 ## Methods
 
 ### `__construct`
@@ -13,7 +51,7 @@
 Create a new event instance.
 
 ```php
-public function __construct(string $hotelCode, App\TravelClick\Enums\RateOperationType $operationType, string $errorMessage, string $exceptionClass, string $trackingId = null)
+public function __construct(string $hotelCode, RateOperationType $operationType, string $errorMessage, string $exceptionClass, string|null $trackingId = null)
 ```
 
 **Parameters:**
@@ -57,7 +95,7 @@ public function dispatch()
 Dispatch the event with the given arguments if the given truth test passes.
 
 ```php
-public function dispatchIf(mixed $boolean, mixed $arguments)
+public function dispatchIf($boolean, ...$arguments)
 ```
 
 **Parameters:**
@@ -73,7 +111,7 @@ public function dispatchIf(mixed $boolean, mixed $arguments)
 Dispatch the event with the given arguments unless the given truth test passes.
 
 ```php
-public function dispatchUnless(mixed $boolean, mixed $arguments)
+public function dispatchUnless($boolean, ...$arguments)
 ```
 
 **Parameters:**
@@ -153,7 +191,7 @@ public function __unserialize(array $values)
 Restore the model from the model identifier instance.
 
 ```php
-public function restoreModel(mixed $value)
+public function restoreModel($value)
 ```
 
 **Parameters:**

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BDD Fixture: inventory/inventory_available_count.xml -->
+<!-- Generated from TravelClick Gold Certification Samples -->
+<!-- Variables: Use {{variable_name}} format for template replacement -->
+
+<soapenv:Envelope  xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:htn="http://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService">
+	<soapenv:Header>
+		<wsa:MessageID>TEST INVENTORY MESSAGE</wsa:MessageID>
+		<wsa:To>https://connect-c1.ihotelier.com/HTNGService/services/HTNG2011BService</wsa:To>
+		<wsa:ReplyTo>
+			<wsa:Address>https://pms.vendor.com/ServiceName</wsa:Address>
+			<!-- wss:Address should contain the vendor's URL where our end should send the response messages -->
+		</wsa:ReplyTo>
+		<wsa:Action>https://connect-c1.ihotelier.com/HTNGService/services/HTNG2011BService/HTNG2011B_SubmitRequest</wsa:Action>
+		<wsse:Security>
+			<wsse:UsernameToken>
+				<wsse:Username>235119</wsse:Username>
+				<wsse:Password>C0nn3ct235119</wsse:Password>
+			</wsse:UsernameToken>
+		</wsse:Security>
+		<wsa:From>
+			<wsa:ReferenceProperties>
+				<htn:HotelCode>235119</htn:HotelCode>
+			</wsa:ReferenceProperties>
+		</wsa:From>
+	</soapenv:Header>
+	<soapenv:Body>
+		<OTA_HotelInvCountNotifRQ EchoToken="{{echo_token}}" TimeStamp="{{timestamp}}" Target="Production" Version="1.001">
+			<Inventories  HotelCode="{{hotel_code}}" >
+				<Inventory>
+					<UniqueID Type="16" ID="Test 123" />
+					<StatusApplicationControl Start="{{start_date}}" End="{{end_date}}" InvTypeCode="{{room_type}}" />
+					<InvCounts>
+						<InvCount CountType="4" Count="{{count}}" />
+						<InvCount CountType="5" Count="{{count}}" />
+						<InvCount CountType="6" Count="{{count}}" />
+					</InvCounts>
+				</Inventory>
+			</Inventories>
+		</OTA_HotelInvCountNotifRQ>
+	</soapenv:Body>
+</soapenv:Envelope>

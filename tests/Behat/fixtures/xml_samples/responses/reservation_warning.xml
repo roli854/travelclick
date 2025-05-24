@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BDD Fixture: responses/reservation_warning.xml -->
+<!-- Generated from TravelClick Gold Certification Samples -->
+<!-- Variables: Use {{variable_name}} format for template replacement -->
+
+<soapenv:Envelope  xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:htn="http://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService">
+	<soapenv:Header>
+		<wsa:MessageID>TEST RESPONSE WARNING MESSAGE</wsa:MessageID>
+		<wsa:To>https://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService</wsa:To>
+		<wsa:ReplyTo>
+			<wsa:Address>https://pms.vendor.com/ServiceName</wsa:Address>
+			<!-- wss:Address should contain the vendor's URL where our end should send the response messages -->
+		</wsa:ReplyTo>
+		<wsa:RelatesTo>15456</wsa:RelatesTo>
+		<wsa:Action>https://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService/HTNG2011B_SubmitRequest</wsa:Action>
+		<wsse:Security>
+			<wsse:UsernameToken>
+				<wsse:Username>279605</wsse:Username>
+				<wsse:Password>C0nn3ct279605</wsse:Password>
+			</wsse:UsernameToken>
+		</wsse:Security>
+		<wsa:From>
+			<wsa:ReferenceProperties>
+				<htn:HotelCode>279605</htn:HotelCode>
+			</wsa:ReferenceProperties>
+		</wsa:From>
+	</soapenv:Header>
+	<soapenv:Body>
+		<OTA_HotelResNotifRS schemaLocation="http://www.opentravel.org/OTA/2003/05 OTA_HotelResNotifRS.xsd" Version="1.003" TimeStamp="{{timestamp}}" ResResponseType="Committed" HotelCode="{{hotel_code}}" EchoToken="{{echo_token}}">
+			<Success /> 
+			<Warnings >
+				<Warning Code="320" Type="3">Reservation is using the default room type</Warning>
+			</Warnings>
+			<HotelReservations>
+				<HotelReservation>
+					<UniqueID Type="14" ID="143905334" /> 
+					<ResGlobalInfo>
+						<HotelReservationIDs>
+							<HotelReservationID ResID_Type="14" ResID_Value="{{confirmation_number}}" ResID_Source="TRAVELCLICK" ForGuest="true" /> 
+							<HotelReservationID ResID_Type="10" ResID_Value="{{confirmation_number}}" ResID_Source="PMS" ForGuest="true" /> 
+						</HotelReservationIDs>
+					</ResGlobalInfo>
+				</HotelReservation>
+			</HotelReservations>
+		</OTA_HotelResNotifRS>
+	</soapenv:Body>
+</soapenv:Envelope>

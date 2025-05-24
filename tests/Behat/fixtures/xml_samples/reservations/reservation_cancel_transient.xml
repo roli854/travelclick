@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BDD Fixture: reservations/reservation_cancel_transient.xml -->
+<!-- Generated from TravelClick Gold Certification Samples -->
+<!-- Variables: Use {{variable_name}} format for template replacement -->
+
+<soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:htn="http://pms.ihotelier.com/HTNGService/services/HTNG2011BService" >
+	<soapenv:Header>
+		<wsa:MessageID>715</wsa:MessageID>
+		<wsa:To>http://pmcoutllm01-t5.tcprod.local:8080/HtngSimulator/PMSInterfaceSimulator</wsa:To>
+		<!-- wss:To contains the vendor's URL where our end should send the response messages -->
+		<wsa:ReplyTo>
+			<wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
+		</wsa:ReplyTo>
+		<wsa:Action>http://htng.org/2011B/HTNG2011B_SubmitResult</wsa:Action>
+	</soapenv:Header>
+	<soapenv:Body>
+		<OTA_HotelResNotifRQ xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opentravel.org/OTA/2003/05 OTA_HotelResNotifRQ.xsd" Version="1.003" EchoToken="{{echo_token}}" TimeStamp="{{timestamp}}" ResStatus="Cancel">
+			<POS>
+				<Source>
+					<RequestorID Type="14" ID="Travelclick"/>
+				</Source>
+			</POS>
+			<HotelReservations>
+				<HotelReservation CreatorID="Travelclick" CreateDateTime="2013-03-14T12:00:00" LastModifiedDateTime="2013-03-14T12:53:02" LastModifierID="Travelclick" ResStatus="Cancelled">
+					<UniqueID ID="{{reservation_id}}" Type="14"/>
+					<ResGlobalInfo>
+						<HotelReservationIDs>
+							<HotelReservationID ResID_Value="{{confirmation_number}}" ResID_Type="15" ResID_Source="TRAVELCLICK"/>
+							<HotelReservationID ResID_Value="{{confirmation_number}}" ResID_Type="10" ResID_Source="PMS"/>
+						</HotelReservationIDs>
+						<Profiles>
+							<ProfileInfo>
+								<Profile ProfileType="1">
+									<Customer>
+										<ContactPerson>
+											<PersonName>
+												<Surname>{{guest_last_name}}</Surname>
+											</PersonName>
+											<Telephone PhoneLocationType="6" PhoneTechType="1" PhoneNumber="{{phone_number}}" FormattedInd="0"/>
+											<Telephone PhoneLocationType="6" PhoneTechType="1" PhoneNumber="{{phone_number}}" FormattedInd="0"/>
+										</ContactPerson>
+									</Customer>
+								</Profile>
+							</ProfileInfo>
+						</Profiles>
+					</ResGlobalInfo>
+				</HotelReservation>
+				<TPA_Extensions HotelCode="{{hotel_code}}" />
+			</HotelReservations>
+		</OTA_HotelResNotifRQ>
+	</soapenv:Body>
+</soapenv:Envelope>

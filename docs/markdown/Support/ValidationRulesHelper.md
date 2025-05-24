@@ -14,6 +14,68 @@ Provides utility methods for parsing and validating dates, codes, ranges, and bu
 This class complements BusinessRulesValidator by providing reusable validation methods
 that can be used across different parts of the TravelClick integration.
 
+## Constants
+
+### `HTNG_DATE_FORMAT`
+
+HTNG date format for XML messages
+
+**Value:** `'Y-m-d'`
+
+---
+
+### `HTNG_DATETIME_FORMAT`
+
+**Value:** `'Y-m-d\TH:i:s'`
+
+---
+
+### `HTNG_DATETIME_WITH_TZ_FORMAT`
+
+**Value:** `'Y-m-d\TH:i:s.u\Z'`
+
+---
+
+### `MAX_DATE_RANGE_DAYS`
+
+Maximum allowed date range for most operations (in days)
+
+**Value:** `365`
+
+---
+
+### `MAX_FUTURE_BOOKING_YEARS`
+
+Maximum allowed future booking date (in years)
+
+**Value:** `2`
+
+---
+
+### `HOTEL_CODE_PATTERN`
+
+Hotel code pattern (typically 6 digits)
+
+**Value:** `'/^\d{6}$/'`
+
+---
+
+### `ROOM_TYPE_CODE_PATTERN`
+
+Room type code pattern (3-10 alphanumeric characters)
+
+**Value:** `'/^[A-Z0-9]{3,10}$/'`
+
+---
+
+### `RATE_PLAN_CODE_PATTERN`
+
+Rate plan code pattern (3-20 alphanumeric characters with possible hyphens)
+
+**Value:** `'/^[A-Z0-9\-]{3,20}$/'`
+
+---
+
 ## Methods
 
 ### `validateAndParseHtngDate`
@@ -139,7 +201,7 @@ public function validateNumericRange(int|float $value, int|float $min, int|float
 Validate count type and count value combination
 
 ```php
-public function validateCountTypeAndValue(App\TravelClick\Enums\CountType $countType, int $count): array
+public function validateCountTypeAndValue(CountType $countType, int $count): array
 ```
 
 **Parameters:**

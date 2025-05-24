@@ -13,6 +13,222 @@ This is the main DTO that integrates all aspects of a reservation for HTNG
 message construction. It combines guest, room stay, profile and request data
 into a single cohesive structure.
 
+## Properties
+
+### `$reservationType`
+
+Reservation type and identifiers
+
+**Type:** `ReservationType`
+
+---
+
+### `$reservationId`
+
+**Type:** `string`
+
+---
+
+### `$confirmationNumber`
+
+**Type:** `string|null`
+
+---
+
+### `$createDateTime`
+
+**Type:** `string`
+
+---
+
+### `$lastModifyDateTime`
+
+**Type:** `string|null`
+
+---
+
+### `$transactionIdentifier`
+
+**Type:** `string`
+
+---
+
+### `$transactionType`
+
+**Type:** `string`
+
+---
+
+### `$hotelCode`
+
+Hotel information
+
+**Type:** `string`
+
+---
+
+### `$chainCode`
+
+**Type:** `string|null`
+
+---
+
+### `$primaryGuest`
+
+Lead guest and additional guests
+
+**Type:** `GuestDataDto`
+
+---
+
+### `$additionalGuests`
+
+**Type:** `Illuminate\Support\Collection`
+
+---
+
+### `$roomStays`
+
+Room stay details
+
+**Type:** `Illuminate\Support\Collection`
+
+---
+
+### `$specialRequests`
+
+Special requests and services
+
+**Type:** `Illuminate\Support\Collection`
+
+---
+
+### `$serviceRequests`
+
+**Type:** `Illuminate\Support\Collection`
+
+---
+
+### `$profile`
+
+Profile information (for Travel Agency, Corporate, Group)
+
+**Type:** `ProfileDataDto|null`
+
+---
+
+### `$sourceOfBusiness`
+
+Source information
+
+**Type:** `string`
+
+---
+
+### `$marketSegment`
+
+**Type:** `string|null`
+
+---
+
+### `$departmentCode`
+
+**Type:** `string|null`
+
+---
+
+### `$guaranteeType`
+
+Payment information
+
+**Type:** `string|null`
+
+---
+
+### `$guaranteeCode`
+
+**Type:** `string|null`
+
+---
+
+### `$depositAmount`
+
+**Type:** `float|null`
+
+---
+
+### `$depositPaymentType`
+
+**Type:** `string|null`
+
+---
+
+### `$paymentCardNumber`
+
+**Type:** `string|null`
+
+---
+
+### `$paymentCardType`
+
+**Type:** `string|null`
+
+---
+
+### `$paymentCardExpiration`
+
+**Type:** `string|null`
+
+---
+
+### `$paymentCardHolderName`
+
+**Type:** `string|null`
+
+---
+
+### `$alternatePaymentType`
+
+Alternate payment info (for special deposits)
+
+**Type:** `string|null`
+
+---
+
+### `$alternatePaymentIdentifier`
+
+**Type:** `string|null`
+
+---
+
+### `$alternatePaymentAmount`
+
+**Type:** `float|null`
+
+---
+
+### `$invBlockCode`
+
+Group booking specific
+
+**Type:** `string|null`
+
+---
+
+### `$comments`
+
+Additional information
+
+**Type:** `string|null`
+
+---
+
+### `$priorityProcessing`
+
+**Type:** `bool`
+
+---
+
 ## Methods
 
 ### `__construct`
@@ -162,7 +378,7 @@ public function isNew(): bool
 Create from a Centrium booking
 
 ```php
-public function fromCentriumBooking(mixed $booking, App\TravelClick\Enums\ReservationType|null $type = null): self
+public function fromCentriumBooking($booking, ReservationType|null $type = null): self
 ```
 
 **Parameters:**
@@ -179,7 +395,7 @@ public function fromCentriumBooking(mixed $booking, App\TravelClick\Enums\Reserv
 Create for a cancellation transaction
 
 ```php
-public function createCancellation(string $reservationId, string $confirmationNumber, string $hotelCode, string $cancellationReason = null): self
+public function createCancellation(string $reservationId, string $confirmationNumber, string $hotelCode, string|null $cancellationReason = null): self
 ```
 
 **Parameters:**

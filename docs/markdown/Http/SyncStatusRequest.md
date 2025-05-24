@@ -75,7 +75,7 @@ Allows for complex validation logic that depends on multiple fields
 or business rules that can't be expressed with simple rules.
 
 ```php
-public function withValidator(mixed $validator): void
+public function withValidator($validator): void
 ```
 
 ---

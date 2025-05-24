@@ -17,7 +17,7 @@ providing context about what went wrong and how to fix it.
 ### `__construct`
 
 ```php
-public function __construct(string $message = '', int $code = 0, Throwable|null $previous = null, App\TravelClick\Enums\ConfigScope $scope = \App\TravelClick\Enums\ConfigScope::ALL, int $propertyId = null, array $context = [], array $suggestions = [])
+public function __construct(string $message = '', int $code = 0, Throwable|null $previous = null, ConfigScope $scope = \App\TravelClick\Enums\ConfigScope::ALL, int|null $propertyId = null, array $context = [], array $suggestions = [])
 ```
 
 ---
@@ -27,7 +27,7 @@ public function __construct(string $message = '', int $code = 0, Throwable|null 
 Get the configuration scope this error relates to
 
 ```php
-public function getScope(): App\TravelClick\Enums\ConfigScope
+public function getScope(): ConfigScope
 ```
 
 ---
@@ -37,7 +37,7 @@ public function getScope(): App\TravelClick\Enums\ConfigScope
 Get the property ID if this is a property-specific error
 
 ```php
-public function getPropertyId(): int
+public function getPropertyId(): int|null
 ```
 
 ---
@@ -67,7 +67,7 @@ public function getSuggestions(): array
 Create exception for missing configuration
 
 ```php
-public function missing(string $configKey, App\TravelClick\Enums\ConfigScope $scope = \App\TravelClick\Enums\ConfigScope::ALL, int $propertyId = null): self
+public function missing(string $configKey, ConfigScope $scope = \App\TravelClick\Enums\ConfigScope::ALL, int|null $propertyId = null): self
 ```
 
 ---
@@ -77,7 +77,7 @@ public function missing(string $configKey, App\TravelClick\Enums\ConfigScope $sc
 Create exception for invalid configuration value
 
 ```php
-public function invalid(string $configKey, mixed $value, string $expectedType = null, App\TravelClick\Enums\ConfigScope $scope = \App\TravelClick\Enums\ConfigScope::ALL, int $propertyId = null): self
+public function invalid(string $configKey, mixed $value, string|null $expectedType = null, ConfigScope $scope = \App\TravelClick\Enums\ConfigScope::ALL, int|null $propertyId = null): self
 ```
 
 ---
@@ -87,7 +87,7 @@ public function invalid(string $configKey, mixed $value, string $expectedType = 
 Create exception for cache-related configuration errors
 
 ```php
-public function cache(string $operation, string $reason = '', int $propertyId = null): self
+public function cache(string $operation, string $reason = '', int|null $propertyId = null): self
 ```
 
 ---
@@ -107,7 +107,7 @@ public function propertyNotFound(int $propertyId): self
 Create exception for environment mismatch
 
 ```php
-public function environmentMismatch(string $expected, string $actual, int $propertyId = null): self
+public function environmentMismatch(string $expected, string $actual, int|null $propertyId = null): self
 ```
 
 ---
@@ -117,7 +117,7 @@ public function environmentMismatch(string $expected, string $actual, int $prope
 Create exception for validation failure
 
 ```php
-public function validationFailed(array $errors, App\TravelClick\Enums\ConfigScope $scope = \App\TravelClick\Enums\ConfigScope::ALL, int $propertyId = null): self
+public function validationFailed(array $errors, ConfigScope $scope = \App\TravelClick\Enums\ConfigScope::ALL, int|null $propertyId = null): self
 ```
 
 ---

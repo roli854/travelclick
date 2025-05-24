@@ -21,7 +21,7 @@ appropriate error types for better error handling and recovery.
 Parse an error response from TravelClick
 
 ```php
-public function parseError(string $messageId, string $rawResponse, float $durationMs = null): App\TravelClick\DTOs\SoapResponseDto
+public function parseError(string $messageId, string $rawResponse, float|null $durationMs = null): SoapResponseDto
 ```
 
 **Parameters:**
@@ -39,7 +39,7 @@ public function parseError(string $messageId, string $rawResponse, float $durati
 Parse a SoapFault exception with enhanced error details
 
 ```php
-public function parseFromFault(string $messageId, SoapFault $fault, float $durationMs = null): App\TravelClick\DTOs\SoapResponseDto
+public function parseFromFault(string $messageId, SoapFault $fault, float|null $durationMs = null): SoapResponseDto
 ```
 
 **Parameters:**
@@ -57,7 +57,7 @@ public function parseFromFault(string $messageId, SoapFault $fault, float $durat
 Categorize an error based on its code and message
 
 ```php
-public function categorizeError(string $errorCode, string $errorMessage): App\TravelClick\Enums\ErrorType
+public function categorizeError(string $errorCode, string $errorMessage): ErrorType
 ```
 
 **Parameters:**
@@ -74,7 +74,7 @@ public function categorizeError(string $errorCode, string $errorMessage): App\Tr
 Categorize an error from an exception
 
 ```php
-public function categorizeFromException(Throwable $exception): App\TravelClick\Enums\ErrorType
+public function categorizeFromException(Throwable $exception): ErrorType
 ```
 
 **Parameters:**

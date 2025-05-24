@@ -27,7 +27,7 @@ When a new error is logged, this method:
 4. Handles critical error escalation
 
 ```php
-public function created(App\TravelClick\Models\TravelClickErrorLog $errorLog): void
+public function created(TravelClickErrorLog $errorLog): void
 ```
 
 ---
@@ -39,7 +39,7 @@ When an error log is updated (usually when resolved),
 this method tracks the resolution and updates related statuses.
 
 ```php
-public function updated(App\TravelClick\Models\TravelClickErrorLog $errorLog): void
+public function updated(TravelClickErrorLog $errorLog): void
 ```
 
 ---
@@ -50,7 +50,7 @@ Handle the TravelClickErrorLog "deleted" event.
 Cleanup and logging when error records are removed.
 
 ```php
-public function deleted(App\TravelClick\Models\TravelClickErrorLog $errorLog): void
+public function deleted(TravelClickErrorLog $errorLog): void
 ```
 
 ---
@@ -62,7 +62,7 @@ This prevents the observer from firing for each individual record
 during bulk operations, improving performance.
 
 ```php
-public function creating(App\TravelClick\Models\TravelClickErrorLog $errorLog): void
+public function creating(TravelClickErrorLog $errorLog): void
 ```
 
 ---

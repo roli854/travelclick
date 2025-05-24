@@ -4,13 +4,71 @@
 
 **File:** `Enums/ConfigScope.php`
 
-**Type:** Class
+**Type:** Enum
 
 ## Description
 
 ConfigScope Enum for TravelClick Configuration
 Defines the different scopes for configuration management,
 allowing for granular control over caching and configuration updates.
+
+## Constants
+
+### `GLOBAL`
+
+**Value:** `\App\TravelClick\Enums\ConfigScope::GLOBAL`
+
+---
+
+### `PROPERTY`
+
+**Value:** `\App\TravelClick\Enums\ConfigScope::PROPERTY`
+
+---
+
+### `ENDPOINT`
+
+**Value:** `\App\TravelClick\Enums\ConfigScope::ENDPOINT`
+
+---
+
+### `CREDENTIALS`
+
+**Value:** `\App\TravelClick\Enums\ConfigScope::CREDENTIALS`
+
+---
+
+### `QUEUE`
+
+**Value:** `\App\TravelClick\Enums\ConfigScope::QUEUE`
+
+---
+
+### `CACHE`
+
+**Value:** `\App\TravelClick\Enums\ConfigScope::CACHE`
+
+---
+
+### `ALL`
+
+**Value:** `\App\TravelClick\Enums\ConfigScope::ALL`
+
+---
+
+## Properties
+
+### `$name`
+
+**Type:** `string`
+
+---
+
+### `$value`
+
+**Type:** `string`
+
+---
 
 ## Methods
 

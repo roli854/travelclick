@@ -12,12 +12,98 @@ TravelClick Global Configuration DTO
 This DTO encapsulates all global TravelClick configuration data.
 It provides structured access to system-wide settings and defaults.
 
+## Properties
+
+### `$defaultEnvironment`
+
+**Type:** `Environment`
+
+---
+
+### `$defaultTimeout`
+
+**Type:** `int`
+
+---
+
+### `$defaultRetryAttempts`
+
+**Type:** `int`
+
+---
+
+### `$defaultBackoffSeconds`
+
+**Type:** `array`
+
+---
+
+### `$loggingLevel`
+
+**Type:** `string`
+
+---
+
+### `$enableCache`
+
+**Type:** `bool`
+
+---
+
+### `$defaultCacheTtl`
+
+**Type:** `int`
+
+---
+
+### `$supportedMessageTypes`
+
+**Type:** `array`
+
+---
+
+### `$queueConfig`
+
+**Type:** `array`
+
+---
+
+### `$sslConfig`
+
+**Type:** `array`
+
+---
+
+### `$customHeaders`
+
+**Type:** `array`
+
+---
+
+### `$debug`
+
+**Type:** `bool`
+
+---
+
+### `$lastUpdated`
+
+**Type:** `Carbon\Carbon|null`
+
+---
+
+### `$version`
+
+**Type:** `string|null`
+
+---
+
 ## Methods
 
 ### `__construct`
 
 ```php
-public function __construct(App\TravelClick\Enums\Environment $defaultEnvironment, int $defaultTimeout, int $defaultRetryAttempts, array $defaultBackoffSeconds, string $loggingLevel, bool $enableCache, int $defaultCacheTtl, array $supportedMessageTypes, array $queueConfig, array $sslConfig, array $customHeaders, bool $debug, Carbon\Carbon|null $lastUpdated = null, string $version = null)
+public function __construct(Environment $defaultEnvironment, int $defaultTimeout, int $defaultRetryAttempts, array $defaultBackoffSeconds, string $loggingLevel, bool $enableCache, int $defaultCacheTtl, array $supportedMessageTypes, array $queueConfig, array $sslConfig, array $customHeaders, bool $debug, Carbon\Carbon|null $lastUpdated = null, string|null $version = null)
 ```
 
 ---

@@ -22,7 +22,7 @@ This method extends the base parse method to extract detailed reservation
 information after the general SOAP response is processed.
 
 ```php
-public function parse(string $messageId, string $rawResponse, float $durationMs = null, array $headers = []): App\TravelClick\DTOs\ReservationResponseDto
+public function parse(string $messageId, string $rawResponse, float|null $durationMs = null, array $headers = []): ReservationResponseDto
 ```
 
 **Parameters:**

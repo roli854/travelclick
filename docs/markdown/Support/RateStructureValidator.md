@@ -38,7 +38,7 @@ This is like having a detailed checklist for each rate card.
 Every rate must pass these checks before being processed.
 
 ```php
-public function validateRateData(App\TravelClick\DTOs\RateData $rateData, App\TravelClick\Enums\RateOperationType $operationType): void
+public function validateRateData(RateData $rateData, RateOperationType $operationType): void
 ```
 
 **Parameters:**
@@ -55,7 +55,7 @@ This validates the entire rate plan ensuring all rates work together
 cohesively and follow business logic rules.
 
 ```php
-public function validateRatePlan(App\TravelClick\DTOs\RatePlanData $ratePlan, App\TravelClick\Enums\RateOperationType $operationType): void
+public function validateRatePlan(RatePlanData $ratePlan, RateOperationType $operationType): void
 ```
 
 **Parameters:**
@@ -72,7 +72,7 @@ This ensures that when sending multiple rate plans together,
 they don't conflict with each other.
 
 ```php
-public function validateBatchRatePlans(array $ratePlans, App\TravelClick\Enums\RateOperationType $operationType): void
+public function validateBatchRatePlans(array $ratePlans, RateOperationType $operationType): void
 ```
 
 **Parameters:**
@@ -88,7 +88,7 @@ Get validation summary for a rate plan
 Useful for debugging and logging
 
 ```php
-public function getValidationSummary(App\TravelClick\DTOs\RatePlanData $ratePlan): array
+public function getValidationSummary(RatePlanData $ratePlan): array
 ```
 
 **Parameters:**

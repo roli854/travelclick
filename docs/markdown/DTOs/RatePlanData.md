@@ -17,12 +17,146 @@ A rate plan might have:
 - Different rates for different room types
 - Linked rates derived from a master rate
 
+## Properties
+
+### `$ratePlanCode`
+
+Rate plan code (unique identifier)
+
+**Type:** `string`
+
+---
+
+### `$hotelCode`
+
+Hotel code this rate plan belongs to
+
+**Type:** `string`
+
+---
+
+### `$operationType`
+
+Type of operation to perform on this rate plan
+
+**Type:** `RateOperationType`
+
+---
+
+### `$rates`
+
+Collection of individual rates belonging to this plan
+
+**Type:** `Illuminate\Support\Collection`
+
+---
+
+### `$startDate`
+
+Overall start date for the rate plan
+(minimum start date from all rates)
+
+**Type:** `Carbon\Carbon`
+
+---
+
+### `$endDate`
+
+Overall end date for the rate plan
+(maximum end date from all rates)
+
+**Type:** `Carbon\Carbon`
+
+---
+
+### `$ratePlanName`
+
+Rate plan name/description (optional)
+
+**Type:** `string|null`
+
+---
+
+### `$currencyCode`
+
+Currency code for all rates in this plan
+
+**Type:** `string`
+
+---
+
+### `$isLinkedRate`
+
+Whether this is a linked rate plan (derived from master)
+
+**Type:** `bool`
+
+---
+
+### `$masterRatePlanCode`
+
+Master rate plan code if this is linked
+
+**Type:** `string|null`
+
+---
+
+### `$roomTypes`
+
+Room types this rate plan applies to
+
+**Type:** `Illuminate\Support\Collection`
+
+---
+
+### `$maxGuestApplicable`
+
+Maximum number of guests this rate plan supports
+
+**Type:** `int|null`
+
+---
+
+### `$isCommissionable`
+
+Whether this rate plan is commissionable
+
+**Type:** `bool|null`
+
+---
+
+### `$marketCodes`
+
+Market codes associated with this rate plan
+
+**Type:** `Illuminate\Support\Collection`
+
+---
+
+### `$isDeltaUpdate`
+
+Whether to send this as a delta update (only changes)
+or full synchronization
+
+**Type:** `bool`
+
+---
+
+### `$lastModified`
+
+Timestamp when this rate plan was last modified
+Used for delta update logic
+
+**Type:** `Carbon\Carbon|null`
+
+---
+
 ## Methods
 
 ### `__construct`
 
 ```php
-public function __construct(string $ratePlanCode, string $hotelCode, App\TravelClick\Enums\RateOperationType $operationType, Illuminate\Support\Collection|array $rates, string $ratePlanName = null, string $currencyCode = null, bool $isLinkedRate = false, string $masterRatePlanCode = null, int $maxGuestApplicable = null, bool $isCommissionable = null, array $marketCodes = [], bool $isDeltaUpdate = true, Carbon\Carbon|null $lastModified = null)
+public function __construct(string $ratePlanCode, string $hotelCode, RateOperationType $operationType, Illuminate\Support\Collection|array $rates, string|null $ratePlanName = null, string|null $currencyCode = null, bool $isLinkedRate = false, string|null $masterRatePlanCode = null, int|null $maxGuestApplicable = null, bool|null $isCommissionable = null, array $marketCodes = [], bool $isDeltaUpdate = true, Carbon\Carbon|null $lastModified = null)
 ```
 
 ---

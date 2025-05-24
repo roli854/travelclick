@@ -18,7 +18,7 @@ Extends the base SoapResponseDto to include reservation-specific data payload
 Create a new ReservationResponseDto instance
 
 ```php
-public function __construct(string $messageId, bool $isSuccess, string $rawResponse, array $payload = null, string $errorMessage = null, string $errorCode = null, array $warnings = null, Carbon\Carbon|null $timestamp = null, string $echoToken = null, array $headers = null, float $durationMs = null)
+public function __construct(string $messageId, bool $isSuccess, string $rawResponse, array|null $payload = null, string|null $errorMessage = null, string|null $errorCode = null, array|null $warnings = null, Carbon\Carbon|null $timestamp = null, string|null $echoToken = null, array|null $headers = null, float|null $durationMs = null)
 ```
 
 ---
@@ -29,7 +29,7 @@ Create a successful reservation response
 This method name is different from the parent to avoid LSP violation
 
 ```php
-public function successWithPayload(string $messageId, string $rawResponse, array $payload, string $echoToken = null, array $headers = null, float $durationMs = null): self
+public function successWithPayload(string $messageId, string $rawResponse, array $payload, string|null $echoToken = null, array|null $headers = null, float|null $durationMs = null): self
 ```
 
 ---
@@ -40,7 +40,7 @@ Create a successful response DTO
 Implementation to maintain compatibility with parent class
 
 ```php
-public function success(string $messageId, string $rawResponse, string $echoToken = null, array $headers = null, float $durationMs = null): self
+public function success(string $messageId, string $rawResponse, string|null $echoToken = null, array|null $headers = null, float|null $durationMs = null): self
 ```
 
 ---
@@ -50,7 +50,7 @@ public function success(string $messageId, string $rawResponse, string $echoToke
 Create a reservation response from base SoapResponseDto
 
 ```php
-public function fromSoapResponse(App\TravelClick\DTOs\SoapResponseDto $response, array $payload = null): self
+public function fromSoapResponse(SoapResponseDto $response, array|null $payload = null): self
 ```
 
 ---
@@ -60,7 +60,7 @@ public function fromSoapResponse(App\TravelClick\DTOs\SoapResponseDto $response,
 Get the reservation payload data
 
 ```php
-public function getPayload(): array
+public function getPayload(): array|null
 ```
 
 ---

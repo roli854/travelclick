@@ -104,7 +104,7 @@ TravelClick expects specific codes for different booking sources,
 this function maps our internal codes to their expected values.
 
 ```php
-public function mapSourceOfBusiness(string $source): string
+public function mapSourceOfBusiness(string $source): string|null
 ```
 
 **Parameters:**
@@ -134,7 +134,7 @@ WSSE (Web Services Security) is used by TravelClick for secure
 SOAP message exchange. This implements WSSE Username Token Profile.
 
 ```php
-public function generateWsseHeaders(string $username = null, string $password = null): array
+public function generateWsseHeaders(string|null $username = null, string|null $password = null): array
 ```
 
 **Parameters:**
@@ -233,7 +233,7 @@ public function normalizeRatePlanCode(string $ratePlanCode): string
 Convert a MessageType enum to its XML element name.
 
 ```php
-public function getXmlElementName(App\TravelClick\Enums\MessageType $messageType): string
+public function getXmlElementName(MessageType $messageType): string
 ```
 
 **Parameters:**

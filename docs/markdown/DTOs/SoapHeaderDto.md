@@ -12,12 +12,74 @@ Data Transfer Object for SOAP headers required by HTNG 2011B interface
 This DTO encapsulates all the standard SOAP headers needed for communicating
 with TravelClick's PMS Connect service, including authentication and addressing.
 
+## Properties
+
+### `$messageId`
+
+**Type:** `string`
+
+---
+
+### `$to`
+
+**Type:** `string`
+
+---
+
+### `$replyTo`
+
+**Type:** `string`
+
+---
+
+### `$action`
+
+**Type:** `string`
+
+---
+
+### `$from`
+
+**Type:** `string`
+
+---
+
+### `$hotelCode`
+
+**Type:** `string`
+
+---
+
+### `$username`
+
+**Type:** `string`
+
+---
+
+### `$password`
+
+**Type:** `string`
+
+---
+
+### `$timeStamp`
+
+**Type:** `string|null`
+
+---
+
+### `$echoToken`
+
+**Type:** `string|null`
+
+---
+
 ## Methods
 
 ### `__construct`
 
 ```php
-public function __construct(string $messageId, string $to, string $replyTo, string $action, string $from, string $hotelCode, string $username, string $password, string $timeStamp = null, string $echoToken = null)
+public function __construct(string $messageId, string $to, string $replyTo, string $action, string $from, string $hotelCode, string $username, string $password, string|null $timeStamp = null, string|null $echoToken = null)
 ```
 
 ---
@@ -27,7 +89,7 @@ public function __construct(string $messageId, string $to, string $replyTo, stri
 Create a SoapHeaderDto instance with common defaults for TravelClick
 
 ```php
-public function create(string $action, string $hotelCode, string $username, string $password, string $endpoint = null, string $replyToEndpoint = null): self
+public function create(string $action, string $hotelCode, string $username, string $password, string|null $endpoint = null, string|null $replyToEndpoint = null): self
 ```
 
 **Parameters:**
@@ -168,7 +230,7 @@ public function validate(): bool
 Create SoapHeaderDto from configuration
 
 ```php
-public function fromConfig(string $action, array $overrides = null): self
+public function fromConfig(string $action, array|null $overrides = null): self
 ```
 
 **Parameters:**

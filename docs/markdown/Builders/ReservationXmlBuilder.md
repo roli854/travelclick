@@ -20,7 +20,7 @@ and alternate payment) according to HTNG 2011B specifications.
 Create a new ReservationXmlBuilder instance
 
 ```php
-public function __construct(App\TravelClick\DTOs\SoapHeaderDto $soapHeaders, bool $validateXml = true, bool $formatOutput = false)
+public function __construct(SoapHeaderDto $soapHeaders, bool $validateXml = true, bool $formatOutput = false)
 ```
 
 **Parameters:**
@@ -36,7 +36,7 @@ public function __construct(App\TravelClick\DTOs\SoapHeaderDto $soapHeaders, boo
 Create XML message for a reservation
 
 ```php
-public function buildReservationXml(App\TravelClick\DTOs\ReservationDataDto $reservationData): string
+public function buildReservationXml(ReservationDataDto $reservationData): string
 ```
 
 **Parameters:**

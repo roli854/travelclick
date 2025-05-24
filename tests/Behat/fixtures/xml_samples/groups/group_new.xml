@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BDD Fixture: groups/group_new.xml -->
+<!-- Generated from TravelClick Gold Certification Samples -->
+<!-- Variables: Use {{variable_name}} format for template replacement -->
+
+<soapenv:Envelope  xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:htn="http://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService">
+	<soapenv:Header>
+		<wsa:MessageID>TEST GROUP NEW MESSAGE</wsa:MessageID>
+		<wsa:To>https://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService</wsa:To>
+		<wsa:ReplyTo>
+			<wsa:Address>https://pms.vendor.com/ServiceName</wsa:Address>
+			<!-- wss:Address should contain the vendor's URL where our end should send the response messages -->
+		</wsa:ReplyTo>
+		<wsa:Action>https://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService/HTNG2011B_SubmitRequest</wsa:Action>
+		<wsse:Security>
+			<wsse:UsernameToken>
+				<wsse:Username>279605</wsse:Username>
+				<wsse:Password>C0nn3ct279605</wsse:Password>
+			</wsse:UsernameToken>
+		</wsse:Security>
+		<wsa:From>
+			<wsa:ReferenceProperties>
+				<htn:HotelCode>279605</htn:HotelCode>
+			</wsa:ReferenceProperties>
+		</wsa:From>
+	</soapenv:Header>
+	<soapenv:Body>
+		<OTA_HotelInvBlockNotifRQ EchoToken="{{echo_token}}" Version="3.001" TimeStamp="{{timestamp}}">
+			<InvBlocks>
+				<InvBlock InvBlockStatusCode ="Definite" InvBlockCode="grp022" TransactionAction="new" InvBlockLongName="Test Group 22">
+					<HotelRef HotelCode="{{hotel_code}}" /> 
+					<InvBlockDates End="{{end_date}}" AbsoluteCutoff="2013-06-09" Start="{{start_date}}"/> 
+					<RoomTypes>
+						<RoomType RoomTypeCode="{{room_type}}">
+							<RoomTypeAllocations RoomTypePickupStatus="1">
+								<RoomTypeAllocation Start="{{start_date}}" NumberOfUnits="6" End="{{end_date}}"/> 
+							</RoomTypeAllocations>
+							<RatePlans>
+								<RatePlan RatePlanCode="{{rate_plan}}" MaxGuestApplicable="3">
+									<BaseByGuestAmts>
+										<BaseByGuestAmt NumberOfGuests="1" AmountBeforeTax="{{rate_amount}}" /> 
+										<BaseByGuestAmt NumberOfGuests="2" AmountBeforeTax="{{rate_amount}}" /> 
+										<BaseByGuestAmt NumberOfGuests="2" AmountBeforeTax="{{rate_amount}}" /> 
+									</BaseByGuestAmts>
+								</RatePlan>
+							</RatePlans>
+						</RoomType>
+					</RoomTypes>
+					<RoomTypes>
+						<RoomType RoomTypeCode="{{room_type}}">
+							<RoomTypeAllocations RoomTypePickupStatus="1">
+								<RoomTypeAllocation End="{{end_date}}" NumberOfUnits="2" Start="{{start_date}}" /> 
+							</RoomTypeAllocations>
+							<RatePlans>
+								<RatePlan RatePlanCode="{{rate_plan}}" MaxGuestApplicable="3">
+									<BaseByGuestAmts>
+										<BaseByGuestAmt NumberOfGuests="1" AmountBeforeTax="{{rate_amount}}" /> 
+										<BaseByGuestAmt NumberOfGuests="2" AmountBeforeTax="{{rate_amount}}" /> 
+									</BaseByGuestAmts>
+								</RatePlan>
+							</RatePlans>
+						</RoomType>
+					</RoomTypes>
+					<RoomTypes>
+						<RoomType RoomTypeCode="{{room_type}}">
+							<RoomTypeAllocations RoomTypePickupStatus="1">
+								<RoomTypeAllocation End="{{end_date}}" NumberOfUnits="6" Start="{{start_date}}" /> 
+							</RoomTypeAllocations>
+							<RatePlans>
+								<RatePlan RatePlanCode="{{rate_plan}}" MaxGuestApplicable="2">
+									<BaseByGuestAmts>
+										<BaseByGuestAmt NumberOfGuests="1" AmountBeforeTax="{{rate_amount}}" /> 
+										<BaseByGuestAmt NumberOfGuests="2" AmountBeforeTax="{{rate_amount}}" /> 
+									</BaseByGuestAmts>
+								</RatePlan>
+							</RatePlans>
+						</RoomType>
+					</RoomTypes>
+					<MethodInfo ReservationMethodCode="1" /> 
+					<Contacts>
+						<Contact ContactType="GroupOrganizer">
+							<PersonName>
+								<NamePrefix>Mr</NamePrefix> 
+								<GivenName>{{guest_first_name}}</GivenName> 
+								<MiddleName>P.</MiddleName> 
+								<Surname>{{guest_last_name}}</Surname> 
+								<NameSuffix>Sr</NameSuffix> 
+							</PersonName>
+							<Telephone PhoneLocationType="7" FormattedInd="False" DefaultInd="0" PhoneTechType="1" CountryAccessCode="52" AreaCityCode="81" PhoneNumber="{{phone_number}}" /> 
+							<Telephone PhoneLocationType="7" FormattedInd="True" DefaultInd="0" PhoneTechType="3" CountryAccessCode="52" AreaCityCode="81" PhoneNumber="{{phone_number}}" /> 
+							<Address Type="1">
+								<AddressLine>{{address_line}}</AddressLine> 
+								<CityName>{{city}}</CityName> 
+								<PostalCode>{{postal_code}}</PostalCode> 
+								<StateProv StateCode="TS1" /> 
+								<CountryName Code="SS1" /> 
+							</Address>
+							<Email>{{guest_email}}</Email> 
+							<CompanyName>Test Company 1</CompanyName> 
+						</Contact>
+					</Contacts>
+					<Contacts>
+						<Contact ContactType="GroupCompany">
+							<PersonName>
+								<NamePrefix>Mr.</NamePrefix> 
+								<GivenName>{{guest_first_name}}</GivenName> 
+								<MiddleName>K</MiddleName> 
+								<Surname>{{guest_last_name}}</Surname> 
+								<NameSuffix>Sr</NameSuffix> 
+							</PersonName>
+							<Telephone PhoneLocationType="7" FormattedInd="true" DefaultInd="0" PhoneTechType="1" CountryAccessCode="2" AreaCityCode="02" PhoneNumber="{{phone_number}}" /> 
+							<Telephone PhoneLocationType="7" FormattedInd="true" DefaultInd="0" PhoneTechType="3" CountryAccessCode="" AreaCityCode="" PhoneNumber="{{phone_number}}" /> 
+							<Address Type="1">
+								<AddressLine>{{address_line}}</AddressLine> 
+								<CityName>{{city}}</CityName> 
+								<PostalCode>{{postal_code}}</PostalCode> 
+								<StateProv StateCode="TS2" /> 
+								<CountryName Code="SS2" /> 
+							</Address>
+							<Email EmailType="1">Test@test2.com</Email> 
+							<CompanyName>Test Company 2</CompanyName> 
+						</Contact>
+					</Contacts>
+				</InvBlock>
+			</InvBlocks>
+		</OTA_HotelInvBlockNotifRQ>
+	</soapenv:Body>
+</soapenv:Envelope>

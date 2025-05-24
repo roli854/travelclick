@@ -19,7 +19,7 @@ information such as processed counts, room types, and date ranges.
 Constructor for inventory response DTO
 
 ```php
-public function __construct(string $messageId, bool $isSuccess, string $rawResponse, array $processedCounts = null, string $hotelCode = null, array $roomTypes = null, Carbon\Carbon|null $startDate = null, Carbon\Carbon|null $endDate = null, string $errorMessage = null, string $errorCode = null, array $warnings = null, Carbon\Carbon|null $timestamp = null, string $echoToken = null, array $headers = null, float $durationMs = null)
+public function __construct(string $messageId, bool $isSuccess, string $rawResponse, array|null $processedCounts = null, string|null $hotelCode = null, array|null $roomTypes = null, Carbon\Carbon|null $startDate = null, Carbon\Carbon|null $endDate = null, string|null $errorMessage = null, string|null $errorCode = null, array|null $warnings = null, Carbon\Carbon|null $timestamp = null, string|null $echoToken = null, array|null $headers = null, float|null $durationMs = null)
 ```
 
 ---
@@ -29,7 +29,7 @@ public function __construct(string $messageId, bool $isSuccess, string $rawRespo
 Create a successful inventory response DTO
 
 ```php
-public function success(string $messageId, string $rawResponse, string $echoToken = null, array $headers = null, float $durationMs = null, array $processedCounts = [], string $hotelCode = null, array $roomTypes = [], Carbon\Carbon|null $startDate = null, Carbon\Carbon|null $endDate = null, array $warnings = null): self
+public function success(string $messageId, string $rawResponse, string|null $echoToken = null, array|null $headers = null, float|null $durationMs = null, array $processedCounts = [], string|null $hotelCode = null, array $roomTypes = [], Carbon\Carbon|null $startDate = null, Carbon\Carbon|null $endDate = null, array|null $warnings = null): self
 ```
 
 **Parameters:**
@@ -55,7 +55,7 @@ public function success(string $messageId, string $rawResponse, string $echoToke
 Create a failed inventory response DTO
 
 ```php
-public function failure(string $messageId, string $rawResponse, string $errorMessage, string $errorCode = null, array $warnings = null, float $durationMs = null): self
+public function failure(string $messageId, string $rawResponse, string $errorMessage, string|null $errorCode = null, array|null $warnings = null, float|null $durationMs = null): self
 ```
 
 **Parameters:**
@@ -76,7 +76,7 @@ public function failure(string $messageId, string $rawResponse, string $errorMes
 Get the processed counts for a specific count type
 
 ```php
-public function getCountValue(App\TravelClick\Enums\CountType $countType, string $roomType = null): int
+public function getCountValue(CountType $countType, string|null $roomType = null): int|null
 ```
 
 **Parameters:**
@@ -145,7 +145,7 @@ public function hasRoomType(string $roomType): bool
 Get the hotel code
 
 ```php
-public function getHotelCode(): string
+public function getHotelCode(): string|null
 ```
 
 **Returns:** string|null - The hotel code

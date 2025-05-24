@@ -20,7 +20,7 @@ Specific message types should extend this class with their own parsing logic.
 Parse a SOAP response into a structured DTO
 
 ```php
-public function parse(string $messageId, string $rawResponse, float $durationMs = null, array $headers = []): App\TravelClick\DTOs\SoapResponseDto
+public function parse(string $messageId, string $rawResponse, float|null $durationMs = null, array $headers = []): SoapResponseDto
 ```
 
 **Parameters:**
@@ -39,7 +39,7 @@ public function parse(string $messageId, string $rawResponse, float $durationMs 
 Create a parser from a SoapFault exception
 
 ```php
-public function parseFromFault(string $messageId, SoapFault $fault, float $durationMs = null): App\TravelClick\DTOs\SoapResponseDto
+public function parseFromFault(string $messageId, SoapFault $fault, float|null $durationMs = null): SoapResponseDto
 ```
 
 **Parameters:**

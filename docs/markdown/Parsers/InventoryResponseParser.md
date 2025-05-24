@@ -20,7 +20,7 @@ It extracts inventory counts, date ranges, and room type information.
 Parse a SOAP response into a structured InventoryResponseDto
 
 ```php
-public function parse(string $messageId, string $rawResponse, float $durationMs = null, array $headers = []): App\TravelClick\DTOs\SoapResponseDto
+public function parse(string $messageId, string $rawResponse, float|null $durationMs = null, array $headers = []): SoapResponseDto
 ```
 
 **Parameters:**

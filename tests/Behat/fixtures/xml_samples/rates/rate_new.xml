@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BDD Fixture: rates/rate_new.xml -->
+<!-- Generated from TravelClick Gold Certification Samples -->
+<!-- Variables: Use {{variable_name}} format for template replacement -->
+
+<soapenv:Envelope  xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:htn="http://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService">
+   <soapenv:Header>
+      <wsa:MessageID>TEST NEW RATE MESSAGE</wsa:MessageID>
+      <wsa:To>https://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService</wsa:To>
+     <wsa:ReplyTo>
+         <wsa:Address>https://pms.vendor.com/ServiceName</wsa:Address>
+		 <!-- wss:Address should contain the vendor's URL where our end should send the response messages -->
+      </wsa:ReplyTo>
+      <wsa:Action>https://pms-t5.ihotelier.com/HTNGService/services/HTNG2011BService/HTNG2011B_SubmitRequest</wsa:Action>
+      <wsse:Security>
+         <wsse:UsernameToken>
+            <wsse:Username>279605</wsse:Username>
+            <wsse:Password>C0nn3ct279605</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+      <wsa:From>
+         <wsa:ReferenceProperties>
+            <htn:HotelCode>279605</htn:HotelCode>
+         </wsa:ReferenceProperties>
+      </wsa:From>
+   </soapenv:Header>
+   <soapenv:Body>
+		<OTA_HotelRatePlanNotifRQ Version="1.001" MessageContentCode="8" EchoToken="{{echo_token}}" TimeStamp="{{timestamp}}">
+			<RatePlans HotelCode="{{hotel_code}}">
+				<RatePlan RatePlanNotifType="New" RestrictedDisplayIndicator="true" RatePlanCode="{{rate_plan}}" RatePlanCategory="DISCOUNT" Start="{{start_date}}" End="{{end_date}}" CurrencyCode="USD" RatePlanStatusType="Initial" MarketCode="RDD" IsCommissionable="true" RatePlanQualifier="75">
+					<Rates>
+						<Rate InvTypeCode="{{room_type}}" Start="{{start_date}}" End="{{end_date}}" Weds="1" Tue="1" Thur="1" Sun="1" Sat="1" Mon="1" Fri="1" CurrencyCode="USD" UnitMultiplier="1" RateTimeUnit="Day">
+							<BaseByGuestAmts>
+								<BaseByGuestAmt AgeQualifyingCode="10" NumberOfGuests="1" AmountBeforeTax="{{rate_amount}}"/>
+								<BaseByGuestAmt AgeQualifyingCode="10" NumberOfGuests="2" AmountBeforeTax="{{rate_amount}}"/>
+                            				</BaseByGuestAmts>
+                            		<AdditionalGuestAmounts>
+								<AdditionalGuestAmount Amount="35.00" AgeQualifyingCode="10"/>
+                                				<AdditionalGuestAmount Amount="15.00" AgeQualifyingCode="8"/>
+                            		</AdditionalGuestAmounts>
+                        		</Rate>
+                        		<Rate InvTypeCode="{{room_type}}" Start="{{start_date}}" End="{{end_date}}" Weds="1" Tue="1" Thur="1" Sun="1" Sat="1" Mon="1" Fri="1" CurrencyCode="USD" UnitMultiplier="1" RateTimeUnit="Day">
+							<BaseByGuestAmts>
+								<BaseByGuestAmt AgeQualifyingCode="10" NumberOfGuests="1" AmountBeforeTax="{{rate_amount}}"/>
+                              	     				<BaseByGuestAmt AgeQualifyingCode="10" NumberOfGuests="2" AmountBeforeTax="{{rate_amount}}"/>
+                            		</BaseByGuestAmts>
+                            		<AdditionalGuestAmounts>
+								<AdditionalGuestAmount Amount="25.00" AgeQualifyingCode="10"/>
+                                				<AdditionalGuestAmount Amount="10.00" AgeQualifyingCode="8"/>
+                            		</AdditionalGuestAmounts>
+                        		</Rate>
+                        		<Rate InvTypeCode="{{room_type}}" Start="{{start_date}}" End="{{end_date}}" Weds="1" Tue="1" Thur="1" Sun="1" Sat="1" Mon="1" Fri="1" CurrencyCode="USD" UnitMultiplier="1" RateTimeUnit="Day">
+							<BaseByGuestAmts>
+								<BaseByGuestAmt AgeQualifyingCode="10" NumberOfGuests="1" AmountBeforeTax="{{rate_amount}}"/>
+                                				<BaseByGuestAmt AgeQualifyingCode="10" NumberOfGuests="2" AmountBeforeTax="{{rate_amount}}"/>
+                            		</BaseByGuestAmts>
+                            		<AdditionalGuestAmounts>
+								<AdditionalGuestAmount Amount="45.00" AgeQualifyingCode="10"/>
+                                				<AdditionalGuestAmount Amount="20.00" AgeQualifyingCode="8"/>
+                            		</AdditionalGuestAmounts>
+                        		</Rate>
+                    	</Rates>
+                    	<Commission Amount="20.00"/>
+                    	<Description Name="Short description">
+						<Text>Rosy test for</Text>                                  
+                    	</Description>
+                    	<Description Name="Long description">
+						<Text>Rosy test for long description</Text>
+                    	</Description>
+                	</RatePlan>
+            	</RatePlans>
+          </OTA_HotelRatePlanNotifRQ>
+    </soapenv:Body>
+</soapenv:Envelope>

@@ -12,6 +12,146 @@ Data Transfer Object for profile information in TravelClick integrations
 This DTO handles profiles for Travel Agencies, Corporations, and Groups
 when sending reservation data to TravelClick.
 
+## Constants
+
+### `TYPE_TRAVEL_AGENCY`
+
+Profile type constants
+
+**Value:** `'TravelAgency'`
+
+---
+
+### `TYPE_CORPORATE`
+
+**Value:** `'Corporate'`
+
+---
+
+### `TYPE_GROUP`
+
+**Value:** `'Group'`
+
+---
+
+## Properties
+
+### `$profileType`
+
+Profile details
+
+**Type:** `string`
+
+---
+
+### `$profileId`
+
+**Type:** `string`
+
+---
+
+### `$name`
+
+**Type:** `string`
+
+---
+
+### `$shortName`
+
+**Type:** `string|null`
+
+---
+
+### `$iataNumber`
+
+**Type:** `string|null`
+
+---
+
+### `$contactName`
+
+Contact details
+
+**Type:** `string|null`
+
+---
+
+### `$email`
+
+**Type:** `string|null`
+
+---
+
+### `$phone`
+
+**Type:** `string|null`
+
+---
+
+### `$fax`
+
+**Type:** `string|null`
+
+---
+
+### `$addressLine1`
+
+Address information
+
+**Type:** `string|null`
+
+---
+
+### `$addressLine2`
+
+**Type:** `string|null`
+
+---
+
+### `$city`
+
+**Type:** `string|null`
+
+---
+
+### `$state`
+
+**Type:** `string|null`
+
+---
+
+### `$postalCode`
+
+**Type:** `string|null`
+
+---
+
+### `$countryCode`
+
+**Type:** `string|null`
+
+---
+
+### `$commissionPercentage`
+
+Financial information
+
+**Type:** `float|null`
+
+---
+
+### `$corporateId`
+
+**Type:** `string|null`
+
+---
+
+### `$travelAgentId`
+
+**Type:** `string|null`
+
+---
+
 ## Methods
 
 ### `__construct`
@@ -101,7 +241,7 @@ public function hasCommission(): bool
 Create a travel agency profile from Centrium agency data
 
 ```php
-public function createTravelAgencyProfile(mixed $agencyData): self
+public function createTravelAgencyProfile($agencyData): self
 ```
 
 **Parameters:**
@@ -117,7 +257,7 @@ public function createTravelAgencyProfile(mixed $agencyData): self
 Create a corporate profile from Centrium trade data
 
 ```php
-public function createCorporateProfile(mixed $tradeData): self
+public function createCorporateProfile($tradeData): self
 ```
 
 **Parameters:**
@@ -133,7 +273,7 @@ public function createCorporateProfile(mixed $tradeData): self
 Create a group profile from Centrium booking group data
 
 ```php
-public function createGroupProfile(mixed $bookingGroupData): self
+public function createGroupProfile($bookingGroupData): self
 ```
 
 **Parameters:**

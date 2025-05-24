@@ -4,7 +4,7 @@
 
 **File:** `Enums/MessageDirection.php`
 
-**Type:** Class
+**Type:** Enum
 
 ## Description
 
@@ -12,6 +12,40 @@ MessageDirection Enum for TravelClick Integration
 Tracks whether a message is going to TravelClick (outbound) or coming from TravelClick (inbound).
 This is essential for logging, monitoring, and organizing our message flow.
 Like marking letters as "incoming mail" or "outgoing mail".
+
+## Constants
+
+### `OUTBOUND`
+
+Messages sent from Centrium to TravelClick
+Examples: Inventory updates, rate updates, new reservations
+
+**Value:** `\App\TravelClick\Enums\MessageDirection::OUTBOUND`
+
+---
+
+### `INBOUND`
+
+Messages received from TravelClick to Centrium
+Examples: New reservations, reservation modifications, responses
+
+**Value:** `\App\TravelClick\Enums\MessageDirection::INBOUND`
+
+---
+
+## Properties
+
+### `$name`
+
+**Type:** `string`
+
+---
+
+### `$value`
+
+**Type:** `string`
+
+---
 
 ## Methods
 
@@ -61,7 +95,7 @@ public function getDefaultQueue(): string
 Check if this direction allows specific message types
 
 ```php
-public function allowsMessageType(App\TravelClick\Enums\MessageType $messageType): bool
+public function allowsMessageType(MessageType $messageType): bool
 ```
 
 ---
